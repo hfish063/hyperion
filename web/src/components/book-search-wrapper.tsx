@@ -1,48 +1,92 @@
 "use client";
 
-import { BookDetails } from "@/app/api/book-details";
+import { Book, searchForTitle } from "@/app/api/book-details";
 import { Dispatch, SetStateAction, useState } from "react";
-import BookCardGrid from "./book-card-grid";
+import BookCardList from "./book-card-list";
 import BookSearchBar from "./book-search-bar";
-import BookSearchPagination from "./book-search-pagination";
+import { Spinner } from "./ui";
+import LoadMoreButton from "./load-more-button";
 
 export default function BookSearchWrapper({
-  setLoading,
   setError,
 }: BookSearchWrapperProps) {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [query, setQuery] = useState<string | undefined>(undefined);
-  const [results, setResults] = useState<BookDetails[]>([]);
+  const [query, setQuery] = useState<string>("");
+  const [results, setResults] = useState<Book[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+
+  async function handleSearch(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setLoading(true);
+
+    if (!query) {
+      return;
+    }
+
+    try {
+      const data = await searchForTitle(query);
+
+      setResults(data);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        console.log(e.message);
+      }
+    }
+
+    setLoading(false);
+    setHasMore(true);
+  }
+
+  async function loadAll() {
+    setLoading(true);
+
+    if (!query) {
+      return;
+    }
+
+    try {
+      const data = await searchForTitle(query, 50);
+
+      setResults([...results, ...data]);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        console.log(e.message);
+      }
+    }
+
+    setLoading(false);
+    setHasMore(false);
+  }
 
   return (
-    <div className="flex flex-col h-full space-y-4">
-      <div className="w-full sm:w-full md:w-2/3 lg:w-1/2 xl:w-1/3 2xl:w-1/4">
+    <div className="flex flex-col h-full space-y-4 items-center justify-center ">
+      <div className="w-full 2xl:w-1/2">
         <BookSearchBar
-          setCurrentPage={setCurrentPage}
-          setResults={setResults}
+          query={query}
           setQuery={setQuery}
-          setLoading={setLoading}
-          setError={setError}
+          handleSearch={handleSearch}
         />
       </div>
-      <div className="flex flex-col justify-between h-full space-y-4">
-        <BookCardGrid books={results} />
-        <div className="flex w-full justify-center">
+      {!loading ? (
+        <div className="flex flex-col justify-between h-full w-full space-y-4 2xl:w-1/2 mx-auto">
+          <div className="w-full">
+            <BookCardList books={results} />
+          </div>
           {results.length > 0 && (
-            <BookSearchPagination
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              setResults={setResults}
-              query={query}
-            />
+            <div className="flex w-full justify-center">
+              {hasMore && <LoadMoreButton onClick={loadAll} />}
+            </div>
           )}
         </div>
-      </div>
+      ) : (
+        <div className="flex flex-row space-x-4 w-full h-full items-center justify-center">
+          <Spinner variant={"circle"} /> <p>Loading...</p>
+        </div>
+      )}
     </div>
   );
 }
 
 type BookSearchWrapperProps = {
-  setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<string | undefined>>;
 };

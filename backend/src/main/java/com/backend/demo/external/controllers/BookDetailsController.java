@@ -1,8 +1,11 @@
 package com.backend.demo.external.controllers;
 
+import com.backend.demo.entities.Edition;
 import com.backend.demo.external.HardcoverClient;
-import com.backend.demo.external.dtos.Edition;
-import com.backend.demo.external.dtos.HardcoverEditionsResponse;
+import com.backend.demo.external.dtos.EditionDto;
+import com.backend.demo.external.dtos.HardcoverEditionsResponseDto;
+import com.backend.demo.mappers.EntityMapper;
+import com.backend.demo.services.EditionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,18 +19,29 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class BookDetailsController {
     private final HardcoverClient hardcoverClient;
+    private final EditionService editionService;
+    private final EntityMapper<Edition, EditionDto> editionMapper;
 
     @Autowired
-    public BookDetailsController(HardcoverClient hardcoverClient) {
+    public BookDetailsController(HardcoverClient hardcoverClient, EditionService editionService, EntityMapper<Edition, EditionDto> editionMapper) {
         this.hardcoverClient = hardcoverClient;
+        this.editionService = editionService;
+        this.editionMapper = editionMapper;
     }
 
     @GetMapping("search/{title}")
     public List<Edition> getEditionsByTitle(@PathVariable("title") String title,
                                             @RequestParam(defaultValue = "50") int limit,
                                             @RequestParam(defaultValue = "0") int offset) throws IOException {
-        HardcoverEditionsResponse response = hardcoverClient.getEditionsByTitle(title);
-        List<Edition> editions = response.getData().getEditions();
+        List<Edition> storedData = editionService.findAllEditionsByTitle(title);
+
+        if (!storedData.isEmpty()) {
+            System.out.println("Database hit: Returning " + storedData.size() + " results for '" + title + "'.");
+            return storedData;
+        }
+
+        HardcoverEditionsResponseDto response = hardcoverClient.getEditionsByTitle(title);
+        List<EditionDto> editions = response.getData().getEditions();
 
         if (offset >= editions.size()) {
             return new ArrayList<>(Collections.emptyList());
@@ -35,6 +49,11 @@ public class BookDetailsController {
 
         int end = Math.min(offset + limit, editions.size());
 
-        return editions.subList(offset, end);
+        return editionMapper.mapToEntities(editions.subList(offset, end));
+    }
+
+    @GetMapping("search/{id}")
+    public Edition getEditionById(@PathVariable("id") int id) {
+        return null;
     }
 }

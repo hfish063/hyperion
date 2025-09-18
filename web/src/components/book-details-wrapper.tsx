@@ -1,5 +1,3 @@
-import { BookMetadata } from "@/app/api/book-metadata";
-
 export default function BookDetailsWrapper() {
   return <></>;
   // return (
@@ -41,6 +39,6 @@ export default function BookDetailsWrapper() {
   // );
 }
 
-type BookDetailsWrapperProps = {
-  bookDetails: BookMetadata;
-};
+// type BookDetailsWrapperProps = {
+//   bookDetails: BookMetadata;
+// };

@@ -1,6 +1,12 @@
 package com.backend.demo.external;
 
-import com.backend.demo.external.dtos.HardcoverEditionsResponse;
+import com.backend.demo.entities.Edition;
+import com.backend.demo.external.dtos.EditionDto;
+import com.backend.demo.external.dtos.HardcoverBooksResponseDto;
+import com.backend.demo.external.dtos.HardcoverEditionsResponseDto;
+import com.backend.demo.mappers.EntityMapper;
+import com.backend.demo.services.EditionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -12,12 +18,20 @@ import java.util.Map;
 
 @Component
 public class HardcoverClient {
+    private EditionService bookService;
+    private EntityMapper<Edition, EditionDto> editionMapper;
     private RestTemplate restTemplate = new RestTemplate();
     private String hardcoverUrl = "https://api.hardcover.app/v1/graphql";
     @Value("${hardcover.api.key}")
     private String apiKey;
 
-    public HardcoverEditionsResponse getEditionsByTitle(String title) throws IOException {
+    @Autowired
+    public HardcoverClient(EditionService bookService, EntityMapper<Edition, EditionDto> editionMapper) {
+        this.bookService = bookService;
+        this.editionMapper = editionMapper;
+    }
+
+    public HardcoverEditionsResponseDto getEditionsByTitle(String title) throws IOException {
         String query = """
                 query GetEditionsFromTitle {
                   editions(where: {title: {_eq: "%s"}}) {
@@ -52,21 +66,66 @@ public class HardcoverClient {
                   }
                 }""".formatted(title);
 
-        Map<String, String> body = new HashMap<>();
-        body.put("query", query);
+        Map<String, String> body = buildQuery(query);
 
         HttpHeaders headers = getHttpHeaders();
 
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(body, headers);
 
-        ResponseEntity<HardcoverEditionsResponse> response = restTemplate.exchange(
+        ResponseEntity<HardcoverEditionsResponseDto> response = restTemplate.exchange(
                 hardcoverUrl,
                 HttpMethod.POST,
                 entity,
-                HardcoverEditionsResponse.class
+                HardcoverEditionsResponseDto.class
         );
 
+        bookService.saveIfNotExists(editionMapper.mapToEntities(response.getBody().getData().getEditions()));
+
         return response.getBody();
+    }
+
+    public HardcoverBooksResponseDto getBooksByTitle(String title, int limit) {
+        String query = """
+                query BooksByUserCount {
+                    books(
+                          where: {
+                              title: {_eq: "%s"}
+                          }
+                          limit: %d
+                    ) {
+                          id
+                          pages
+                          title
+                          subtitle
+                          description
+                          release_year
+                          image {url}
+                    }
+                }
+                """.formatted(title, limit);
+
+        Map<String, String> body = buildQuery(query);
+
+        HttpHeaders headers = getHttpHeaders();
+
+        HttpEntity<Map<String, String>> entity = new HttpEntity<>(body, headers);
+
+        ResponseEntity<HardcoverBooksResponseDto> response = restTemplate.exchange(
+                hardcoverUrl,
+                HttpMethod.POST,
+                entity,
+                HardcoverBooksResponseDto.class
+        );
+
+
+        return response.getBody();
+    }
+
+    private Map<String, String> buildQuery(String query) {
+        Map<String, String> body = new HashMap<>();
+        body.put("query", query);
+
+        return body;
     }
 
     private HttpHeaders getHttpHeaders() {

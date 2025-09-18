@@ -2,7 +2,7 @@ package com.backend.demo.external.dtos;
 
 import java.util.List;
 
-public class HardcoverEditionsResponse {
+public class HardcoverEditionsResponseDto {
     private HardcoverEditionsData data;
 
     public HardcoverEditionsData getData() {
@@ -10,9 +10,9 @@ public class HardcoverEditionsResponse {
     }
 
     public static class HardcoverEditionsData {
-        private List<Edition> editions;
+        private List<EditionDto> editions;
 
-        public List<Edition> getEditions() {
+        public List<EditionDto> getEditions() {
             return editions;
         }
     }

@@ -1,50 +1,21 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction } from "react";
 import { Input } from "./ui/input";
-import { BookDetails, searchForTitle } from "@/app/api/book-details";
 import { Button } from "./ui/button";
 import { CircleArrowRight } from "lucide-react";
 
 export default function BookSearchBar({
-  setCurrentPage,
+  query,
   setQuery,
-  setResults,
-  setLoading,
-  setError,
+  handleSearch,
 }: BookSearchBarProps) {
-  const [input, setInput] = useState("");
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    try {
-      setLoading(true);
-
-      const result = await searchForTitle(input, 1);
-
-      setResults(result);
-    } catch (e: unknown) {
-      if (e instanceof Error) {
-        console.log(e.message);
-      }
-    }
-
-    setPageParams();
-  }
-
-  function setPageParams() {
-    setCurrentPage(1);
-    setQuery(input);
-    setLoading(false);
-  }
-
   return (
     <div className="flex flex-row space-x-4">
-      <form className="w-full" onSubmit={handleSubmit}>
+      <form className="w-full" onSubmit={handleSearch}>
         <Input
-          value={input}
+          value={query}
           placeholder="Search for books"
           onChange={(e) => {
-            setInput(e.target.value);
+            setQuery(e.target.value);
           }}
           required
         />
@@ -57,9 +28,7 @@ export default function BookSearchBar({
 }
 
 export type BookSearchBarProps = {
-  setCurrentPage: Dispatch<SetStateAction<number>>;
-  setQuery: Dispatch<SetStateAction<string | undefined>>;
-  setResults: Dispatch<SetStateAction<BookDetails[]>>;
-  setLoading: Dispatch<SetStateAction<boolean>>;
-  setError: Dispatch<SetStateAction<string | undefined>>;
+  query: string;
+  setQuery: Dispatch<SetStateAction<string>>;
+  handleSearch: (e: FormEvent<HTMLFormElement>) => void;
 };

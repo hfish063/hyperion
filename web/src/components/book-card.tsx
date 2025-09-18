@@ -1,27 +1,34 @@
-import { BookDetails } from "@/app/api/book-details";
+import { Book } from "@/app/api/book-details";
 import Image from "next/image";
 import { ImageOff } from "lucide-react";
 import Link from "next/link";
+import { Button } from "./ui/button";
 
 export default function BookCard({ metadata }: BookCardProps) {
   return (
-    <Link href={`explore/${metadata.isbn_13}`}>
-      <div className="flex flex-col space-y-4 items-center justify-end">
-        {metadata.image ? (
-          <Image
-            src={metadata.image.url}
-            alt="Book cover image"
-            width={100}
-            height={100}
-            className="object-contain"
-          />
-        ) : (
-          <CoverImagePlaceholder />
-        )}
-
-        <div className="text-center font-semibold line-clamp-1">
-          {metadata.title}
+    <Link href={`explore/${metadata.hardcoverId}`}>
+      <div className="flex flex-col space-y-4">
+        <div className="flex flex-row space-x-4 justify-between items-center">
+          <div className="flex flex-row space-x-4 min-h-[80px] items-start">
+            {metadata.coverImageUrl ? (
+              <Image
+                src={metadata.coverImageUrl}
+                alt={metadata.title}
+                width={50}
+                height={100}
+                className="object-contain rounded"
+              />
+            ) : (
+              <CoverImagePlaceholder />
+            )}
+            <div className="flex flex-col space-y-4">
+              <h3 className="text-xl font-medium">{metadata.title}</h3>
+              {metadata.releaseYear > 0 && <p>{metadata.releaseYear}</p>}
+            </div>
+          </div>
+          <Button>Add to Library</Button>
         </div>
+        <hr />
       </div>
     </Link>
   );
@@ -29,12 +36,12 @@ export default function BookCard({ metadata }: BookCardProps) {
 
 function CoverImagePlaceholder() {
   return (
-    <div className="flex items-center justify-center w-28 h-[150px] border p-2 text-sm text-center">
+    <div className="flex items-center justify-center w-14 h-[80px] border p-2 text-sm text-center rounded">
       <ImageOff />
     </div>
   );
 }
 
 export type BookCardProps = {
-  metadata: BookDetails;
+  metadata: Book;
 };
