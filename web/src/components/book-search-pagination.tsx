@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { Button } from "./ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { BookDetails, searchForTitle } from "@/app/api/book-details";
+import { Book, searchForTitle } from "@/app/api/book-details";
 
 export default function BookSearchPagination({
   currentPage,
@@ -62,6 +62,6 @@ export default function BookSearchPagination({
 type BookSearchPaginationProps = {
   currentPage: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
-  setResults: Dispatch<SetStateAction<BookDetails[]>>;
+  setResults: Dispatch<SetStateAction<Book[]>>;
   query: string | undefined;
 };

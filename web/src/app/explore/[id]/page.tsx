@@ -12,7 +12,6 @@ export default function BookDetails() {
   );
   const params = useParams();
   const workId = params.workId as string;
-  const [error, setError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const fetchMetadata = async () => {
@@ -28,10 +27,6 @@ export default function BookDetails() {
 
     fetchMetadata();
   });
-
-  if (error) {
-    return <p className="text-red-500">{error}</p>;
-  }
 
   if (bookMetadata) {
     return <BookDetailsWrapper />;

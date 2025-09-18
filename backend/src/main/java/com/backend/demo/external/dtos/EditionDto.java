@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Edition {
+public class EditionDto {
     private int id;
     private String title;
     private String subtitle;
@@ -20,10 +20,10 @@ public class Edition {
     private String editionFormat;
     @JsonProperty("image_id")
     private int imageId;
-    private Book book;
-    private Publisher publisher;
-    private Contribution[] contributions;
-    public CoverImage image;
+    private BookDto book;
+    private PublisherDto publisher;
+    private ContributionDto[] contributions;
+    public CoverImageDto image;
 
 
     public int getId() {
@@ -66,19 +66,19 @@ public class Edition {
         return imageId;
     }
 
-    public Publisher getPublisher() {
+    public PublisherDto getPublisher() {
         return publisher;
     }
 
-    public Contribution[] getContributions() {
+    public ContributionDto[] getContributions() {
         return contributions;
     }
 
-    public Book getBook() {
+    public BookDto getBook() {
         return book;
     }
 
-    public CoverImage getImage() {
+    public CoverImageDto getImage() {
         return image;
     }
 }
