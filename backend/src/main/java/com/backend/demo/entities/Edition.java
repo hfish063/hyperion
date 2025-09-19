@@ -2,6 +2,10 @@ package com.backend.demo.entities;
 
 import jakarta.persistence.*;
 
+/**
+ * 'Edition' refers to an instance of a specific work.  For example, there is only one work titled 'Lord of the Rings',
+ * but countless editions have been published for it.
+ */
 @Entity
 @Table(name = "editions")
 public class Edition {

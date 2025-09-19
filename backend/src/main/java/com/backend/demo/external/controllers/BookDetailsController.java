@@ -33,9 +33,11 @@ public class BookDetailsController {
     public List<Edition> getEditionsByTitle(@PathVariable("title") String title,
                                             @RequestParam(required = false) Integer limit,
                                             @RequestParam(defaultValue = "0") int offset) throws IOException {
+        // check db for editions by title
         List<Edition> storedData = editionService.findAllEditionsByTitle(title);
         List<Edition> results;
 
+        // rely on external api only if editions do not exist in db
         if (!storedData.isEmpty()) {
             System.out.println("Database hit: Returning " + storedData.size() + " results for '" + title + "'.");
             results = storedData;
@@ -45,6 +47,7 @@ public class BookDetailsController {
             results = editionMapper.mapToEntities(editions);
         }
 
+        // apply offset and limit rules to response
         if (offset >= results.size()) {
             return new ArrayList<>(Collections.emptyList());
         }
@@ -55,7 +58,10 @@ public class BookDetailsController {
     }
 
     @GetMapping("search/id/{id}")
-    public Edition getEditionById(@PathVariable("id") int id) {
-        return null;
+    public List<Edition> getEditionById(@PathVariable("id") int id) {
+        HardcoverEditionsResponseDto response = hardcoverClient.getEditionById(id);
+        List<EditionDto> editions = response.getData().getEditions();
+
+        return editionMapper.mapToEntities(editions);
     }
 }
