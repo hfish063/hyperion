@@ -24,7 +24,7 @@ export default function BookSearchWrapper({
     }
 
     try {
-      const data = await searchForTitle(query);
+      const data = await searchForTitle(query, 25);
 
       setResults(data);
     } catch (e: unknown) {
@@ -45,9 +45,9 @@ export default function BookSearchWrapper({
     }
 
     try {
-      const data = await searchForTitle(query, 50);
+      const data = await searchForTitle(query);
 
-      setResults([...results, ...data]);
+      setResults(data);
     } catch (e: unknown) {
       if (e instanceof Error) {
         console.log(e.message);

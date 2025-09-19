@@ -17,9 +17,9 @@ function AppHeaderTitle() {
 
   console.log(pathname);
 
-  if (pathname == "/") {
+  if (pathname === "/") {
     return <h1 className="text-2xl font-bold">Home</h1>;
-  } else if (pathname == "/explore") {
+  } else if (pathname === "/explore" || pathname.startsWith("/explore/")) {
     return <h1 className="text-2xl font-bold">Explore</h1>;
   } else {
     return <div />;

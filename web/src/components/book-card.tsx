@@ -6,31 +6,37 @@ import { Button } from "./ui/button";
 
 export default function BookCard({ metadata }: BookCardProps) {
   return (
-    <Link href={`explore/${metadata.hardcoverId}`}>
-      <div className="flex flex-col space-y-4">
-        <div className="flex flex-row space-x-4 justify-between items-center">
-          <div className="flex flex-row space-x-4 min-h-[80px] items-start">
-            {metadata.coverImageUrl ? (
-              <Image
-                src={metadata.coverImageUrl}
-                alt={metadata.title}
-                width={50}
-                height={100}
-                className="object-contain rounded"
-              />
-            ) : (
-              <CoverImagePlaceholder />
-            )}
-            <div className="flex flex-col space-y-4">
-              <h3 className="text-xl font-medium">{metadata.title}</h3>
-              {metadata.releaseYear > 0 && <p>{metadata.releaseYear}</p>}
-            </div>
+    <div className="flex flex-col space-y-4">
+      <div className="flex flex-row justify-between items-center">
+        <Link
+          href={`explore/${metadata.hardcoverId}`}
+          className="flex flex-row space-x-4 items-start flex-1 min-h-[80px]"
+        >
+          {metadata.coverImageUrl ? (
+            <Image
+              src={metadata.coverImageUrl}
+              alt={metadata.title}
+              width={50}
+              height={100}
+              className="object-contain rounded"
+            />
+          ) : (
+            <CoverImagePlaceholder />
+          )}
+
+          <div className="flex flex-col space-y-2">
+            <h3 className="text-xl font-medium">{metadata.title}</h3>
+            {metadata.releaseYear > 0 && <p>{metadata.releaseYear}</p>}
           </div>
+        </Link>
+
+        <div className="flex items-center">
           <Button>Add to Library</Button>
         </div>
-        <hr />
       </div>
-    </Link>
+
+      <hr />
+    </div>
   );
 }
 
