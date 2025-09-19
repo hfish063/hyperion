@@ -66,6 +66,55 @@ public class HardcoverClient {
                   }
                 }""".formatted(title);
 
+        return getHardcoverEditionsResponseDto(query);
+    }
+
+    public HardcoverEditionsResponseDto getEditionById(int id) {
+        String query = """
+                query GetSpecificEdition {
+                  editions(where: {id: {_eq: "%d"}}) {
+                      id
+                      title
+                      subtitle
+                      isbn_10
+                      isbn_13
+                      asin
+                      pages
+                      release_year
+                      edition_format
+                      image_id
+                      book {
+                          id
+                          description
+                      }
+                      publisher {
+                          id
+                          name
+                      }
+                      contributions {
+                        author {
+                            id
+                            name
+                        }
+                        contribution
+                      }
+                      image {
+                        url
+                      }
+                  }
+                }""".formatted(id);
+
+        return getHardcoverEditionsResponseDto(query);
+    }
+
+    /**
+     * Send request to Hardcover API at the 'hardCoverUrl' field.  This method saves results to database if they don't already exist,
+     * to cache data and reduce future requests.  All setup for headers and response entity (RestTemplate) are handled here.
+     *
+     * @param query Graphql query String formatted for Hardcover API
+     * @return DTO object containing Hardcover API response
+     */
+    private HardcoverEditionsResponseDto getHardcoverEditionsResponseDto(String query) {
         Map<String, String> body = buildQuery(query);
 
         HttpHeaders headers = getHttpHeaders();

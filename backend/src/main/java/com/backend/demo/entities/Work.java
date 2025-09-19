@@ -2,9 +2,14 @@ package com.backend.demo.entities;
 
 import jakarta.persistence.*;
 
+/**
+ * 'Work' refers to the parent of all editions.  This is the over-arching source material that all editions are
+ * instances of.  For example, there might be multiple editions of 'The Illiad' published in the last 10 years, but all
+ * are based off of the same work.
+ */
 @Entity
-@Table(name = "books")
-public class Book {
+@Table(name = "works")
+public class Work {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
