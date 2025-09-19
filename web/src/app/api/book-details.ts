@@ -1,7 +1,16 @@
 import apiFetch from "./api";
 
-export async function searchForTitle(title: string, offset: number = 0) {
-  const results = await apiFetch(`/meta/search/${title}?offset=${offset}`);
+export async function searchForTitle(
+  title: string,
+  limit: number | undefined = undefined
+) {
+  let query = `/meta/search/title/${title}`;
+
+  if (limit) {
+    query += `?limit=${limit}`;
+  }
+
+  const results = await apiFetch(query);
   const data = (await results.json()) as Book[];
 
   return data;

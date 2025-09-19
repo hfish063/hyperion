@@ -29,30 +29,32 @@ public class BookDetailsController {
         this.editionMapper = editionMapper;
     }
 
-    @GetMapping("search/{title}")
+    @GetMapping("search/title/{title}")
     public List<Edition> getEditionsByTitle(@PathVariable("title") String title,
-                                            @RequestParam(defaultValue = "50") int limit,
+                                            @RequestParam(required = false) Integer limit,
                                             @RequestParam(defaultValue = "0") int offset) throws IOException {
         List<Edition> storedData = editionService.findAllEditionsByTitle(title);
+        List<Edition> results;
 
         if (!storedData.isEmpty()) {
             System.out.println("Database hit: Returning " + storedData.size() + " results for '" + title + "'.");
-            return storedData;
+            results = storedData;
+        } else {
+            HardcoverEditionsResponseDto response = hardcoverClient.getEditionsByTitle(title);
+            List<EditionDto> editions = response.getData().getEditions();
+            results = editionMapper.mapToEntities(editions);
         }
 
-        HardcoverEditionsResponseDto response = hardcoverClient.getEditionsByTitle(title);
-        List<EditionDto> editions = response.getData().getEditions();
-
-        if (offset >= editions.size()) {
+        if (offset >= results.size()) {
             return new ArrayList<>(Collections.emptyList());
         }
 
-        int end = Math.min(offset + limit, editions.size());
+        int end = limit == null ? results.size() : Math.min(offset + limit, results.size());
 
-        return editionMapper.mapToEntities(editions.subList(offset, end));
+        return results.subList(offset, end);
     }
 
-    @GetMapping("search/{id}")
+    @GetMapping("search/id/{id}")
     public Edition getEditionById(@PathVariable("id") int id) {
         return null;
     }
