@@ -1,6 +1,10 @@
 package com.backend.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 'Edition' refers to an instance of a specific work.  For example, there is only one work titled 'Lord of the Rings',
@@ -22,14 +26,14 @@ public class Edition {
     @Column(name = "subtitle")
     private String subtitle;
 
-    @Column(name = "author")
-    private String author;
-
     @Column(name = "isbn10")
     private String isbn10;
 
     @Column(name = "isbn13", unique = true)
     private String isbn13;
+
+    @Column(name = "pages")
+    private int pages;
 
     @Column(name = "release_year")
     private int releaseYear;
@@ -45,6 +49,21 @@ public class Edition {
 
     @Column(name = "cover_image_url")
     private String coverImageUrl;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "editions", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Collaborator> collaborators = new ArrayList<>();
+
+    public void addCollaborators(List<Collaborator> newCollaborators) {
+        for (Collaborator collaborator : newCollaborators) {
+            addCollaborator(collaborator);
+        }
+    }
+
+    public void addCollaborator(Collaborator newCollaborator) {
+        collaborators.add(newCollaborator);
+        newCollaborator.setEditions(this);
+    }
 
     public Long getId() {
         return id;
@@ -62,9 +81,6 @@ public class Edition {
         return subtitle;
     }
 
-    public String getAuthor() {
-        return author;
-    }
 
     public String getIsbn10() {
         return isbn10;
@@ -72,6 +88,10 @@ public class Edition {
 
     public String getIsbn13() {
         return isbn13;
+    }
+
+    public int getPages() {
+        return pages;
     }
 
     public int getReleaseYear() {
@@ -94,6 +114,10 @@ public class Edition {
         return description;
     }
 
+    public List<Collaborator> getCollaborators() {
+        return collaborators;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -106,9 +130,6 @@ public class Edition {
         this.title = title;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
 
     public void setSubtitle(String subtitle) {
         this.subtitle = subtitle;
@@ -120,6 +141,10 @@ public class Edition {
 
     public void setIsbn13(String isbn13) {
         this.isbn13 = isbn13;
+    }
+
+    public void setPages(int pages) {
+        this.pages = pages;
     }
 
     public void setReleaseYear(int releaseYear) {
@@ -140,5 +165,9 @@ public class Edition {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setCollaborators(List<Collaborator> collaborators) {
+        this.collaborators = collaborators;
     }
 }

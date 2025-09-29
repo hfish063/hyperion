@@ -1,15 +1,24 @@
 "use client";
 
-import { BookMetadata } from "@/app/api/book-metadata";
+import BookDetailsWrapper from "@/components/book-details-wrapper";
+import ErrorAlert from "@/components/error-alert";
 import { useParams } from "next/navigation";
-import { useState } from "react";
 
 export default function BookDetails() {
-  const [bookMetadata, setBookMetadata] = useState<BookMetadata | undefined>(
-    undefined
-  );
   const params = useParams();
-  const id = params.id as string;
+  const paramId = params.id;
 
-  return <></>;
+  if (!paramId) {
+    return (
+      <ErrorAlert message="Error fetching book details.  Please try again." />
+    );
+  }
+
+  const id = Number(paramId);
+
+  if (isNaN(id)) {
+    <ErrorAlert message="Error fetching book details.  Please try again." />;
+  }
+
+  return <BookDetailsWrapper id={id} />;
 }

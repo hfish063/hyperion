@@ -59,7 +59,7 @@ export default function BookSearchWrapper({
   }
 
   return (
-    <div className="flex flex-col h-full space-y-4 items-center justify-center ">
+    <div className="flex flex-col h-full space-y-4 items-center justify-center">
       <div className="w-full 2xl:w-1/2">
         <BookSearchBar
           query={query}

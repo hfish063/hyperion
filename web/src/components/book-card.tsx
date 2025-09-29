@@ -27,6 +27,9 @@ export default function BookCard({ metadata }: BookCardProps) {
           <div className="flex flex-col space-y-2">
             <h3 className="text-xl font-medium">{metadata.title}</h3>
             {metadata.releaseYear > 0 && <p>{metadata.releaseYear}</p>}
+            {metadata.collaborators.length > 0 && (
+              <p className="italic">{metadata.collaborators[0].author.name}</p>
+            )}
           </div>
         </Link>
 

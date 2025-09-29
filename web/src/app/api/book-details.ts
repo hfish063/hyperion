@@ -16,6 +16,15 @@ export async function searchForTitle(
   return data;
 }
 
+export async function searchById(id: number) {
+  const query = `/meta/search/id/${id}`;
+
+  const results = await apiFetch(query);
+  const data = (await results.json()) as Book;
+
+  return data;
+}
+
 export type Book = {
   id: number;
   hardcoverId: number;
@@ -23,8 +32,22 @@ export type Book = {
   subtitle: string;
   description: string;
   releaseYear: number;
+  editionFormat: string;
   isbn10: number;
   isbn13: number;
   pages: number;
   coverImageUrl: string;
+  collaborators: Collaborator[];
+};
+
+export type Collaborator = {
+  id: number;
+  sourceId: number;
+  author: Author;
+  contribution: string;
+};
+
+export type Author = {
+  id: number;
+  name: string;
 };
