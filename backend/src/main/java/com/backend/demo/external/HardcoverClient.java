@@ -40,6 +40,7 @@ public class HardcoverClient {
                           name
                       }
                       contributions {
+                        id
                         author {
                             id
                             name
