@@ -8,7 +8,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-import { Home, Search, BookOpen, BookIcon } from "lucide-react";
+import { Home, Search, BookOpen, FlameIcon } from "lucide-react";
 
 const items = [
   { title: "Home", url: "/", icon: Home },
@@ -21,7 +21,7 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarHeader>
         <div className="flex flex-row space-x-2 items-center">
-          <BookIcon />
+          <FlameIcon />
           <p className="text-2xl font-bold p-2">Hyperion</p>
         </div>
       </SidebarHeader>
