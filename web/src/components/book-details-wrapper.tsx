@@ -1,4 +1,4 @@
-import { Book, Collaborator, searchById } from "@/app/api/book-details";
+import { Book, searchById } from "@/app/api/book-details";
 import { useEffect, useState } from "react";
 import { Spinner } from "./ui";
 import Image from "next/image";
