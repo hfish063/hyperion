@@ -3,8 +3,30 @@ import Image from "next/image";
 import { ImageOff } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import { useState } from "react";
+import { Spinner } from "./ui";
+import { ReadingStatus, saveBookForUser, UserBook } from "@/app/api/user-book";
 
 export default function BookCard({ metadata }: BookCardProps) {
+  const [loading, setLoading] = useState(false);
+
+  async function AddBookToLibrary() {
+    setLoading(true);
+
+    try {
+      await saveBookForUser({
+        edition: metadata,
+        readingStatus: ReadingStatus.WANT_TO_READ,
+      } as UserBook);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        console.log(e.message);
+      }
+    }
+
+    setLoading(false);
+  }
+
   return (
     <div className="flex flex-col space-y-4">
       <div className="flex flex-row justify-between items-center">
@@ -34,7 +56,9 @@ export default function BookCard({ metadata }: BookCardProps) {
         </Link>
 
         <div className="flex items-center">
-          <Button>Add to Library</Button>
+          <Button onClick={AddBookToLibrary} className="w-32">
+            {!loading ? "Add to Library" : <Spinner variant="circle" />}
+          </Button>
         </div>
       </div>
 
