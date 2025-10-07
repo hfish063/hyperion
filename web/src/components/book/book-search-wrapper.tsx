@@ -8,6 +8,15 @@ import { findAllBooksForUser, UserBook } from "@/app/api/user-book";
 import ErrorAlert from "../error-alert";
 import LoadMoreButton from "../load-more-button";
 import { Spinner } from "../ui";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { Button } from "../ui/button";
 
 export default function BookSearchWrapper() {
   const [query, setQuery] = useState<string>("");
@@ -86,6 +95,7 @@ export default function BookSearchWrapper() {
           handleSearch={handleSearch}
         />
       </div>
+
       {!loading ? (
         <div className="flex flex-col justify-between h-full w-full space-y-4 2xl:w-1/2 mx-auto">
           <div className="w-full">
@@ -106,5 +116,19 @@ export default function BookSearchWrapper() {
         </div>
       )}
     </div>
+  );
+}
+
+function SearchOptions() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <Button variant="outline">Search By</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem>Title</DropdownMenuItem>
+        <DropdownMenuItem>Author</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
