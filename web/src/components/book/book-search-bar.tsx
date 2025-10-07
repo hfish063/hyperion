@@ -1,7 +1,7 @@
 import { Dispatch, FormEvent, SetStateAction } from "react";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
 import { CircleArrowRight } from "lucide-react";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 export default function BookSearchBar({
   query,

@@ -21,6 +21,10 @@ public class UserBookService {
     }
 
     public UserBook saveUserBook(UserBook newUserBook) {
+        if (userBookRepository.existsByEdition(newUserBook.getEdition())) {
+            throw new RuntimeException("Edition is already in library.");
+        }
+
         return userBookRepository.save(newUserBook);
     }
 

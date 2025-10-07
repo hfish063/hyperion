@@ -1,4 +1,7 @@
+"use client";
+
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import LibraryList from "./library-list";
 
 export default function LibraryWrapper() {
   return (
@@ -6,6 +9,7 @@ export default function LibraryWrapper() {
       <UserProfileHeader />
       <h2 className="text-2xl font-semibold">Books</h2>
       <hr />
+      <LibraryList />
     </div>
   );
 }

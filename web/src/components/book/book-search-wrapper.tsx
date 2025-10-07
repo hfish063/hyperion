@@ -1,35 +1,40 @@
 "use client";
 
 import { Book, searchForTitle } from "@/app/api/book-details";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import BookCardList from "./book-card-list";
 import BookSearchBar from "./book-search-bar";
-import { Spinner } from "./ui";
-import LoadMoreButton from "./load-more-button";
+import { findAllBooksForUser, UserBook } from "@/app/api/user-book";
+import ErrorAlert from "../error-alert";
+import LoadMoreButton from "../load-more-button";
+import { Spinner } from "../ui";
 
-export default function BookSearchWrapper({
-  setError,
-}: BookSearchWrapperProps) {
+export default function BookSearchWrapper() {
   const [query, setQuery] = useState<string>("");
-  const [results, setResults] = useState<Book[]>([]);
+  const [books, setBooks] = useState<Book[]>([]);
+  const [library, setLibrary] = useState<UserBook[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
   const [hasMore, setHasMore] = useState(true);
 
   async function handleSearch(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
+    setError(undefined);
 
     if (!query) {
       return;
     }
 
     try {
-      const data = await searchForTitle(query, 25);
+      const books = await searchForTitle(query, 25);
+      const library = await findAllBooksForUser();
 
-      setResults(data);
+      setBooks(books);
+      setLibrary(library);
     } catch (e: unknown) {
       if (e instanceof Error) {
-        console.log(e.message);
+        setError(e.message);
       }
     }
 
@@ -37,6 +42,7 @@ export default function BookSearchWrapper({
     setHasMore(true);
   }
 
+  // display all search results
   async function loadAll() {
     setLoading(true);
 
@@ -47,7 +53,7 @@ export default function BookSearchWrapper({
     try {
       const data = await searchForTitle(query);
 
-      setResults(data);
+      setBooks(data);
     } catch (e: unknown) {
       if (e instanceof Error) {
         console.log(e.message);
@@ -56,6 +62,19 @@ export default function BookSearchWrapper({
 
     setLoading(false);
     setHasMore(false);
+  }
+
+  // check if specific book has already been saved to user library
+  function bookExistsInLibrary(bookId: number) {
+    if (library.some((book) => book.edition.id === bookId)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  if (error) {
+    return <ErrorAlert message={error} />;
   }
 
   return (
@@ -70,9 +89,12 @@ export default function BookSearchWrapper({
       {!loading ? (
         <div className="flex flex-col justify-between h-full w-full space-y-4 2xl:w-1/2 mx-auto">
           <div className="w-full">
-            <BookCardList books={results} />
+            <BookCardList
+              books={books}
+              bookExistsInLibrary={bookExistsInLibrary}
+            />
           </div>
-          {results.length > 0 && (
+          {books.length > 0 && (
             <div className="flex w-full justify-center">
               {hasMore && <LoadMoreButton onClick={loadAll} />}
             </div>
@@ -86,7 +108,3 @@ export default function BookSearchWrapper({
     </div>
   );
 }
-
-type BookSearchWrapperProps = {
-  setError: Dispatch<SetStateAction<string | undefined>>;
-};

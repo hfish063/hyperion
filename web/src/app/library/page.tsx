@@ -1,4 +1,4 @@
-import LibraryWrapper from "@/components/library-wrapper";
+import LibraryWrapper from "@/components/library/library-wrapper";
 
 export default function Library() {
   return (

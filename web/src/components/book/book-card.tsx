@@ -2,31 +2,12 @@ import { Book } from "@/app/api/book-details";
 import Image from "next/image";
 import { ImageOff } from "lucide-react";
 import Link from "next/link";
-import { Button } from "./ui/button";
-import { useState } from "react";
-import { Spinner } from "./ui";
-import { ReadingStatus, saveBookForUser, UserBook } from "@/app/api/user-book";
+import AddBookToLibraryButton from "../add-to-library-button";
 
-export default function BookCard({ metadata }: BookCardProps) {
-  const [loading, setLoading] = useState(false);
-
-  async function AddBookToLibrary() {
-    setLoading(true);
-
-    try {
-      await saveBookForUser({
-        edition: metadata,
-        readingStatus: ReadingStatus.WANT_TO_READ,
-      } as UserBook);
-    } catch (e: unknown) {
-      if (e instanceof Error) {
-        console.log(e.message);
-      }
-    }
-
-    setLoading(false);
-  }
-
+export default function BookCard({
+  metadata,
+  bookExistsInLibrary,
+}: BookCardProps) {
   return (
     <div className="flex flex-col space-y-4">
       <div className="flex flex-row justify-between items-center">
@@ -56,9 +37,10 @@ export default function BookCard({ metadata }: BookCardProps) {
         </Link>
 
         <div className="flex items-center">
-          <Button onClick={AddBookToLibrary} className="w-32">
-            {!loading ? "Add to Library" : <Spinner variant="circle" />}
-          </Button>
+          <AddBookToLibraryButton
+            metadata={metadata}
+            bookExistsInLibrary={bookExistsInLibrary}
+          />
         </div>
       </div>
 
@@ -77,4 +59,5 @@ function CoverImagePlaceholder() {
 
 export type BookCardProps = {
   metadata: Book;
+  bookExistsInLibrary: boolean;
 };
