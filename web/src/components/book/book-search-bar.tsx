@@ -9,7 +9,7 @@ export default function BookSearchBar({
   handleSearch,
 }: BookSearchBarProps) {
   return (
-    <div className="flex flex-row space-x-4">
+    <div className="flex flex-row space-x-2">
       <form className="w-full" onSubmit={handleSearch}>
         <Input
           value={query}

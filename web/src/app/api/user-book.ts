@@ -36,8 +36,8 @@ export type UserBook = {
 };
 
 export enum ReadingStatus {
-  WANT_TO_READ,
-  CURRENTLY_READING,
-  READ,
-  DROPPED,
+  WANT_TO_READ = "WANT_TO_READ",
+  CURRENTLY_READING = "CURRENTLY_READING",
+  READ = "READ",
+  DROPPED = "DROPPED",
 }

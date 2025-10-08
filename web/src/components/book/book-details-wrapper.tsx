@@ -1,9 +1,9 @@
 import { Book, searchById } from "@/app/api/book-details";
 import { useEffect, useState } from "react";
-import { Spinner } from "./ui";
+import { Spinner } from "../ui";
+import MissingData from "../missing-data";
+import { Button } from "../ui/button";
 import Image from "next/image";
-import MissingData from "./missing-data";
-import { Button } from "./ui/button";
 
 export default function BookDetailsWrapper({ id }: BookDetailsWrapperProps) {
   const [bookDetails, setBookDetails] = useState<Book | undefined>(undefined);

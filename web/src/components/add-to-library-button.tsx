@@ -3,6 +3,7 @@ import { saveBookForUser, ReadingStatus, UserBook } from "@/app/api/user-book";
 import { useState } from "react";
 import { Spinner } from "./ui";
 import { Button } from "./ui/button";
+import { BookmarkIcon } from "lucide-react";
 
 export default function AddBookToLibraryButton({
   metadata,
@@ -40,7 +41,14 @@ export default function AddBookToLibraryButton({
   return (
     <div className="flex items-center">
       <Button onClick={AddBookToLibrary} className="w-32">
-        {!loading ? "Add to Library" : <Spinner variant="circle" />}
+        {!loading ? (
+          <div className="flex flex-row items-center">
+            <BookmarkIcon />
+            Add to Library
+          </div>
+        ) : (
+          <Spinner variant="circle" />
+        )}
       </Button>
     </div>
   );
