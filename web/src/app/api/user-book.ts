@@ -28,6 +28,28 @@ export async function saveBookForUser(newUserBook: UserBook) {
 
   return data;
 }
+/**
+ * Deletes a book from user's library based off of the id field.
+ *
+ * @param id The id field of UserBook to delete from backend.
+ * @returns True for valid request, false otherwise.  False assumes that the backend failed carry out
+ * the delete operation.
+ */
+export async function deleteBookForUser(id: number) {
+  const query = `/books/delete/${id}`;
+
+  const headers: HeadersInit = {
+    "Content-Type": "application/json",
+  };
+
+  const options: RequestInit = {
+    headers: headers,
+    method: "DELETE",
+  };
+
+  const result = await apiFetch(query, options);
+  return result.ok;
+}
 
 export type UserBook = {
   id: number;

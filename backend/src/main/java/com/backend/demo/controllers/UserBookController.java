@@ -27,4 +27,14 @@ public class UserBookController {
     public UserBook saveUserBook(@RequestBody UserBook newUserBook) {
         return userBookService.saveUserBook(newUserBook);
     }
+
+    @PutMapping("/status/{id}")
+    public UserBook setStatusForUserBookById(@PathVariable("id") Long id, @RequestBody UserBook newUserBook) {
+        return null;
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteUserBookById(@PathVariable("id") Long id) {
+        userBookService.deleteUserBookById(id);
+    }
 }

@@ -5,7 +5,11 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
-import { ReadingStatus, UserBook } from "@/app/api/user-book";
+import {
+  deleteBookForUser,
+  ReadingStatus,
+  UserBook,
+} from "@/app/api/user-book";
 import { CheckIcon, TrashIcon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { Book } from "@/app/api/book-details";
@@ -129,7 +133,21 @@ function DeleteLibraryCardButton({
   setLibrary,
   userBook,
 }: DeleteLibraryCardButtonProps) {
-  function handleDelete() {
+  async function handleDelete() {
+    let validResponse = false;
+
+    try {
+      validResponse = await deleteBookForUser(userBook.id);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        console.log(e.message);
+      }
+    }
+
+    if (!validResponse) {
+      return;
+    }
+
     setLibrary((prevLibrary) =>
       prevLibrary.filter((currentBook) => {
         return currentBook.id !== userBook.id;

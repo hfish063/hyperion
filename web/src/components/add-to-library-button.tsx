@@ -42,9 +42,9 @@ export default function AddBookToLibraryButton({
     <div className="flex items-center">
       <Button onClick={AddBookToLibrary} className="w-32">
         {!loading ? (
-          <div className="flex flex-row items-center">
+          <div className="flex flex-row items-center space-x-1">
             <BookmarkIcon />
-            Add to Library
+            <p>Add to Library</p>
           </div>
         ) : (
           <Spinner variant="circle" />
