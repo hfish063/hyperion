@@ -1,5 +1,6 @@
 package com.backend.demo.controllers;
 
+import com.backend.demo.constants.ReadingStatus;
 import com.backend.demo.entities.UserBook;
 import com.backend.demo.services.UserBookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,9 @@ public class UserBookController {
         return userBookService.saveUserBook(newUserBook);
     }
 
-    @PutMapping("/status/{id}")
-    public UserBook setStatusForUserBookById(@PathVariable("id") Long id, @RequestBody UserBook newUserBook) {
-        return null;
+    @PutMapping("/update/status/{id}")
+    public UserBook updateUserBookReadingStatus(@PathVariable("id") Long id, @RequestBody ReadingStatus newStatus) {
+        return userBookService.updateUserBookStatus(id, newStatus);
     }
 
     @DeleteMapping("/delete/{id}")

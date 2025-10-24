@@ -28,6 +28,29 @@ export async function saveBookForUser(newUserBook: UserBook) {
 
   return data;
 }
+
+export async function updateUserBookReadingStatus(
+  id: number,
+  newStatus: ReadingStatus
+) {
+  const query = `/books/update/status/${id}`;
+
+  const headers: HeadersInit = {
+    "Content-Type": "application/json",
+  };
+
+  const options: RequestInit = {
+    headers: headers,
+    method: "PUT",
+    body: JSON.stringify(newStatus),
+  };
+
+  const result = await apiFetch(query, options);
+  const data = (await result.json()) as UserBook;
+
+  return data;
+}
+
 /**
  * Deletes a book from user's library based off of the id field.
  *
