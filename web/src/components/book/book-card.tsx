@@ -15,25 +15,11 @@ export default function BookCard({
           href={`explore/${metadata.hardcoverId}`}
           className="flex flex-row space-x-4 items-start flex-1 min-h-[80px]"
         >
-          {metadata.coverImageUrl ? (
-            <Image
-              src={metadata.coverImageUrl}
-              alt={metadata.title}
-              width={50}
-              height={100}
-              className="object-contain rounded"
-            />
-          ) : (
-            <CoverImagePlaceholder />
-          )}
-
-          <div className="flex flex-col space-y-2">
-            <h3 className="text-xl font-medium">{metadata.title}</h3>
-            {metadata.releaseYear > 0 && <p>{metadata.releaseYear}</p>}
-            {metadata.collaborators.length > 0 && (
-              <p className="italic">{metadata.collaborators[0].author.name}</p>
-            )}
-          </div>
+          <CoverImage
+            coverImageUrl={metadata.coverImageUrl}
+            title={metadata.title}
+          />
+          <BookCardContent metadata={metadata} />
         </Link>
 
         <div className="flex items-center">
@@ -49,6 +35,35 @@ export default function BookCard({
   );
 }
 
+export type BookCardProps = {
+  metadata: Book;
+  bookExistsInLibrary: boolean;
+};
+
+function CoverImage({ coverImageUrl, title }: CoverImageProps) {
+  console.log(coverImageUrl);
+  return (
+    <>
+      {coverImageUrl ? (
+        <Image
+          src={coverImageUrl}
+          alt={title}
+          width={50}
+          height={100}
+          className="object-contain rounded"
+        />
+      ) : (
+        <CoverImagePlaceholder />
+      )}
+    </>
+  );
+}
+
+type CoverImageProps = {
+  coverImageUrl: string;
+  title: string;
+};
+
 function CoverImagePlaceholder() {
   return (
     <div className="flex items-center justify-center w-14 h-[80px] border p-2 text-sm text-center rounded">
@@ -57,7 +72,18 @@ function CoverImagePlaceholder() {
   );
 }
 
-export type BookCardProps = {
+function BookCardContent({ metadata }: BookCardContentProps) {
+  return (
+    <div className="flex flex-col space-y-2">
+      <h3 className="text-xl font-medium">{metadata.title}</h3>
+      {metadata.releaseYear > 0 && <p>{metadata.releaseYear}</p>}
+      {metadata.collaborators.length > 0 && (
+        <p className="italic">{metadata.collaborators[0].author.name}</p>
+      )}
+    </div>
+  );
+}
+
+export type BookCardContentProps = {
   metadata: Book;
-  bookExistsInLibrary: boolean;
 };

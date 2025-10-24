@@ -28,8 +28,6 @@ export default function AddBookToLibraryButton({
     setLoading(false);
   }
 
-  console.log(bookExistsInLibrary);
-
   if (bookExistsInLibrary) {
     return (
       <Button variant="secondary" className="w-32">

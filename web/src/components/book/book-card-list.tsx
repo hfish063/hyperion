@@ -5,7 +5,7 @@ export default function BookCardList({
   books,
   bookExistsInLibrary,
 }: BookCardListProps) {
-  if (books[0]) {
+  if (validBookList(books)) {
     return (
       <div className="flex flex-col space-y-4">
         {books.map((book, index) => (
@@ -18,6 +18,10 @@ export default function BookCardList({
       </div>
     );
   }
+}
+
+function validBookList(books: Book[]) {
+  return books[0] ? true : false;
 }
 
 export type BookCardListProps = {
