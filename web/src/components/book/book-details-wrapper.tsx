@@ -67,13 +67,13 @@ function BookDetailsHeader({ details }: BookDetailsHeaderProps) {
         />
       )}
       <div>
-        <Card className="flex flex-col space-y-4 p-4 size-full">
+        <div className="flex flex-col space-y-4 size-full justify-between">
           <div className="space-y-2">
             <h1 className="text-4xl font-bold">{details.title}</h1>
             <BookCollaboratorsList details={details} />
           </div>
           <Button className="w-32">Add to Library</Button>
-        </Card>
+        </div>
       </div>
     </div>
   );
