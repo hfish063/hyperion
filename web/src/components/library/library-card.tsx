@@ -116,7 +116,7 @@ function CurrentStatus({ currentStatus, expectedStatus }: CurrentStatusProps) {
     return (
       <div className="flex flex-row space-x-2 items-center">
         <CheckIcon />
-        <p>{statusMessages[expectedStatus]}</p>
+        <p className="font-semibold">{statusMessages[expectedStatus]}</p>
       </div>
     );
   } else {
