@@ -24,6 +24,16 @@ public class UserBookService {
         return userBookRepository.findAll();
     }
 
+    public UserBook findUserBookById(Long id) {
+        Optional<UserBook> result = userBookRepository.findById(id);
+
+        if (result.isEmpty()) {
+            throw new ResourceNotFoundException("Unable to find this edition in user's library");
+        }
+
+        return result.get();
+    }
+
     public UserBook saveUserBook(UserBook newUserBook) {
         if (userBookRepository.existsByEdition(newUserBook.getEdition())) {
             throw new ResourceAlreadyExistsException("Edition is already in library.");

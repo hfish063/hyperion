@@ -24,6 +24,11 @@ public class UserBookController {
         return userBookService.findAllUserBooks();
     }
 
+    @GetMapping("/search/{id}")
+    public UserBook getUserBookById(@PathVariable("id") Long id) {
+        return userBookService.findUserBookById(id);
+    }
+
     @PostMapping("/save")
     public UserBook saveUserBook(@RequestBody UserBook newUserBook) {
         return userBookService.saveUserBook(newUserBook);
