@@ -14,6 +14,7 @@ import { CheckIcon, TrashIcon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { Book } from "@/app/api/book";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export default function LibraryCard({
   userBook,
@@ -134,25 +135,19 @@ function DeleteLibraryCardButton({
   userBook,
 }: DeleteLibraryCardButtonProps) {
   async function handleDelete() {
-    let validResponse = false;
-
     try {
-      validResponse = await deleteBookForUser(userBook.id);
-    } catch (e: unknown) {
-      if (e instanceof Error) {
-        console.log(e.message);
+      const success = await deleteBookForUser(userBook.id);
+
+      if (!success) return;
+
+      setLibrary((prev) => prev.filter((book) => book.id !== userBook.id));
+
+      toast.success("Book has been successfully deleted.");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(error.message);
       }
     }
-
-    if (!validResponse) {
-      return;
-    }
-
-    setLibrary((prevLibrary) =>
-      prevLibrary.filter((currentBook) => {
-        return currentBook.id !== userBook.id;
-      }),
-    );
   }
 
   return (
