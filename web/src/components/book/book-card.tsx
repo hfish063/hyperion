@@ -41,7 +41,6 @@ export type BookCardProps = {
 };
 
 function CoverImage({ coverImageUrl, title }: CoverImageProps) {
-  console.log(coverImageUrl);
   return (
     <>
       {coverImageUrl ? (
