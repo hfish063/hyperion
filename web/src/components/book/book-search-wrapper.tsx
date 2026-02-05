@@ -76,12 +76,9 @@ export default function BookSearchWrapper() {
     return library.some((book) => book.edition.id === bookId);
   }
 
-  if (error) {
-    return <ErrorAlert message={error} />;
-  }
-
   return (
     <div className="flex flex-col h-full space-y-4 items-center justify-center">
+      {/* Search bar */}
       <div className="w-full 2xl:w-1/2">
         <BookSearchBar
           query={query}
@@ -90,6 +87,10 @@ export default function BookSearchWrapper() {
         />
       </div>
 
+      {/* Error message when applicable */}
+      {error && <ErrorAlert message={error} />}
+
+      {/* Result list */}
       {!loading ? (
         <div className="flex flex-col justify-between h-full w-full space-y-4 2xl:w-1/2 mx-auto">
           <div className="w-full">
