@@ -99,10 +99,14 @@ export default function BookSearchWrapper() {
               bookExistsInLibrary={bookExistsInLibrary}
             />
           </div>
-          {books.length > 0 && (
+          {books.length > 0 ? (
             <div className="flex w-full justify-center">
               {hasMore && <LoadMoreButton onClick={loadAll} />}
             </div>
+          ) : (
+            <p className="flex flex-row space-x-4 w-full h-full items-center justify-center">
+              No results found.
+            </p>
           )}
         </div>
       ) : (
