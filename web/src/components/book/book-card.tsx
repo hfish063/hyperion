@@ -1,4 +1,4 @@
-import { Book } from "@/app/api/book-details";
+import { Book } from "@/app/api/book";
 import Image from "next/image";
 import { ImageOff } from "lucide-react";
 import Link from "next/link";

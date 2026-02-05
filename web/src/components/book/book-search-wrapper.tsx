@@ -1,6 +1,6 @@
 "use client";
 
-import { Book, searchForTitle } from "@/app/api/book-details";
+import { Book, searchForTitle } from "@/app/api/book";
 import { useState } from "react";
 import BookCardList from "./book-card-list";
 import BookSearchBar from "./book-search-bar";

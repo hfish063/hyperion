@@ -12,7 +12,7 @@ import {
 } from "@/app/api/user-book";
 import { CheckIcon, TrashIcon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
-import { Book } from "@/app/api/book-details";
+import { Book } from "@/app/api/book";
 import Link from "next/link";
 
 export default function LibraryCard({
@@ -151,7 +151,7 @@ function DeleteLibraryCardButton({
     setLibrary((prevLibrary) =>
       prevLibrary.filter((currentBook) => {
         return currentBook.id !== userBook.id;
-      })
+      }),
     );
   }
 

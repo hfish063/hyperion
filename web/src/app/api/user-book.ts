@@ -1,5 +1,5 @@
 import apiFetch from "./api";
-import { Book } from "./book-details";
+import { Book } from "./book";
 
 export async function findAllBooksForUser() {
   const query = `/books/all`;
@@ -31,7 +31,7 @@ export async function saveBookForUser(newUserBook: UserBook) {
 
 export async function updateUserBookReadingStatus(
   id: number,
-  newStatus: ReadingStatus
+  newStatus: ReadingStatus,
 ) {
   const query = `/books/update/status/${id}`;
 
