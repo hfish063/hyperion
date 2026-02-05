@@ -2,6 +2,8 @@ package com.backend.demo.services;
 
 import com.backend.demo.constants.ReadingStatus;
 import com.backend.demo.entities.UserBook;
+import com.backend.demo.exceptions.ResourceAlreadyExistsException;
+import com.backend.demo.exceptions.ResourceNotFoundException;
 import com.backend.demo.repositories.UserBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,7 @@ public class UserBookService {
 
     public UserBook saveUserBook(UserBook newUserBook) {
         if (userBookRepository.existsByEdition(newUserBook.getEdition())) {
-            throw new RuntimeException("Edition is already in library.");
+            throw new ResourceAlreadyExistsException("Edition is already in library.");
         }
 
         return userBookRepository.save(newUserBook);
@@ -34,7 +36,7 @@ public class UserBookService {
         Optional<UserBook> response = userBookRepository.findById(id);
 
         if (response.isEmpty()) {
-            throw new RuntimeException("Failed to locate UserBook with corresponding id.");
+            throw new ResourceNotFoundException("Failed to locate UserBook with corresponding id.");
         }
 
         UserBook userBook = response.get();
