@@ -10,6 +10,15 @@ export async function findAllBooksForUser() {
   return data;
 }
 
+export async function findBookForUserById(id: number) {
+  const query = `/books/search/${id}`;
+
+  const result = await apiFetch(query);
+  const data = (await result.json()) as UserBook;
+
+  return data;
+}
+
 export async function saveBookForUser(newUserBook: UserBook) {
   const query = `/books/save`;
 
