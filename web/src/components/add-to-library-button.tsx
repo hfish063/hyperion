@@ -10,15 +10,20 @@ export default function AddBookToLibraryButton({
   bookExistsInLibrary,
 }: AddBookToLibraryButtonProps) {
   const [loading, setLoading] = useState(false);
+  const [alreadyAdded, setAlreadyAdded] = useState(bookExistsInLibrary);
 
   async function AddBookToLibrary() {
     setLoading(true);
 
     try {
-      await saveBookForUser({
+      const result = await saveBookForUser({
         edition: metadata,
         readingStatus: ReadingStatus.WANT_TO_READ,
       } as UserBook);
+
+      if (result) {
+        setAlreadyAdded(true);
+      }
     } catch (e: unknown) {
       if (e instanceof Error) {
         console.log(e.message);
@@ -28,7 +33,7 @@ export default function AddBookToLibraryButton({
     setLoading(false);
   }
 
-  if (bookExistsInLibrary) {
+  if (alreadyAdded) {
     return (
       <Button variant="secondary" className="w-32">
         Already Added

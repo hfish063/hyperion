@@ -12,8 +12,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
@@ -73,13 +71,9 @@ export default function BookSearchWrapper() {
     setHasMore(false);
   }
 
-  // check if specific book has already been saved to user library
+  // check if specific book has already been saved to user's library
   function bookExistsInLibrary(bookId: number) {
-    if (library.some((book) => book.edition.id === bookId)) {
-      return true;
-    }
-
-    return false;
+    return library.some((book) => book.edition.id === bookId);
   }
 
   if (error) {
