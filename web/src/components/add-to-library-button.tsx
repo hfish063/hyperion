@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Spinner } from "./ui";
 import { Button } from "./ui/button";
 import { BookmarkIcon } from "lucide-react";
+import { toast } from "sonner";
 
 export default function AddBookToLibraryButton({
   metadata,
@@ -21,8 +22,10 @@ export default function AddBookToLibraryButton({
         readingStatus: ReadingStatus.WANT_TO_READ,
       } as UserBook);
 
+      // verify that the save request was successful
       if (result) {
         setAlreadyAdded(true);
+        toast.success("Book has been added to your library.");
       }
     } catch (e: unknown) {
       if (e instanceof Error) {
