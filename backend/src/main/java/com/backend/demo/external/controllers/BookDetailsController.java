@@ -3,7 +3,6 @@ package com.backend.demo.external.controllers;
 import com.backend.demo.entities.Edition;
 import com.backend.demo.external.HardcoverClient;
 import com.backend.demo.external.dtos.EditionDto;
-import com.backend.demo.external.dtos.HardcoverEditionsResponseDto;
 import com.backend.demo.mappers.EntityMapper;
 import com.backend.demo.services.EditionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,13 +47,6 @@ public class BookDetailsController {
 
     @GetMapping("search/id/{id}")
     public Edition getEditionById(@PathVariable("id") int id) {
-        HardcoverEditionsResponseDto response = hardcoverClient.getEditionById(id);
-        List<EditionDto> editions = response.getData().getEditions();
-
-        if (editions.isEmpty()) {
-            throw new RuntimeException("Failed to locate edition with corresponding id.");
-        }
-
-        return editionMapper.mapToEntity(editions.get(0));
+        return editionService.findEditionBySourceId(id);
     }
 }

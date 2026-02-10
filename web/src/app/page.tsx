@@ -23,7 +23,7 @@ export default function Home() {
 function QuickLinks() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <Link href="/" className="h-full">
+      <Link href="/library" className="h-full">
         <Card className="h-full flex flex-col">
           <CardContent className="flex flex-col space-y-2 flex-1">
             <BookOpen className="text-2xl" />

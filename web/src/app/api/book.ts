@@ -2,7 +2,7 @@ import apiFetch from "./api";
 
 export async function searchForTitle(
   title: string,
-  limit: number | undefined = undefined
+  limit: number | undefined = undefined,
 ) {
   let query = `/meta/search/title/${title}`;
 

@@ -21,6 +21,8 @@ function AppHeaderTitle() {
     return <h1 className="text-2xl font-bold">Home</h1>;
   } else if (pathname === "/explore" || pathname.startsWith("/explore/")) {
     return <h1 className="text-2xl font-bold">Explore</h1>;
+  } else if (pathname === "/library") {
+    return <h1 className="text-2xl font-bold">Library</h1>;
   } else {
     return <div />;
   }

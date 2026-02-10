@@ -1,6 +1,6 @@
 "use client";
 
-import BookDetailsWrapper from "@/components/book-details-wrapper";
+import BookDetailsWrapper from "@/components/book/book-details-wrapper";
 import ErrorAlert from "@/components/error-alert";
 import { useParams } from "next/navigation";
 

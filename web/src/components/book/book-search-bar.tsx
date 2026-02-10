@@ -1,7 +1,7 @@
 import { Dispatch, FormEvent, SetStateAction } from "react";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
 import { CircleArrowRight } from "lucide-react";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 export default function BookSearchBar({
   query,
@@ -9,7 +9,7 @@ export default function BookSearchBar({
   handleSearch,
 }: BookSearchBarProps) {
   return (
-    <div className="flex flex-row space-x-4">
+    <div className="flex flex-row space-x-2">
       <form className="w-full" onSubmit={handleSearch}>
         <Input
           value={query}

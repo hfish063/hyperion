@@ -1,9 +1,10 @@
-import { Book, Collaborator, searchById } from "@/app/api/book-details";
+import { Book, searchById } from "@/app/api/book";
 import { useEffect, useState } from "react";
-import { Spinner } from "./ui";
+import { Spinner } from "../ui";
+import MissingData from "../missing-data";
+import { Button } from "../ui/button";
 import Image from "next/image";
-import MissingData from "./missing-data";
-import { Button } from "./ui/button";
+import { Card } from "../ui/card";
 
 export default function BookDetailsWrapper({ id }: BookDetailsWrapperProps) {
   const [bookDetails, setBookDetails] = useState<Book | undefined>(undefined);
@@ -42,7 +43,7 @@ export default function BookDetailsWrapper({ id }: BookDetailsWrapperProps) {
       <div className="flex flex-col space-y-4">
         <BookDetailsHeader details={bookDetails} />
         <hr />
-        <p>{bookDetails.description}</p>
+        <BookDetailsDescription description={bookDetails.description} />
         <BookDetailsList details={bookDetails} />
       </div>
     );
@@ -65,12 +66,14 @@ function BookDetailsHeader({ details }: BookDetailsHeaderProps) {
           alt={details.title}
         />
       )}
-      <div className="flex flex-col space-y-4 justify-between">
-        <div className="flex flex-col space-y-4">
-          <h1 className="text-4xl font-bold">{details.title}</h1>
-          <BookCollaboratorsList details={details} />
+      <div>
+        <div className="flex flex-col space-y-4 size-full justify-between">
+          <div className="space-y-2">
+            <h1 className="text-4xl font-bold">{details.title}</h1>
+            <BookCollaboratorsList details={details} />
+          </div>
+          <Button className="w-32">Add to Library</Button>
         </div>
-        <Button className="w-32">Add to Library</Button>
       </div>
     </div>
   );
@@ -78,6 +81,18 @@ function BookDetailsHeader({ details }: BookDetailsHeaderProps) {
 
 type BookDetailsHeaderProps = {
   details: Book;
+};
+
+function BookDetailsDescription({ description }: BookDetailsDescriptionProps) {
+  return (
+    <Card className="p-4">
+      <p>{description}</p>
+    </Card>
+  );
+}
+
+type BookDetailsDescriptionProps = {
+  description: string;
 };
 
 function BookCollaboratorsList({ details }: BookCollaboratorsListProps) {
@@ -107,14 +122,14 @@ function BookDetailsList({ details }: BookDetailsListProps) {
   ];
 
   return (
-    <div className="flex flex-col space-y-4">
+    <Card className="flex flex-col space-y-4 p-4">
       {fields.map(({ label, value }) => (
         <div key={label} className="flex flex-row space-x-4">
           <p className="font-semibold w-24">{label}</p>
           {value ? <p>{value}</p> : <MissingData />}
         </div>
       ))}
-    </div>
+    </Card>
   );
 }
 

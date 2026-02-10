@@ -12,7 +12,7 @@ import { Home, Search, BookOpen, FlameIcon } from "lucide-react";
 
 const items = [
   { title: "Home", url: "/", icon: Home },
-  { title: "Library", url: "/", icon: BookOpen },
+  { title: "Library", url: "/library", icon: BookOpen },
   { title: "Explore", url: "/explore", icon: Search },
 ];
 

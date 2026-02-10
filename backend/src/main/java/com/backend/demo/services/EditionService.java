@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,31 +49,40 @@ public class EditionService {
             List<EditionDto> editions = response.getData().getEditions();
             results = editionMapper.mapToEntities(editions);
         }
-        
+
         return results;
     }
 
-    public Edition findEditionByIsbn13(String isbn13) {
-        Optional<Edition> result = editionRepository.findByIsbn13(isbn13);
+    public Edition findEditionBySourceId(int sourceId) {
+        Optional<Edition> result = editionRepository.findByHardcoverId(sourceId);
 
-        if (result.isEmpty()) {
-            throw new RuntimeException("Unable to retrieve book with matching isbn13");
+        if (result.isPresent()) {
+            return result.get();
         }
 
-        return result.get();
+        // query Hardcover API if result is not held in database
+        HardcoverEditionsResponseDto clientResult = hardcoverClient.getEditionById(sourceId);
+        List<Edition> entityResult = editionMapper.mapToEntities(clientResult.getData().getEditions());
+
+        if (entityResult.isEmpty()) {
+            throw new RuntimeException("Hardcover API: Failed to locate edition with corresponding id.");
+        }
+
+        // save new data from Hardcover API
+        saveIfNotExists(entityResult);
+
+        return entityResult.get(0);
     }
 
-    public List<Edition> saveIfNotExists(List<Edition> editions) {
+    public void saveIfNotExists(List<Edition> editions) {
         try {
             List<Edition> newEditions = editions.stream()
                     .filter(edition -> !editionRepository.existsByIsbn13(edition.getIsbn13()))
                     .collect(Collectors.toList());
 
-            return editionRepository.saveAll(newEditions);
+            editionRepository.saveAll(newEditions);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
-
-        return new ArrayList<>();
     }
 }
