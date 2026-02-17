@@ -67,12 +67,12 @@ public class EditionMapper implements EntityMapper<Edition, EditionDto> {
             AuthorDto authorDto = contribution.getAuthor();
 
             // check if author already exists in db
-            Author author = authorRepository.findBySourceId(authorDto.getSourceId());
+            Author author = authorRepository.findFirstBySourceId(authorDto.getId());
 
             if (author == null) {
                 author = new Author();
                 author.setName(authorDto.getName());
-                author.setSourceId(authorDto.getSourceId());
+                author.setSourceId(authorDto.getId());
                 author = authorRepository.save(author);
             }
 

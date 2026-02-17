@@ -7,10 +7,8 @@ public class AuthorDto {
     private int id;
     private String name;
 
-    private int sourceId;
-
-    public int getSourceId() {
-        return sourceId;
+    public int getId() {
+        return id;
     }
 
     public String getName() {

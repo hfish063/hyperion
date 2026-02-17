@@ -12,7 +12,7 @@ public class Author {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "source_id", unique = true)
+    @Column(name = "source_id")
     private int sourceId;
 
     public Long getId() {
