@@ -58,23 +58,6 @@ export default function BookSearchWrapper({
     router.push(`/explore/search/${encodeURIComponent(query)}`);
   }
 
-  // display all search results
-  async function loadAll() {
-    setLoading(true);
-
-    try {
-      const data = await searchForTitle(query);
-      setBooks(data);
-    } catch (e: unknown) {
-      if (e instanceof Error) {
-        console.log(e.message);
-      }
-    }
-
-    setLoading(false);
-    setHasMore(false);
-  }
-
   // check if specific book has already been saved to user's library
   function bookExistsInLibrary(bookId: number) {
     return library.some((book) => book.edition.id === bookId);
@@ -101,12 +84,6 @@ export default function BookSearchWrapper({
             books={books}
             bookExistsInLibrary={bookExistsInLibrary}
           />
-
-          {books.length > 0 && hasMore && (
-            <div className="flex w-full justify-center">
-              <LoadMoreButton onClick={loadAll} />
-            </div>
-          )}
         </div>
       ) : (
         <div className="flex flex-row space-x-4 w-full h-full items-center justify-center">

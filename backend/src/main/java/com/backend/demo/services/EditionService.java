@@ -44,10 +44,10 @@ public class EditionService {
             HardcoverEditionsResponseDto response = hardcoverClient.getEditionsByTitle(title);
 
             // save new edition data to db
-            saveIfNotExists(editionMapper.mapToEntities(response.getData().getEditions()));
+            List<Edition> editions = editionMapper.mapToEntities(response.getData().getEditions());
+            saveIfNotExists(editions);
 
-            List<EditionDto> editions = response.getData().getEditions();
-            results = editionMapper.mapToEntities(editions);
+            results = editions;
         }
 
         return results;
@@ -77,7 +77,7 @@ public class EditionService {
     public void saveIfNotExists(List<Edition> editions) {
         try {
             List<Edition> newEditions = editions.stream()
-                    .filter(edition -> !editionRepository.existsByIsbn13(edition.getIsbn13()))
+                    .filter(edition -> !editionRepository.existsByHardcoverId(edition.getHardcoverId()))
                     .collect(Collectors.toList());
 
             editionRepository.saveAll(newEditions);
