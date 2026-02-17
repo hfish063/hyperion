@@ -65,7 +65,7 @@ type CoverImageProps = {
 
 function CoverImagePlaceholder() {
   return (
-    <div className="flex items-center justify-center w-14 h-[80px] border p-2 text-sm text-center rounded">
+    <div className="flex items-center justify-center w-14 h-[80px] border p-2 text-sm text-center rounded bg-muted">
       <ImageOff />
     </div>
   );
