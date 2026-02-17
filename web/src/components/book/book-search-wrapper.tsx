@@ -1,22 +1,20 @@
 "use client";
 
 import { Book, searchForTitle } from "@/app/api/book";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BookCardList from "./book-card-list";
 import BookSearchBar from "./book-search-bar";
 import { findAllBooksForUser, UserBook } from "@/app/api/user-book";
 import ErrorAlert from "../error-alert";
 import LoadMoreButton from "../load-more-button";
 import { Spinner } from "../ui";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
-export default function BookSearchWrapper() {
+export default function BookSearchWrapper({
+  initialQuery,
+}: BookSearchWrapperProps) {
+  const router = useRouter();
+
   const [query, setQuery] = useState<string>("");
   const [books, setBooks] = useState<Book[]>([]);
   const [library, setLibrary] = useState<UserBook[]>([]);
@@ -24,42 +22,48 @@ export default function BookSearchWrapper() {
   const [error, setError] = useState<string | undefined>(undefined);
   const [hasMore, setHasMore] = useState(true);
 
-  async function handleSearch(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setLoading(true);
-    setError(undefined);
-
-    if (!query) {
+  useEffect(() => {
+    if (!initialQuery) {
       return;
     }
 
-    try {
-      const books = await searchForTitle(query, 25);
-      const library = await findAllBooksForUser();
+    async function runSearch() {
+      setLoading(true);
+      setError(undefined);
 
-      setBooks(books);
-      setLibrary(library);
-    } catch (e: unknown) {
-      if (e instanceof Error) {
-        setError(e.message);
+      try {
+        const books = await searchForTitle(initialQuery, 25);
+        const library = await findAllBooksForUser();
+
+        setBooks(books);
+        setLibrary(library);
+      } catch (e: unknown) {
+        if (e instanceof Error) {
+          setError(e.message);
+        }
       }
+
+      setLoading(false);
+      setHasMore(true);
     }
 
-    setLoading(false);
-    setHasMore(true);
+    runSearch();
+  }, [initialQuery]);
+
+  async function handleSearch(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    if (!query) return;
+
+    router.push(`/explore/search/${encodeURIComponent(query)}`);
   }
 
   // display all search results
   async function loadAll() {
     setLoading(true);
 
-    if (!query) {
-      return;
-    }
-
     try {
       const data = await searchForTitle(query);
-
       setBooks(data);
     } catch (e: unknown) {
       if (e instanceof Error) {
@@ -93,15 +97,14 @@ export default function BookSearchWrapper() {
       {/* Result list */}
       {!loading ? (
         <div className="flex flex-col justify-between h-full w-full space-y-4 2xl:w-1/2 mx-auto">
-          <div className="w-full">
-            <BookCardList
-              books={books}
-              bookExistsInLibrary={bookExistsInLibrary}
-            />
-          </div>
-          {books.length > 0 && (
+          <BookCardList
+            books={books}
+            bookExistsInLibrary={bookExistsInLibrary}
+          />
+
+          {books.length > 0 && hasMore && (
             <div className="flex w-full justify-center">
-              {hasMore && <LoadMoreButton onClick={loadAll} />}
+              <LoadMoreButton onClick={loadAll} />
             </div>
           )}
         </div>
@@ -114,16 +117,6 @@ export default function BookSearchWrapper() {
   );
 }
 
-function SearchOptions() {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Button variant="outline">Search By</Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuItem>Title</DropdownMenuItem>
-        <DropdownMenuItem>Author</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
+type BookSearchWrapperProps = {
+  initialQuery: string;
+};
