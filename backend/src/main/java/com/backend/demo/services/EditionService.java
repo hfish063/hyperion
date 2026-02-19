@@ -12,6 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +46,11 @@ public class EditionService {
 
             // save new edition data to db
             List<Edition> editions = editionMapper.mapToEntities(response.getData().getEditions());
-            saveIfNotExists(editions);
+
+            // TODO: compare the hardcover list and the local data, only save NEW entries.  Remove saveIfNotExists().
+            // saveIfNotExists(editions);
+
+            HashSet<Edition> storedDataSet = new HashSet<>(storedData);
 
             results = editions;
         }
