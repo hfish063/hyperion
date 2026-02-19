@@ -6,7 +6,6 @@ import BookCardList from "./book-card-list";
 import BookSearchBar from "./book-search-bar";
 import { findAllBooksForUser, UserBook } from "@/app/api/user-book";
 import ErrorAlert from "../error-alert";
-import LoadMoreButton from "../load-more-button";
 import { Spinner } from "../ui";
 import { useRouter } from "next/navigation";
 
@@ -20,7 +19,6 @@ export default function BookSearchWrapper({
   const [library, setLibrary] = useState<UserBook[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
-  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     if (!initialQuery) {
@@ -44,7 +42,6 @@ export default function BookSearchWrapper({
       }
 
       setLoading(false);
-      setHasMore(true);
     }
 
     runSearch();
