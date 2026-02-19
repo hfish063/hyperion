@@ -63,7 +63,7 @@ export default function BookSearchWrapper({
   return (
     <div className="flex flex-col h-full space-y-4 items-center justify-center">
       {/* Search bar */}
-      <div className="w-full 2xl:w-1/2">
+      <div className="w-full">
         <BookSearchBar
           query={query}
           setQuery={setQuery}
@@ -76,7 +76,7 @@ export default function BookSearchWrapper({
 
       {/* Result list */}
       {!loading ? (
-        <div className="flex flex-col justify-between h-full w-full space-y-4 2xl:w-1/2 mx-auto">
+        <div className="flex flex-col justify-between h-full w-full space-y-4 mx-auto">
           <BookCardList
             books={books}
             bookExistsInLibrary={bookExistsInLibrary}
