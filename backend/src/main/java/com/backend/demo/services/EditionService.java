@@ -8,12 +8,13 @@ import com.backend.demo.mappers.EntityMapper;
 import com.backend.demo.repositories.CollaboratorRepository;
 import com.backend.demo.repositories.EditionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class EditionService {
@@ -44,10 +45,14 @@ public class EditionService {
             HardcoverEditionsResponseDto response = hardcoverClient.getEditionsByTitle(title);
 
             // save new edition data to db
-            saveIfNotExists(editionMapper.mapToEntities(response.getData().getEditions()));
+            List<Edition> editions = editionMapper.mapToEntities(response.getData().getEditions());
 
-            List<EditionDto> editions = response.getData().getEditions();
-            results = editionMapper.mapToEntities(editions);
+            // TODO: compare the hardcover list and the local data, only save NEW entries.  Remove saveIfNotExists().
+            // saveIfNotExists(editions);
+
+            HashSet<Edition> storedDataSet = new HashSet<>(storedData);
+
+            results = editions;
         }
 
         return results;
@@ -75,14 +80,12 @@ public class EditionService {
     }
 
     public void saveIfNotExists(List<Edition> editions) {
-        try {
-            List<Edition> newEditions = editions.stream()
-                    .filter(edition -> !editionRepository.existsByIsbn13(edition.getIsbn13()))
-                    .collect(Collectors.toList());
-
-            editionRepository.saveAll(newEditions);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+        for (Edition edition : editions) {
+            try {
+                editionRepository.save(edition);
+            } catch (DataIntegrityViolationException e) {
+                System.out.println("Edition already exists: " + edition.getHardcoverId());
+            }
         }
     }
 }

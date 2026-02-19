@@ -48,7 +48,7 @@ public class EditionMapper implements EntityMapper<Edition, EditionDto> {
         result.setEditionFormat(dto.getEditionFormat());
 
         result.addCollaborators(getCollaboratorsFromDto(dto));
-        
+
         return result;
     }
 
@@ -67,7 +67,7 @@ public class EditionMapper implements EntityMapper<Edition, EditionDto> {
             AuthorDto authorDto = contribution.getAuthor();
 
             // check if author already exists in db
-            Author author = authorRepository.findBySourceId(authorDto.getId());
+            Author author = authorRepository.findFirstBySourceId(authorDto.getId());
 
             if (author == null) {
                 author = new Author();

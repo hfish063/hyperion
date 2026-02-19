@@ -13,5 +13,5 @@ public interface EditionRepository extends JpaRepository<Edition, Long> {
 
     Optional<Edition> findByHardcoverId(int sourceId);
 
-    boolean existsByIsbn13(String isbn13);
+    boolean existsByHardcoverId(int hardcoverId);
 }
