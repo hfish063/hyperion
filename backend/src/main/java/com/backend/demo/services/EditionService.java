@@ -12,8 +12,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,49 +31,20 @@ public class EditionService {
     }
 
     public List<Edition> findAllEditionsByTitle(String title) throws IOException {
-        // check db for editions by title
-        List<Edition> storedData = editionRepository.findAllByTitle(title);
+        List<Edition> localEditions = editionRepository.findAllByTitle(title);
 
-        List<Edition> results;
-
-        // rely on external api only if editions do not exist in db
-        if (!storedData.isEmpty()) {
-            System.out.println("Database hit: Returning " + storedData.size() + " results for '" + title + "'.");
-            results = storedData;
-        } else {
-            HardcoverEditionsResponseDto response = hardcoverClient.getEditionsByTitle(title);
-
-            // save new edition data to db
-            List<Edition> editions = editionMapper.mapToEntities(response.getData().getEditions());
-
-            results = compareAndSaveNewEditions(storedData, editions);
+        if (!localEditions.isEmpty()) {
+            return localEditions;
         }
 
-        return results;
-    }
+        HardcoverEditionsResponseDto apiResponse = hardcoverClient.getEditionsByTitle(title);
+        List<Edition> apiEditions = editionMapper.mapToEntities(apiResponse.getData().getEditions());
 
-    private List<Edition> compareAndSaveNewEditions(List<Edition> storedEditions, List<Edition> apiEditions) {
-        HashSet<Long> storedEditionIds = new HashSet<>();
-
-        for (Edition edition : storedEditions) {
-            storedEditionIds.add(edition.getId());
-        }
-
-        ArrayList<Edition> newEditions = new ArrayList<>();
-
-        for (Edition edition : apiEditions) {
-            if (!storedEditionIds.contains(edition.getId())) {
-                // edition id is not found, save the new data
-                editionRepository.save(edition);
-                newEditions.add(edition);
-            }
-        }
-
-        return newEditions;
+        return editionRepository.saveAll(apiEditions);
     }
 
     public Edition findEditionBySourceId(int sourceId) {
-        Optional<Edition> result = editionRepository.findByHardcoverId(sourceId);
+        Optional<Edition> result = editionRepository.findBySourceId(sourceId);
 
         if (result.isPresent()) {
             return result.get();
@@ -100,7 +69,7 @@ public class EditionService {
             try {
                 editionRepository.save(edition);
             } catch (DataIntegrityViolationException e) {
-                System.out.println("Edition already exists: " + edition.getHardcoverId());
+                System.out.println("Edition already exists: " + edition.getSourceId());
             }
         }
     }

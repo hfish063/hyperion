@@ -11,7 +11,5 @@ import java.util.Optional;
 public interface EditionRepository extends JpaRepository<Edition, Long> {
     List<Edition> findAllByTitle(String title);
 
-    Optional<Edition> findByHardcoverId(int sourceId);
-
-    boolean existsByHardcoverId(int hardcoverId);
+    Optional<Edition> findBySourceId(int sourceId);
 }
