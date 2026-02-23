@@ -40,7 +40,12 @@ public class EditionService {
 
         HardcoverEditionsResponseDto apiResponse = hardcoverClient.getEditionsByTitle(title);
         List<Edition> apiEditions = editionMapper.mapToEntities(apiResponse.getData().getEditions());
+        List<Edition> editionsToSave = filterExistingEditions(apiEditions);
 
+        return editionRepository.saveAll(editionsToSave);
+    }
+    
+    private List<Edition> filterExistingEditions(List<Edition> apiEditions) {
         List<Edition> editionsToSave = new ArrayList<>();
         for (Edition apiEdition : apiEditions) {
             int currentSourceId = apiEdition.getSourceId();
@@ -50,7 +55,7 @@ public class EditionService {
             }
         }
 
-        return editionRepository.saveAll(editionsToSave);
+        return editionsToSave;
     }
 
     public Edition findEditionBySourceId(int sourceId) {
