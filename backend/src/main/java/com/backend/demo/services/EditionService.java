@@ -5,7 +5,6 @@ import com.backend.demo.external.HardcoverClient;
 import com.backend.demo.external.dtos.EditionDto;
 import com.backend.demo.external.dtos.HardcoverEditionsResponseDto;
 import com.backend.demo.mappers.EntityMapper;
-import com.backend.demo.repositories.CollaboratorRepository;
 import com.backend.demo.repositories.EditionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,14 +18,12 @@ import java.util.Optional;
 @Service
 public class EditionService {
     private final EditionRepository editionRepository;
-    private final CollaboratorRepository collaboratorRepository;
     private final EntityMapper<Edition, EditionDto> editionMapper;
     private final HardcoverClient hardcoverClient;
 
     @Autowired
-    public EditionService(EditionRepository editionRepository, CollaboratorRepository collaboratorRepository, EntityMapper<Edition, EditionDto> editionMapper, HardcoverClient hardcoverClient) {
+    public EditionService(EditionRepository editionRepository, EntityMapper<Edition, EditionDto> editionMapper, HardcoverClient hardcoverClient) {
         this.editionRepository = editionRepository;
-        this.collaboratorRepository = collaboratorRepository;
         this.editionMapper = editionMapper;
         this.hardcoverClient = hardcoverClient;
     }
@@ -44,7 +41,7 @@ public class EditionService {
 
         return editionRepository.saveAll(editionsToSave);
     }
-    
+
     private List<Edition> filterExistingEditions(List<Edition> apiEditions) {
         List<Edition> editionsToSave = new ArrayList<>();
         for (Edition apiEdition : apiEditions) {
