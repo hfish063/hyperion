@@ -17,7 +17,7 @@ public class Edition {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "source_id")
+    @Column(name = "source_id", unique = true)
     private int sourceId;
 
     @Column(name = "title")

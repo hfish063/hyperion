@@ -12,6 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,7 +41,16 @@ public class EditionService {
         HardcoverEditionsResponseDto apiResponse = hardcoverClient.getEditionsByTitle(title);
         List<Edition> apiEditions = editionMapper.mapToEntities(apiResponse.getData().getEditions());
 
-        return editionRepository.saveAll(apiEditions);
+        List<Edition> editionsToSave = new ArrayList<>();
+        for (Edition apiEdition : apiEditions) {
+            int currentSourceId = apiEdition.getSourceId();
+
+            if (editionRepository.findBySourceId(currentSourceId).isEmpty()) {
+                editionsToSave.add(apiEdition);
+            }
+        }
+
+        return editionRepository.saveAll(editionsToSave);
     }
 
     public Edition findEditionBySourceId(int sourceId) {
