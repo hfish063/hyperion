@@ -17,8 +17,8 @@ public class Edition {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "hardcover_id", unique = true)
-    private int hardcoverId;
+    @Column(name = "source_id", unique = true)
+    private int sourceId;
 
     @Column(name = "title")
     private String title;
@@ -29,7 +29,7 @@ public class Edition {
     @Column(name = "isbn10")
     private String isbn10;
 
-    @Column(name = "isbn13", unique = true)
+    @Column(name = "isbn13")
     private String isbn13;
 
     @Column(name = "pages")
@@ -69,8 +69,8 @@ public class Edition {
         return id;
     }
 
-    public int getHardcoverId() {
-        return hardcoverId;
+    public int getSourceId() {
+        return sourceId;
     }
 
     public String getTitle() {
@@ -122,8 +122,8 @@ public class Edition {
         this.id = id;
     }
 
-    public void setHardcoverId(int hardcoverId) {
-        this.hardcoverId = hardcoverId;
+    public void setSourceId(int sourceId) {
+        this.sourceId = sourceId;
     }
 
     public void setTitle(String title) {

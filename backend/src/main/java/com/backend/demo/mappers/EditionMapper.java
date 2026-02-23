@@ -29,7 +29,7 @@ public class EditionMapper implements EntityMapper<Edition, EditionDto> {
 
         Edition result = new Edition();
 
-        result.setHardcoverId(dto.getId());
+        result.setSourceId(dto.getId());
         result.setTitle(dto.getTitle());
         result.setSubtitle(dto.getSubtitle());
 
