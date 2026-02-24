@@ -30,6 +30,10 @@ function AppHeaderTitle() {
     return <h1 className="text-2xl font-bold">Library</h1>;
   } else if (pathname === "/settings") {
     return <h1 className="text-2xl font-bold">Settings</h1>;
+  } else if (pathname === "/settings/appearance") {
+    return <h1 className="text-2xl font-bold">Appearance Settings</h1>;
+  } else if (pathname === "/settings/account") {
+    return <h1 className="text-2xl font-bold">Account Settings</h1>;
   } else {
     return <div />;
   }
