@@ -17,7 +17,9 @@ export default function BookDetails() {
   const id = Number(paramId);
 
   if (isNaN(id)) {
-    <ErrorAlert message="Error fetching book details.  Please try again." />;
+    return (
+      <ErrorAlert message="Error fetching book details.  Please try again." />
+    );
   }
 
   return <BookDetailsWrapper id={id} />;

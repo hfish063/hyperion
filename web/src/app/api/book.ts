@@ -27,7 +27,7 @@ export async function searchById(id: number) {
 
 export type Book = {
   id: number;
-  hardcoverId: number;
+  sourceId: number;
   title: string;
   subtitle: string;
   description: string;

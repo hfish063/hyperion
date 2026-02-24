@@ -39,7 +39,12 @@ public class EditionService {
         List<Edition> apiEditions = editionMapper.mapToEntities(apiResponse.getData().getEditions());
         List<Edition> editionsToSave = filterExistingEditions(apiEditions);
 
-        return editionRepository.saveAll(editionsToSave);
+        // try/catch block prevents concurrency issues from multiple threads checking the database simultaneously
+        try {
+            return editionRepository.saveAll(editionsToSave);
+        } catch (DataIntegrityViolationException e) {
+            return localEditions;
+        }
     }
 
     private List<Edition> filterExistingEditions(List<Edition> apiEditions) {
@@ -47,7 +52,7 @@ public class EditionService {
         for (Edition apiEdition : apiEditions) {
             int currentSourceId = apiEdition.getSourceId();
 
-            if (editionRepository.findBySourceId(currentSourceId).isEmpty()) {
+            if (isNewEdition(currentSourceId)) {
                 editionsToSave.add(apiEdition);
             }
         }
@@ -64,25 +69,31 @@ public class EditionService {
 
         // query Hardcover API if result is not held in database
         HardcoverEditionsResponseDto clientResult = hardcoverClient.getEditionById(sourceId);
-        List<Edition> entityResult = editionMapper.mapToEntities(clientResult.getData().getEditions());
+        List<Edition> apiEditions = editionMapper.mapToEntities(clientResult.getData().getEditions());
 
-        if (entityResult.isEmpty()) {
+        if (apiEditions.isEmpty()) {
             throw new RuntimeException("Hardcover API: Failed to locate edition with corresponding id.");
         }
 
-        // save new data from Hardcover API
-        saveIfNotExists(entityResult);
+        Edition apiEdition = apiEditions.get(0);
+        boolean isNewEdition = isNewEdition(apiEdition.getSourceId());
 
-        return entityResult.get(0);
+        if (isNewEdition) {
+            return editionRepository.save(apiEdition);
+        }
+
+        return apiEdition;
     }
 
-    public void saveIfNotExists(List<Edition> editions) {
-        for (Edition edition : editions) {
-            try {
-                editionRepository.save(edition);
-            } catch (DataIntegrityViolationException e) {
-                System.out.println("Edition already exists: " + edition.getSourceId());
-            }
-        }
+    /**
+     * Checks database for the apiEdition, returns false if it's not in the database already.
+     *
+     * @param sourceId The sourceId of the edition (fetched from third party API) that we are checking db against.
+     * @return True in the case of a new edition (not already stored in database), false if it's already in the db.
+     */
+    public boolean isNewEdition(int sourceId) {
+        Optional<Edition> stored = editionRepository.findBySourceId(sourceId);
+
+        return stored.isEmpty();
     }
 }
