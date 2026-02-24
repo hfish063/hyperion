@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { UserCircleIcon } from "lucide-react";
+import { PaintBucket, UserCircleIcon } from "lucide-react";
 import Link from "next/link";
 
 export default function SettingsPage() {
@@ -12,6 +12,16 @@ export default function SettingsPage() {
               <div className="flex flex-row space-x-4 items-center">
                 <UserCircleIcon />
                 <p className="text-sm">Account</p>
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
+        <Link href={"/settings/appearance"}>
+          <Card>
+            <CardContent>
+              <div className="flex flex-row space-x-4 items-center">
+                <PaintBucket />
+                <p className="text-sm">Appearance</p>
               </div>
             </CardContent>
           </Card>

@@ -48,7 +48,6 @@ function AppHeaderModules() {
           <Button variant={"link"}>Sign Out</Button>
         </SignOutButton>
       </SignedIn>
-      <ThemeToggle />
     </div>
   );
 }
