@@ -8,6 +8,7 @@ import {
   SignInButton,
   SignOutButton,
 } from "@clerk/nextjs";
+import { Button } from "./ui/button";
 
 export default function AppHeader() {
   return (
@@ -38,10 +39,14 @@ function AppHeaderModules() {
   return (
     <div className="flex flex-row items-center space-x-4">
       <SignedOut>
-        <SignInButton />
+        <SignInButton>
+          <Button variant={"link"}>Sign In</Button>
+        </SignInButton>
       </SignedOut>
       <SignedIn>
-        <SignOutButton />
+        <SignOutButton>
+          <Button variant={"link"}>Sign Out</Button>
+        </SignOutButton>
       </SignedIn>
       <ThemeToggle />
     </div>
