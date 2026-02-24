@@ -7,6 +7,7 @@ import com.backend.demo.external.dtos.HardcoverEditionsResponseDto;
 import com.backend.demo.mappers.EntityMapper;
 import com.backend.demo.repositories.EditionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -38,7 +39,11 @@ public class EditionService {
         List<Edition> apiEditions = editionMapper.mapToEntities(apiResponse.getData().getEditions());
         List<Edition> editionsToSave = filterExistingEditions(apiEditions);
 
-        return editionRepository.saveAll(editionsToSave);
+        try {
+            return editionRepository.saveAll(editionsToSave);
+        } catch (DataIntegrityViolationException e) {
+            return localEditions;
+        }
     }
 
     private List<Edition> filterExistingEditions(List<Edition> apiEditions) {
