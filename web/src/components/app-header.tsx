@@ -15,8 +15,6 @@ export default function AppHeader() {
 function AppHeaderTitle() {
   const pathname = usePathname();
 
-  console.log(pathname);
-
   if (pathname === "/") {
     return <h1 className="text-2xl font-bold">Home</h1>;
   } else if (pathname === "/explore" || pathname.startsWith("/explore/")) {
