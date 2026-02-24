@@ -39,6 +39,7 @@ public class EditionService {
         List<Edition> apiEditions = editionMapper.mapToEntities(apiResponse.getData().getEditions());
         List<Edition> editionsToSave = filterExistingEditions(apiEditions);
 
+        // try/catch block prevents concurrency issues from multiple threads checking the database simultaneously
         try {
             return editionRepository.saveAll(editionsToSave);
         } catch (DataIntegrityViolationException e) {
