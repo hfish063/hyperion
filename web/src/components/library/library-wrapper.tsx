@@ -1,11 +1,12 @@
 "use client";
 
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import LibraryList from "./library-list";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { TabsContent } from "@radix-ui/react-tabs";
 import { ReadingStatus } from "@/app/api/user-book";
 import LibrarySearchBar from "./library-search-bar";
+import { UserAvatar, useUser } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 
 export default function LibraryWrapper() {
   return (
@@ -43,13 +44,16 @@ export default function LibraryWrapper() {
 }
 
 function UserProfileHeader() {
+  const { user, isLoaded } = useUser();
+
+  if (!isLoaded) {
+    return <p>Loading user details...</p>;
+  }
+
   return (
-    <div className="flex flex-row space-x-2 items-center">
-      <Avatar className="size-12">
-        <AvatarImage src={""} alt="" />
-        <AvatarFallback>{/* Username */}</AvatarFallback>
-      </Avatar>
-      <h1 className="text-4xl font-bold">User</h1>
+    <div className="flex flex-row space-x-4 items-center">
+      <UserAvatar />
+      <h1 className="text-4xl font-bold">{user?.username}</h1>
     </div>
   );
 }
