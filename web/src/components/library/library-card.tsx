@@ -25,7 +25,7 @@ export default function LibraryCard({
       <div className="flex flex-row space-x-4 justify-between">
         <Link
           className="flex flex-1"
-          href={`/explore/${userBook.edition.hardcoverId}`}
+          href={`/explore/${userBook.edition.sourceId}`}
         >
           <LibraryCardDetails bookDetails={userBook.edition} />
         </Link>

@@ -12,7 +12,7 @@ export default function BookCard({
     <div className="flex flex-col space-y-4">
       <div className="flex flex-row justify-between items-center">
         <Link
-          href={`/explore/${metadata.hardcoverId}`}
+          href={`/explore/${metadata.sourceId}`}
           className="flex flex-row space-x-4 items-start flex-1 min-h-[80px]"
         >
           <CoverImage
