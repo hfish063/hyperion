@@ -46,7 +46,7 @@ public class EditionService {
         for (Edition apiEdition : apiEditions) {
             int currentSourceId = apiEdition.getSourceId();
 
-            if (editionRepository.findBySourceId(currentSourceId).isEmpty()) {
+            if (isNewEdition(currentSourceId)) {
                 editionsToSave.add(apiEdition);
             }
         }
@@ -70,7 +70,7 @@ public class EditionService {
         }
 
         Edition apiEdition = apiEditions.get(0);
-        boolean isNewEdition = isNewEdition(apiEdition);
+        boolean isNewEdition = isNewEdition(apiEdition.getSourceId());
 
         if (isNewEdition) {
             return editionRepository.save(apiEdition);
@@ -82,11 +82,11 @@ public class EditionService {
     /**
      * Checks database for the apiEdition, returns false if it's not in the database already.
      *
-     * @param apiEdition The edition (fetched from third party API) that we are checking db against.
+     * @param sourceId The sourceId of the edition (fetched from third party API) that we are checking db against.
      * @return True in the case of a new edition (not already stored in database), false if it's already in the db.
      */
-    public boolean isNewEdition(Edition apiEdition) {
-        Optional<Edition> stored = editionRepository.findBySourceId(apiEdition.getSourceId());
+    public boolean isNewEdition(int sourceId) {
+        Optional<Edition> stored = editionRepository.findBySourceId(sourceId);
 
         return stored.isEmpty();
     }
