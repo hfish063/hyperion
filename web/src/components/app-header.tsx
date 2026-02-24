@@ -2,12 +2,18 @@
 
 import { usePathname } from "next/navigation";
 import ThemeToggle from "./theme-toggle";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignOutButton,
+} from "@clerk/nextjs";
 
 export default function AppHeader() {
   return (
     <header className="flex flex-row space-x-4 items-center w-full justify-between">
       <AppHeaderTitle />
-      <ThemeToggle />
+      <AppHeaderModules />
     </header>
   );
 }
@@ -24,4 +30,18 @@ function AppHeaderTitle() {
   } else {
     return <div />;
   }
+}
+
+function AppHeaderModules() {
+  return (
+    <div className="flex flex-row items-center space-x-4">
+      <SignedOut>
+        <SignInButton />
+      </SignedOut>
+      <SignedIn>
+        <SignOutButton />
+      </SignedIn>
+      <ThemeToggle />
+    </div>
+  );
 }

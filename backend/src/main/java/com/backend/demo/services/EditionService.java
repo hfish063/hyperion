@@ -43,7 +43,7 @@ public class EditionService {
         try {
             return editionRepository.saveAll(editionsToSave);
         } catch (DataIntegrityViolationException e) {
-            return localEditions;
+            return editionRepository.findAllByTitle(title);
         }
     }
 
