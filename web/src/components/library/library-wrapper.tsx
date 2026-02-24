@@ -6,7 +6,6 @@ import { TabsContent } from "@radix-ui/react-tabs";
 import { ReadingStatus } from "@/app/api/user-book";
 import LibrarySearchBar from "./library-search-bar";
 import { UserAvatar, useUser } from "@clerk/nextjs";
-import { Skeleton } from "../ui/skeleton";
 
 export default function LibraryWrapper() {
   return (
