@@ -6,7 +6,7 @@ import { TabsContent } from "@radix-ui/react-tabs";
 import { ReadingStatus } from "@/app/api/user-book";
 import LibrarySearchBar from "./library-search-bar";
 import { UserAvatar, useUser } from "@clerk/nextjs";
-import { currentUser } from "@clerk/nextjs/server";
+import { Skeleton } from "../ui/skeleton";
 
 export default function LibraryWrapper() {
   return (
@@ -44,11 +44,7 @@ export default function LibraryWrapper() {
 }
 
 function UserProfileHeader() {
-  const { user, isLoaded } = useUser();
-
-  if (!isLoaded) {
-    return <p>Loading user details...</p>;
-  }
+  const { user } = useUser();
 
   return (
     <div className="flex flex-row space-x-4 items-center">
