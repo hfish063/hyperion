@@ -15,6 +15,16 @@ import { Dispatch, SetStateAction } from "react";
 import { Book } from "@/app/api/book";
 import Link from "next/link";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import { DialogDescription } from "@radix-ui/react-dialog";
 
 export default function LibraryCard({
   userBook,
@@ -151,9 +161,23 @@ function DeleteLibraryCardButton({
   }
 
   return (
-    <Button variant="destructive" onClick={handleDelete}>
-      <TrashIcon />
-    </Button>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="destructive">
+          <TrashIcon />
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Are you sure?</DialogTitle>
+          <DialogDescription>This action cannot be undone</DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="flex flex-row space-x-4 justify-end">
+          <DialogClose>Cancel</DialogClose>
+          <Button onClick={handleDelete}>Confirm</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
 
