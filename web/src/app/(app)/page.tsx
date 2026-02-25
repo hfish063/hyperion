@@ -52,7 +52,9 @@ function QuickLinks() {
 function GithubLink() {
   return (
     <Link href="https://github.com/hfish063">
-      <Button variant="link">Github</Button>
+      <Button className="p-0" variant="link">
+        Github
+      </Button>
     </Link>
   );
 }
