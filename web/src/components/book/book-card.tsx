@@ -21,6 +21,8 @@ export default function BookCard({
               <CoverImage
                 coverImageUrl={metadata.coverImageUrl}
                 title={metadata.title}
+                width={50}
+                height={100}
               />
               <BookCardContent metadata={metadata} />
             </Link>
@@ -38,20 +40,25 @@ export default function BookCard({
   );
 }
 
-export type BookCardProps = {
+type BookCardProps = {
   metadata: Book;
   bookExistsInLibrary: boolean;
 };
 
-function CoverImage({ coverImageUrl, title }: CoverImageProps) {
+export function CoverImage({
+  coverImageUrl,
+  title,
+  width,
+  height,
+}: CoverImageProps) {
   return (
     <>
       {coverImageUrl ? (
         <Image
           src={coverImageUrl}
           alt={title}
-          width={50}
-          height={100}
+          width={width}
+          height={height}
           className="object-contain rounded"
         />
       ) : (
@@ -64,6 +71,8 @@ function CoverImage({ coverImageUrl, title }: CoverImageProps) {
 type CoverImageProps = {
   coverImageUrl: string;
   title: string;
+  width: number;
+  height: number;
 };
 
 function CoverImagePlaceholder() {
