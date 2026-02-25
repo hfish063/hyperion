@@ -61,15 +61,20 @@ export default function LibraryWrapper() {
       <UserProfileHeader completedBooksCount={getCompletedBooksCount()} />
       <h2 className="text-2xl font-semibold">Books</h2>
       <hr />
-      <LibrarySearchBar />
+
       <Tabs defaultValue="all">
-        <TabsList>
-          <TabsTrigger value="all">All</TabsTrigger>
-          <TabsTrigger value="want to read">Want to Read</TabsTrigger>
-          <TabsTrigger value="currently reading">Currently Reading</TabsTrigger>
-          <TabsTrigger value="read">Read</TabsTrigger>
-          <TabsTrigger value="dropped">Dropped</TabsTrigger>
-        </TabsList>
+        <div className="flex flex-col space-y-4 w-fit">
+          <LibrarySearchBar setLibrary={setLibrary} />
+          <TabsList>
+            <TabsTrigger value="all">All</TabsTrigger>
+            <TabsTrigger value="want to read">Want to Read</TabsTrigger>
+            <TabsTrigger value="currently reading">
+              Currently Reading
+            </TabsTrigger>
+            <TabsTrigger value="read">Read</TabsTrigger>
+            <TabsTrigger value="dropped">Dropped</TabsTrigger>
+          </TabsList>
+        </div>
         <TabsContent value="all">
           <LibraryList library={library} setLibrary={setLibrary} />
         </TabsContent>
