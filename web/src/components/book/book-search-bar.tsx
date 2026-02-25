@@ -54,7 +54,7 @@ export default function BookSearchBar({
           />
           {!isFocused && (
             <Badge
-              className="flex flex-row absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              className="flex flex-row absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hidden sm:flex"
               variant={"secondary"}
             >
               <CommandIcon />
