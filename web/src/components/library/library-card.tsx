@@ -170,7 +170,7 @@ function DeleteLibraryCardButton({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Are you sure?</DialogTitle>
-          <DialogDescription>This action cannot be undone</DialogDescription>
+          <DialogDescription>This action cannot be undone.</DialogDescription>
         </DialogHeader>
         <DialogFooter className="flex flex-row space-x-4 justify-end">
           <DialogClose>Cancel</DialogClose>
