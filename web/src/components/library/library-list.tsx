@@ -1,51 +1,12 @@
-import {
-  findAllBooksForUser,
-  ReadingStatus,
-  UserBook,
-} from "@/app/api/user-book";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import ErrorAlert from "../error-alert";
-import { Spinner } from "../ui";
+import { ReadingStatus, UserBook } from "@/app/api/user-book";
+import { Dispatch, SetStateAction } from "react";
 import LibraryCard from "./library-card";
 
-export default function LibraryList({ status }: LibraryListProps) {
-  const [library, setLibrary] = useState<UserBook[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | undefined>(undefined);
-
-  useEffect(() => {
-    async function getLibrary() {
-      setLoading(true);
-      setError(undefined);
-
-      try {
-        const library = await findAllBooksForUser();
-
-        setLibrary(library);
-      } catch (e: unknown) {
-        if (e instanceof Error) {
-          setError(e.message);
-        }
-      }
-    }
-
-    getLibrary();
-
-    setLoading(false);
-  }, []);
-
-  if (error) {
-    return <ErrorAlert message={error} />;
-  }
-
-  if (loading) {
-    return (
-      <div className="flex flex-row space-x-4 w-full h-full items-center justify-center">
-        <Spinner variant={"circle"} /> <p>Loading...</p>
-      </div>
-    );
-  }
-
+export default function LibraryList({
+  status,
+  library,
+  setLibrary,
+}: LibraryListProps) {
   // filter the library items if status is specified
   if (status) {
     return (
@@ -65,6 +26,8 @@ export default function LibraryList({ status }: LibraryListProps) {
 
 type LibraryListProps = {
   status?: ReadingStatus;
+  library: UserBook[];
+  setLibrary: Dispatch<SetStateAction<UserBook[]>>;
 };
 
 function FilteredList({ library, status, setLibrary }: FilteredListProps) {
