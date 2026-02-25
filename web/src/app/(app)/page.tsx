@@ -5,16 +5,13 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col space-y-4 w-full 2xl:w-1/2 mx-auto">
-      <div className="flex flex-col space-y-4 justify-center items-center w-full">
+    <div className="flex flex-col space-y-4 w-full px-4 md:px-0">
+      <div className="flex flex-col items-center w-full space-y-4">
         <h2 className="text-2xl font-semibold">Get Started</h2>
-        <div className="w-auto">
-          <QuickLinks />
+        <QuickLinks />
+        <div className="w-full flex items-start">
+          <GithubLink />
         </div>
-      </div>
-
-      <div>
-        <GithubLink />
       </div>
     </div>
   );
@@ -22,12 +19,12 @@ export default function Home() {
 
 function QuickLinks() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <Link href="/library" className="h-full">
-        <Card className="h-full flex flex-col">
-          <CardContent className="flex flex-col space-y-2 flex-1">
-            <BookOpen className="text-2xl" />
-            <p className="flex-1">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+      <Link href="/library" className="w-full">
+        <Card className="w-full">
+          <CardContent className="flex flex-col space-y-2">
+            <BookOpen className="text-3xl" />
+            <p>
               Your personal library. Track books you own, are reading, or want
               to read. Stay organized and never lose sight of your reading
               goals.
@@ -36,11 +33,11 @@ function QuickLinks() {
         </Card>
       </Link>
 
-      <Link href="/explore" className="h-full">
-        <Card className="h-full flex flex-col">
-          <CardContent className="flex flex-col space-y-2 flex-1">
-            <Search className="text-2xl" />
-            <p className="flex-1">
+      <Link href="/explore" className="w-full">
+        <Card className="w-full">
+          <CardContent className="flex flex-col space-y-2">
+            <Search className="text-3xl" />
+            <p>
               Explore new titles. Search the database for books to add to your
               library, discover popular reads, and find your next favorite
               story.
