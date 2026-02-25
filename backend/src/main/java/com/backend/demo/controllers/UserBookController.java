@@ -43,4 +43,9 @@ public class UserBookController {
     public void deleteUserBookById(@PathVariable("id") Long id) {
         userBookService.deleteUserBookById(id);
     }
+
+    @DeleteMapping("/delete/all")
+    public void deleteAllUserBooksByIds(@RequestBody List<Long> ids) {
+        userBookService.deleteAllUserBooksByIds(ids);
+    }
 }

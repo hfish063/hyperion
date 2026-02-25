@@ -58,4 +58,8 @@ public class UserBookService {
     public void deleteUserBookById(Long id) {
         userBookRepository.deleteById(id);
     }
+
+    public void deleteAllUserBooksByIds(List<Long> ids) {
+        userBookRepository.deleteAllById(ids);
+    }
 }
