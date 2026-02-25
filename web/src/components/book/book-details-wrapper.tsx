@@ -2,7 +2,6 @@ import { Book, searchById } from "@/app/api/book";
 import { useEffect, useState } from "react";
 import { Spinner } from "../ui";
 import MissingData from "../missing-data";
-import { Button } from "../ui/button";
 import Image from "next/image";
 import { Card } from "../ui/card";
 import BackButton from "../BackButton";
