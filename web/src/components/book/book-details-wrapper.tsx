@@ -4,7 +4,7 @@ import { Spinner } from "../ui";
 import MissingData from "../missing-data";
 import Image from "next/image";
 import { Card } from "../ui/card";
-import BackButton from "../BackButton";
+import BackButton from "../back-button";
 import ErrorAlert from "../error-alert";
 
 export default function BookDetailsWrapper({ id }: BookDetailsWrapperProps) {
