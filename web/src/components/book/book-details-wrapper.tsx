@@ -44,7 +44,7 @@ export default function BookDetailsWrapper({ id }: BookDetailsWrapperProps) {
       <div className="flex flex-col space-y-4">
         <BackButton
           href={`/explore/search/${bookDetails.title}`}
-          label="Go Back"
+          label="More Results"
         />
         <BookDetailsHeader details={bookDetails} />
         <hr />
