@@ -5,6 +5,7 @@ import MissingData from "../missing-data";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { Card } from "../ui/card";
+import BackButton from "../BackButton";
 
 export default function BookDetailsWrapper({ id }: BookDetailsWrapperProps) {
   const [bookDetails, setBookDetails] = useState<Book | undefined>(undefined);
@@ -41,6 +42,10 @@ export default function BookDetailsWrapper({ id }: BookDetailsWrapperProps) {
   if (bookDetails != undefined) {
     return (
       <div className="flex flex-col space-y-4">
+        <BackButton
+          href={`/explore/search/${bookDetails.title}`}
+          label="Go Back"
+        />
         <BookDetailsHeader details={bookDetails} />
         <hr />
         <BookDetailsDescription description={bookDetails.description} />
