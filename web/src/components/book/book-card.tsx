@@ -3,35 +3,38 @@ import Image from "next/image";
 import { ImageOff } from "lucide-react";
 import Link from "next/link";
 import AddBookToLibraryButton from "../add-to-library-button";
+import { Card, CardContent } from "../ui/card";
 
 export default function BookCard({
   metadata,
   bookExistsInLibrary,
 }: BookCardProps) {
   return (
-    <div className="flex flex-col space-y-4">
-      <div className="flex flex-row justify-between items-center">
-        <Link
-          href={`/explore/${metadata.sourceId}`}
-          className="flex flex-row space-x-4 items-start flex-1 min-h-[80px]"
-        >
-          <CoverImage
-            coverImageUrl={metadata.coverImageUrl}
-            title={metadata.title}
-          />
-          <BookCardContent metadata={metadata} />
-        </Link>
+    <Card>
+      <CardContent>
+        <div className="flex flex-col space-y-4">
+          <div className="flex flex-row justify-between items-center">
+            <Link
+              href={`/explore/${metadata.sourceId}`}
+              className="flex flex-row space-x-4 items-start flex-1 min-h-[80px]"
+            >
+              <CoverImage
+                coverImageUrl={metadata.coverImageUrl}
+                title={metadata.title}
+              />
+              <BookCardContent metadata={metadata} />
+            </Link>
 
-        <div className="flex items-center">
-          <AddBookToLibraryButton
-            metadata={metadata}
-            bookExistsInLibrary={bookExistsInLibrary}
-          />
+            <div className="flex items-center">
+              <AddBookToLibraryButton
+                metadata={metadata}
+                bookExistsInLibrary={bookExistsInLibrary}
+              />
+            </div>
+          </div>
         </div>
-      </div>
-
-      <hr />
-    </div>
+      </CardContent>
+    </Card>
   );
 }
 
