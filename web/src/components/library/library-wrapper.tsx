@@ -62,7 +62,7 @@ export default function LibraryWrapper() {
       <h2 className="text-2xl font-semibold">Books</h2>
       <hr />
 
-      <Tabs defaultValue="all">
+      <Tabs className="flex flex-col space-y-2" defaultValue="all">
         <div className="flex flex-col space-y-4 w-fit">
           <LibrarySearchBar setLibrary={setLibrary} />
           <TabsList>
