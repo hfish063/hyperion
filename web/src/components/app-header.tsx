@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import ThemeToggle from "./theme-toggle";
 import {
   SignedIn,
   SignedOut,
