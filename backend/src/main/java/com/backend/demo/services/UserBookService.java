@@ -24,6 +24,10 @@ public class UserBookService {
         return userBookRepository.findAll();
     }
 
+    public List<UserBook> findAllUserBooksByReadingStatus(ReadingStatus status) {
+        return userBookRepository.findAllByReadingStatus(status);
+    }
+
     public UserBook findUserBookById(Long id) {
         Optional<UserBook> result = userBookRepository.findById(id);
 

@@ -6,6 +6,7 @@ import com.backend.demo.services.UserBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,6 +23,20 @@ public class UserBookController {
     @GetMapping("/all")
     public List<UserBook> getAllUserBooks() {
         return userBookService.findAllUserBooks();
+    }
+
+    @GetMapping("/all/status/{status}")
+    public List<UserBook> getAllUserBooksByReadingStatus(@PathVariable("status") ReadingStatus status,
+                                                         @RequestParam(required = false) Integer limit) {
+        List<UserBook> results = userBookService.findAllUserBooksByReadingStatus(status);
+
+        int end = limit == null ? results.size() - 1 : limit - 1;
+
+        if (end < 0) {
+            return new ArrayList<>();
+        }
+
+        return results.subList(0, end);
     }
 
     @GetMapping("/search/{id}")
