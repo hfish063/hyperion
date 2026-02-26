@@ -8,6 +8,7 @@ import { findAllBooksForUser, UserBook } from "@/app/api/user-book";
 import ErrorAlert from "../error-alert";
 import { Spinner } from "../ui";
 import { useRouter } from "next/navigation";
+import { ScrollArea } from "../ui/scroll-area";
 
 export default function BookSearchWrapper({
   initialQuery,
@@ -61,7 +62,7 @@ export default function BookSearchWrapper({
   }
 
   return (
-    <div className="flex flex-col h-full space-y-4 items-center justify-center">
+    <div className="flex flex-col h-full space-y-4 items-center">
       {/* Search bar */}
       <div className="w-full">
         <BookSearchBar
@@ -76,12 +77,14 @@ export default function BookSearchWrapper({
 
       {/* Result list */}
       {!loading ? (
-        <div className="flex flex-col justify-between h-full w-full space-y-4 mx-auto">
-          <BookCardList
-            books={books}
-            bookExistsInLibrary={bookExistsInLibrary}
-          />
-        </div>
+        <ScrollArea className="w-full max-h-[600px]">
+          <div className="flex flex-col justify-between space-y-4">
+            <BookCardList
+              books={books}
+              bookExistsInLibrary={bookExistsInLibrary}
+            />
+          </div>
+        </ScrollArea>
       ) : (
         <div className="flex flex-row space-x-4 w-full h-full items-center justify-center">
           <Spinner variant={"circle"} /> <p>Loading...</p>
