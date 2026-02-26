@@ -30,13 +30,13 @@ public class UserBookController {
                                                          @RequestParam(required = false) Integer limit) {
         List<UserBook> results = userBookService.findAllUserBooksByReadingStatus(status);
 
-        int end = limit == null ? results.size() - 1 : limit - 1;
+        int end = (limit == null) ? results.size() : Math.min(limit, results.size());
 
-        if (end < 0) {
+        if (end <= 0) {
             return new ArrayList<>();
         }
 
-        return results.subList(0, end);
+        return new ArrayList<>(results.subList(0, end));
     }
 
     @GetMapping("/search/{id}")
