@@ -1,8 +1,7 @@
 "use client";
 
 import LibraryList from "./library-list";
-import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
-import { TabsContent } from "@radix-ui/react-tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
 import {
   findAllBooksForUser,
   ReadingStatus,
