@@ -19,6 +19,17 @@ export async function findBookForUserById(id: number) {
   return data;
 }
 
+export async function findAllBooksForUserByReadingStatus(
+  status: ReadingStatus,
+) {
+  const query = `/books/all/status/${status}`;
+
+  const results = await apiFetch(query);
+  const data = (await results.json()) as UserBook[];
+
+  return data;
+}
+
 export async function saveBookForUser(newUserBook: UserBook) {
   const query = `/books/save`;
 

@@ -1,3 +1,4 @@
+import ReadingOverview from "@/components/reading-overview";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BookOpen, Search } from "lucide-react";
@@ -9,6 +10,7 @@ export default function Home() {
       <div className="flex flex-col items-center w-full space-y-4">
         <h2 className="text-3xl font-semibold">Get Started</h2>
         <QuickLinks />
+        <ReadingOverview />
         <div className="w-full flex items-start">
           <GithubLink />
         </div>
