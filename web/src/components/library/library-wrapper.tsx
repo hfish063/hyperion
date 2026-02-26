@@ -13,10 +13,11 @@ import { useState, useEffect } from "react";
 import { Spinner } from "../ui";
 import ErrorAlert from "../error-alert";
 import { Badge } from "../ui/badge";
+import { Skeleton } from "../ui/skeleton";
 
 export default function LibraryWrapper() {
   const [library, setLibrary] = useState<UserBook[]>([]);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState<string | undefined>(undefined);
 
   const getCompletedBooksCount = () => {
@@ -39,17 +40,13 @@ export default function LibraryWrapper() {
         if (e instanceof Error) {
           setError(e.message);
         }
+      } finally {
+        setLoading(false);
       }
     }
 
     getLibrary();
-
-    setLoading(false);
   }, []);
-
-  if (isLoading) {
-    return <Spinner variant="circle" />;
-  }
 
   if (error) {
     return <ErrorAlert message={error} />;
@@ -61,57 +58,73 @@ export default function LibraryWrapper() {
       <h2 className="text-2xl font-semibold">Books</h2>
       <hr />
 
-      <Tabs className="flex flex-col space-y-2" defaultValue="all">
-        <div className="flex flex-col space-y-4 w-fit">
-          <LibrarySearchBar setLibrary={setLibrary} />
-          <TabsList>
-            <TabsTrigger value="all">All</TabsTrigger>
-            <TabsTrigger value="want to read">Want to Read</TabsTrigger>
-            <TabsTrigger value="currently reading">
-              Currently Reading
-            </TabsTrigger>
-            <TabsTrigger value="read">Read</TabsTrigger>
-            <TabsTrigger value="dropped">Dropped</TabsTrigger>
-          </TabsList>
+      {isLoading ? (
+        <div className="flex justify-center items-center">
+          <Spinner variant="circle" />
         </div>
-        <TabsContent value="all">
-          <LibraryList library={library} setLibrary={setLibrary} />
-        </TabsContent>
-        <TabsContent value="want to read">
-          <LibraryList
-            library={library}
-            setLibrary={setLibrary}
-            status={ReadingStatus.WANT_TO_READ}
-          />
-        </TabsContent>
-        <TabsContent value="currently reading">
-          <LibraryList
-            library={library}
-            setLibrary={setLibrary}
-            status={ReadingStatus.CURRENTLY_READING}
-          />
-        </TabsContent>
-        <TabsContent value="read">
-          <LibraryList
-            library={library}
-            setLibrary={setLibrary}
-            status={ReadingStatus.READ}
-          />
-        </TabsContent>
-        <TabsContent value="dropped">
-          <LibraryList
-            library={library}
-            setLibrary={setLibrary}
-            status={ReadingStatus.DROPPED}
-          />
-        </TabsContent>
-      </Tabs>
+      ) : (
+        <Tabs className="flex flex-col space-y-2" defaultValue="all">
+          <div className="flex flex-col space-y-4 w-fit">
+            <LibrarySearchBar setLibrary={setLibrary} />
+            <TabsList>
+              <TabsTrigger value="all">All</TabsTrigger>
+              <TabsTrigger value="want to read">Want to Read</TabsTrigger>
+              <TabsTrigger value="currently reading">
+                Currently Reading
+              </TabsTrigger>
+              <TabsTrigger value="read">Read</TabsTrigger>
+              <TabsTrigger value="dropped">Dropped</TabsTrigger>
+            </TabsList>
+          </div>
+          <TabsContent value="all">
+            <LibraryList library={library} setLibrary={setLibrary} />
+          </TabsContent>
+          <TabsContent value="want to read">
+            <LibraryList
+              library={library}
+              setLibrary={setLibrary}
+              status={ReadingStatus.WANT_TO_READ}
+            />
+          </TabsContent>
+          <TabsContent value="currently reading">
+            <LibraryList
+              library={library}
+              setLibrary={setLibrary}
+              status={ReadingStatus.CURRENTLY_READING}
+            />
+          </TabsContent>
+          <TabsContent value="read">
+            <LibraryList
+              library={library}
+              setLibrary={setLibrary}
+              status={ReadingStatus.READ}
+            />
+          </TabsContent>
+          <TabsContent value="dropped">
+            <LibraryList
+              library={library}
+              setLibrary={setLibrary}
+              status={ReadingStatus.DROPPED}
+            />
+          </TabsContent>
+        </Tabs>
+      )}
     </div>
   );
 }
 
 function UserProfileHeader({ completedBooksCount }: UserProfileHeaderProps) {
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
+
+  if (!isLoaded) {
+    return (
+      <div className="flex flex-row space-x-4">
+        <Skeleton className="rounded-full size-6" />
+        <Skeleton className="h-6 w-24" />
+        <Skeleton className="h-6 w-12" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-row space-x-4 items-center">
