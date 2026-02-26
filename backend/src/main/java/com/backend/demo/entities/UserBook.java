@@ -44,6 +44,10 @@ public class UserBook {
         return readingStatus;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
     public LocalDateTime getDateAdded() {
         return dateAdded;
     }
