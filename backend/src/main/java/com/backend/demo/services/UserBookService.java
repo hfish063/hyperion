@@ -24,6 +24,10 @@ public class UserBookService {
         return userBookRepository.findAll();
     }
 
+    public List<UserBook> findAllUserBooksByReadingStatus(ReadingStatus status) {
+        return userBookRepository.findAllByReadingStatus(status);
+    }
+
     public UserBook findUserBookById(Long id) {
         Optional<UserBook> result = userBookRepository.findById(id);
 
@@ -57,5 +61,9 @@ public class UserBookService {
 
     public void deleteUserBookById(Long id) {
         userBookRepository.deleteById(id);
+    }
+
+    public void deleteAllUserBooksByIds(List<Long> ids) {
+        userBookRepository.deleteAllById(ids);
     }
 }

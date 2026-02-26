@@ -1,6 +1,6 @@
 "use client";
 
-import BackButton from "@/components/BackButton";
+import BackButton from "@/components/back-button";
 import ThemeToggle from "@/components/theme-toggle";
 
 export default function AppearanceSettingsPage() {

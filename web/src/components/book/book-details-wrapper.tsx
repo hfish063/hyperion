@@ -2,14 +2,15 @@ import { Book, searchById } from "@/app/api/book";
 import { useEffect, useState } from "react";
 import { Spinner } from "../ui";
 import MissingData from "../missing-data";
-import { Button } from "../ui/button";
 import Image from "next/image";
 import { Card } from "../ui/card";
-import BackButton from "../BackButton";
+import BackButton from "../back-button";
+import ErrorAlert from "../error-alert";
 
 export default function BookDetailsWrapper({ id }: BookDetailsWrapperProps) {
   const [bookDetails, setBookDetails] = useState<Book | undefined>(undefined);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     async function fetchDetails() {
@@ -21,7 +22,7 @@ export default function BookDetailsWrapper({ id }: BookDetailsWrapperProps) {
         setBookDetails(details);
       } catch (e: unknown) {
         if (e instanceof Error) {
-          console.log(e.message);
+          setError(e.message);
         }
       }
 
@@ -39,12 +40,16 @@ export default function BookDetailsWrapper({ id }: BookDetailsWrapperProps) {
     );
   }
 
+  if (error) {
+    return <ErrorAlert message={error} />;
+  }
+
   if (bookDetails != undefined) {
     return (
       <div className="flex flex-col space-y-4">
         <BackButton
           href={`/explore/search/${bookDetails.title}`}
-          label="Go Back"
+          label="See Similar"
         />
         <BookDetailsHeader details={bookDetails} />
         <hr />
@@ -77,7 +82,6 @@ function BookDetailsHeader({ details }: BookDetailsHeaderProps) {
             <h1 className="text-4xl font-bold">{details.title}</h1>
             <BookCollaboratorsList details={details} />
           </div>
-          <Button className="w-32">Add to Library</Button>
         </div>
       </div>
     </div>

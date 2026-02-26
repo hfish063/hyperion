@@ -1,6 +1,6 @@
 "use client";
 
-import BackButton from "@/components/BackButton";
+import BackButton from "@/components/back-button";
 import { UserProfile } from "@clerk/nextjs";
 
 export default function AccountSettingsPage() {

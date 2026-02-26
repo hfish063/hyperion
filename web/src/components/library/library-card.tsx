@@ -15,40 +15,60 @@ import { Dispatch, SetStateAction } from "react";
 import { Book } from "@/app/api/book";
 import Link from "next/link";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import { DialogDescription } from "@radix-ui/react-dialog";
+import { CoverImage } from "../book/book-card";
+import { Card, CardContent } from "../ui/card";
 
 export default function LibraryCard({
   userBook,
   setLibrary,
 }: LibraryCardProps) {
   return (
-    <div className="flex flex-col space-y-4">
-      <div className="flex flex-row space-x-4 justify-between">
+    <Card className="w-full min-w-0">
+      <CardContent className="flex flex-row space-x-4">
         <Link
-          className="flex flex-1"
+          className="flex-1 min-w-0"
           href={`/explore/${userBook.edition.sourceId}`}
         >
           <LibraryCardDetails bookDetails={userBook.edition} />
         </Link>
-        <div className="flex flex-row space-x-2 items-center">
+
+        <div className="flex flex-col space-y-2 sm:flex-row sm:space-x-2 sm:space-y-0 items-center justify-center">
           <ReadingStatusMenu status={userBook.readingStatus} />
           <DeleteLibraryCardButton
             setLibrary={setLibrary}
             userBook={userBook}
           />
         </div>
-      </div>
-      <hr />
-    </div>
+      </CardContent>
+    </Card>
   );
 }
 
 function LibraryCardDetails({ bookDetails }: LibraryCardDetailsProps) {
   return (
-    <div className="flex flex-col space-y-4">
-      <h3 className="text-xl font-medium">{bookDetails.title}</h3>
-      {bookDetails.releaseYear > 0 && <p>{bookDetails.releaseYear}</p>}
-      {bookDetails.collaborators.length > 0 && (
+    <div className="flex flex-row space-x-4 items-center">
+      <CoverImage
+        title={bookDetails.title}
+        coverImageUrl={bookDetails.coverImageUrl}
+        width={100}
+        height={200}
+      />
+      <div className="flex flex-col w-72">
+        <h3 className="text-xl font-semibold">{bookDetails.title}</h3>
         <p className="italic">{bookDetails.collaborators[0].author.name}</p>
+      </div>
+      {bookDetails.pages !== undefined && bookDetails.pages > 0 && (
+        <p className="hidden sm:block">{bookDetails.pages} pages</p>
       )}
     </div>
   );
@@ -151,9 +171,23 @@ function DeleteLibraryCardButton({
   }
 
   return (
-    <Button variant="destructive" onClick={handleDelete}>
-      <TrashIcon />
-    </Button>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="destructive">
+          <TrashIcon />
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Are you sure?</DialogTitle>
+          <DialogDescription>This action cannot be undone</DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="flex flex-row space-x-4 justify-end">
+          <DialogClose>Cancel</DialogClose>
+          <Button onClick={handleDelete}>Confirm</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
 

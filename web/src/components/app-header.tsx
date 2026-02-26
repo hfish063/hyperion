@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import ThemeToggle from "./theme-toggle";
 import {
   SignedIn,
   SignedOut,
@@ -34,6 +33,8 @@ function AppHeaderTitle() {
     return <h1 className="text-2xl font-bold">Appearance Settings</h1>;
   } else if (pathname === "/settings/account") {
     return <h1 className="text-2xl font-bold">Account Settings</h1>;
+  } else if (pathname === "/settings/account/security") {
+    return <h1 className="text-2xl font-bold">Security Settings</h1>;
   } else {
     return <div />;
   }

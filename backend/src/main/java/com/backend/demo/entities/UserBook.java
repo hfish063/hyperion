@@ -21,6 +21,9 @@ public class UserBook {
     @Column(name = "reading_status")
     private ReadingStatus readingStatus; // WANT_TO_READ, CURRENTLY_READING, READ, DROPPED
 
+    @Column(name = "user_id")
+    private String userId;
+
     @Column(name = "date_added")
     private LocalDateTime dateAdded;
 
@@ -39,6 +42,10 @@ public class UserBook {
 
     public ReadingStatus getReadingStatus() {
         return readingStatus;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
     public LocalDateTime getDateAdded() {
