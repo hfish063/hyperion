@@ -43,7 +43,7 @@ function CoverImagePlaceholder({
 }) {
   return (
     <div
-      className="flex items-center justify-center border p-2 text-sm text-center rounded bg-muted}"
+      className="flex items-center justify-center border rounded bg-muted}"
       style={{ width: `${width}px`, height: `${height}px` }}
     >
       <ImageOff />
