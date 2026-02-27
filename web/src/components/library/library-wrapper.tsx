@@ -15,6 +15,7 @@ import ErrorAlert from "../error-alert";
 import { Badge } from "../ui/badge";
 import { Skeleton } from "../ui/skeleton";
 import ViewToggle, { ViewMode } from "../view-toggle";
+import LibraryGrid from "./library-grid";
 
 export default function LibraryWrapper() {
   const [library, setLibrary] = useState<UserBook[]>([]);
@@ -68,8 +69,8 @@ export default function LibraryWrapper() {
         <Tabs className="flex flex-col space-y-2" defaultValue="all">
           <div className="flex flex-col space-y-4 w-full">
             <LibrarySearchBar setLibrary={setLibrary} />
-            <div className="flex gap-4 justify-between">
-              <TabsList>
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <TabsList className="flex flex-row gap-2">
                 <TabsTrigger value="all">All</TabsTrigger>
                 <TabsTrigger value="want to read">Want to Read</TabsTrigger>
                 <TabsTrigger value="currently reading">
@@ -78,44 +79,82 @@ export default function LibraryWrapper() {
                 <TabsTrigger value="read">Read</TabsTrigger>
                 <TabsTrigger value="dropped">Dropped</TabsTrigger>
               </TabsList>
-              <ViewToggle
-                value={view}
-                onChange={(newValue) => {
-                  setView(newValue);
-                }}
-              />
+
+              <div className="sm:ml-auto">
+                <ViewToggle
+                  value={view}
+                  onChange={(newValue) => setView(newValue)}
+                />
+              </div>
             </div>
           </div>
           <TabsContent value="all">
-            <LibraryList library={library} setLibrary={setLibrary} />
+            {view === "grid" ? (
+              <LibraryGrid library={library} />
+            ) : (
+              <LibraryList library={library} setLibrary={setLibrary} />
+            )}
           </TabsContent>
           <TabsContent value="want to read">
-            <LibraryList
-              library={library}
-              setLibrary={setLibrary}
-              status={ReadingStatus.WANT_TO_READ}
-            />
+            {view === "grid" ? (
+              <LibraryGrid
+                library={library.filter(
+                  (book) => book.readingStatus === ReadingStatus.WANT_TO_READ,
+                )}
+              />
+            ) : (
+              <LibraryList
+                library={library}
+                setLibrary={setLibrary}
+                status={ReadingStatus.WANT_TO_READ}
+              />
+            )}
           </TabsContent>
           <TabsContent value="currently reading">
-            <LibraryList
-              library={library}
-              setLibrary={setLibrary}
-              status={ReadingStatus.CURRENTLY_READING}
-            />
+            {view === "grid" ? (
+              <LibraryGrid
+                library={library.filter(
+                  (book) =>
+                    book.readingStatus === ReadingStatus.CURRENTLY_READING,
+                )}
+              />
+            ) : (
+              <LibraryList
+                library={library}
+                setLibrary={setLibrary}
+                status={ReadingStatus.CURRENTLY_READING}
+              />
+            )}
           </TabsContent>
           <TabsContent value="read">
-            <LibraryList
-              library={library}
-              setLibrary={setLibrary}
-              status={ReadingStatus.READ}
-            />
+            {view === "grid" ? (
+              <LibraryGrid
+                library={library.filter(
+                  (book) => book.readingStatus === ReadingStatus.READ,
+                )}
+              />
+            ) : (
+              <LibraryList
+                library={library}
+                setLibrary={setLibrary}
+                status={ReadingStatus.READ}
+              />
+            )}
           </TabsContent>
           <TabsContent value="dropped">
-            <LibraryList
-              library={library}
-              setLibrary={setLibrary}
-              status={ReadingStatus.DROPPED}
-            />
+            {view === "grid" ? (
+              <LibraryGrid
+                library={library.filter(
+                  (book) => book.readingStatus === ReadingStatus.DROPPED,
+                )}
+              />
+            ) : (
+              <LibraryList
+                library={library}
+                setLibrary={setLibrary}
+                status={ReadingStatus.DROPPED}
+              />
+            )}
           </TabsContent>
         </Tabs>
       )}

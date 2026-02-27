@@ -69,7 +69,9 @@ function LibraryCardDetails({ bookDetails }: LibraryCardDetailsProps) {
         height={200}
       />
       <div className="flex flex-col w-72">
-        <h3 className="text-xl font-semibold">{bookDetails.title}</h3>
+        <h3 className="text-xl font-semibold line-clamp-2">
+          {bookDetails.title}
+        </h3>
         <p className="italic">{bookDetails.collaborators[0].author.name}</p>
       </div>
       {bookDetails.pages !== undefined && bookDetails.pages > 0 && (
