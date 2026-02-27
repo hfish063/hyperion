@@ -1,5 +1,4 @@
 import { UserBook } from "@/app/api/user-book";
-import Image from "next/image";
 import Link from "next/link";
 import CoverImage from "../cover-image";
 
