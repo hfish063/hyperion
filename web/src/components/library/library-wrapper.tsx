@@ -14,11 +14,13 @@ import { Spinner } from "../ui";
 import ErrorAlert from "../error-alert";
 import { Badge } from "../ui/badge";
 import { Skeleton } from "../ui/skeleton";
+import ViewToggle, { ViewMode } from "../view-toggle";
 
 export default function LibraryWrapper() {
   const [library, setLibrary] = useState<UserBook[]>([]);
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState<string | undefined>(undefined);
+  const [view, setView] = useState<ViewMode>("list");
 
   const getCompletedBooksCount = () => {
     const readCount = library.filter(
@@ -64,17 +66,25 @@ export default function LibraryWrapper() {
         </div>
       ) : (
         <Tabs className="flex flex-col space-y-2" defaultValue="all">
-          <div className="flex flex-col space-y-4 w-fit">
+          <div className="flex flex-col space-y-4 w-full">
             <LibrarySearchBar setLibrary={setLibrary} />
-            <TabsList>
-              <TabsTrigger value="all">All</TabsTrigger>
-              <TabsTrigger value="want to read">Want to Read</TabsTrigger>
-              <TabsTrigger value="currently reading">
-                Currently Reading
-              </TabsTrigger>
-              <TabsTrigger value="read">Read</TabsTrigger>
-              <TabsTrigger value="dropped">Dropped</TabsTrigger>
-            </TabsList>
+            <div className="flex gap-4 justify-between">
+              <TabsList>
+                <TabsTrigger value="all">All</TabsTrigger>
+                <TabsTrigger value="want to read">Want to Read</TabsTrigger>
+                <TabsTrigger value="currently reading">
+                  Currently Reading
+                </TabsTrigger>
+                <TabsTrigger value="read">Read</TabsTrigger>
+                <TabsTrigger value="dropped">Dropped</TabsTrigger>
+              </TabsList>
+              <ViewToggle
+                value={view}
+                onChange={(val) => {
+                  setView(val);
+                }}
+              />
+            </div>
           </div>
           <TabsContent value="all">
             <LibraryList library={library} setLibrary={setLibrary} />
