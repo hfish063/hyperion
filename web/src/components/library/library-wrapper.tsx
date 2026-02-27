@@ -80,8 +80,8 @@ export default function LibraryWrapper() {
               </TabsList>
               <ViewToggle
                 value={view}
-                onChange={(val) => {
-                  setView(val);
+                onChange={(newValue) => {
+                  setView(newValue);
                 }}
               />
             </div>
