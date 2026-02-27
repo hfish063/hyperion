@@ -26,8 +26,8 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { DialogDescription } from "@radix-ui/react-dialog";
-import { CoverImage } from "../book/book-card";
 import { Card, CardContent } from "../ui/card";
+import CoverImage from "../cover-image";
 
 export default function LibraryCard({
   userBook,
@@ -60,19 +60,21 @@ export default function LibraryCard({
 }
 
 function LibraryCardDetails({ bookDetails }: LibraryCardDetailsProps) {
+  const author = bookDetails.collaborators[0]?.author;
+
   return (
     <div className="flex flex-row space-x-4 items-center">
       <CoverImage
         title={bookDetails.title}
         coverImageUrl={bookDetails.coverImageUrl}
-        width={100}
-        height={200}
+        width={120}
+        height={180}
       />
       <div className="flex flex-col w-72">
         <h3 className="text-xl font-semibold line-clamp-2">
           {bookDetails.title}
         </h3>
-        <p className="italic">{bookDetails.collaborators[0].author.name}</p>
+        <p className="italic">{author && author.name}</p>
       </div>
       {bookDetails.pages !== undefined && bookDetails.pages > 0 && (
         <p className="hidden sm:block">{bookDetails.pages} pages</p>

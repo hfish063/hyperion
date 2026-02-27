@@ -12,6 +12,7 @@ import Image from "next/image";
 import { Skeleton } from "./ui/skeleton";
 import { Tooltip, TooltipTrigger, TooltipContent } from "./ui/tooltip";
 import { Badge } from "./ui/badge";
+import CoverImage from "./cover-image";
 
 export default function ReadingOverview() {
   const [currentlyReading, setCurrentlyReading] = useState<UserBook[]>([]);
@@ -109,22 +110,17 @@ function ReadingStatusPreview({ readingList }: ReadingStatusPreviewProps) {
 
         return (
           <div key={book.id} className="flex flex-col items-center">
-            {edition.coverImageUrl ? (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Image
-                    className="rounded"
-                    src={edition.coverImageUrl}
-                    width={100}
-                    height={150}
-                    alt={edition.title}
-                  />
-                </TooltipTrigger>
-                <TooltipContent>{book.edition.title}</TooltipContent>
-              </Tooltip>
-            ) : (
-              <p className="text-sm text-center w-[100px]">{edition.title}</p>
-            )}
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <CoverImage
+                  width={100}
+                  height={150}
+                  title={edition.title}
+                  coverImageUrl={edition.coverImageUrl}
+                />
+              </TooltipTrigger>
+              <TooltipContent>{edition.title}</TooltipContent>
+            </Tooltip>
           </div>
         );
       })}

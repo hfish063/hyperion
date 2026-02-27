@@ -1,6 +1,7 @@
 import { UserBook } from "@/app/api/user-book";
 import Image from "next/image";
 import Link from "next/link";
+import CoverImage from "../cover-image";
 
 export default function LibraryGrid({ library }: LibraryGridProps) {
   return (
@@ -11,12 +12,11 @@ export default function LibraryGrid({ library }: LibraryGridProps) {
             href={`/explore/${userBook.edition.sourceId}`}
             className="flex flex-col flex-1 items-center"
           >
-            <Image
-              src={userBook.edition.coverImageUrl}
-              width={100}
-              height={200}
-              alt={userBook.edition.title}
-              className="object-contain h-[180px]"
+            <CoverImage
+              width={120}
+              height={180}
+              title={userBook.edition.title}
+              coverImageUrl={userBook.edition.coverImageUrl}
             />
 
             <p className="text-sm mt-2 text-center line-clamp-2 min-h-[2.5rem]">
