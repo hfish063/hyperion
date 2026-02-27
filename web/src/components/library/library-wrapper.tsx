@@ -83,7 +83,12 @@ export default function LibraryWrapper() {
               <div className="sm:ml-auto">
                 <ViewToggle
                   value={view}
-                  onChange={(newValue) => setView(newValue)}
+                  onChange={(newValue) => {
+                    if (!newValue) {
+                      return;
+                    }
+                    setView(newValue);
+                  }}
                 />
               </div>
             </div>
