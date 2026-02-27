@@ -101,15 +101,16 @@ function ReadingStatusPreview({ readingList }: ReadingStatusPreviewProps) {
     return <p>No current reads</p>;
   }
 
-  const booksToShow = readingList.slice(0, 3);
-
   return (
-    <div className="flex gap-4">
-      {booksToShow.map((book) => {
+    <div className="flex gap-4 overflow-hidden">
+      {readingList.map((book) => {
         const { edition } = book;
 
         return (
-          <div key={book.id} className="flex flex-col items-center">
+          <div
+            key={book.id}
+            className="flex flex-col items-center flex-shrink-0"
+          >
             <Tooltip>
               <TooltipTrigger asChild>
                 <div>
