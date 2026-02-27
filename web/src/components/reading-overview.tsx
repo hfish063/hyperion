@@ -112,12 +112,14 @@ function ReadingStatusPreview({ readingList }: ReadingStatusPreviewProps) {
           <div key={book.id} className="flex flex-col items-center">
             <Tooltip>
               <TooltipTrigger asChild>
-                <CoverImage
-                  width={100}
-                  height={150}
-                  title={edition.title}
-                  coverImageUrl={edition.coverImageUrl}
-                />
+                <div>
+                  <CoverImage
+                    width={100}
+                    height={150}
+                    title={edition.title}
+                    coverImageUrl={edition.coverImageUrl}
+                  />
+                </div>
               </TooltipTrigger>
               <TooltipContent>{edition.title}</TooltipContent>
             </Tooltip>
