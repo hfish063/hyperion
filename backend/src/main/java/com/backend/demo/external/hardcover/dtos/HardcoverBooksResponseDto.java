@@ -1,4 +1,4 @@
-package com.backend.demo.external.dtos;
+package com.backend.demo.external.hardcover.dtos;
 
 import java.util.List;
 

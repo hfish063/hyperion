@@ -1,6 +1,6 @@
 "use client";
 
-import { Book, searchForTitle } from "@/app/api/book";
+import { Book, searchForTitle } from "@/app/api/edition";
 import { useEffect, useState } from "react";
 import BookCardList from "./book-card-list";
 import BookSearchBar from "./book-search-bar";

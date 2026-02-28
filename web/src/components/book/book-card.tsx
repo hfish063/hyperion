@@ -1,4 +1,4 @@
-import { Book } from "@/app/api/book";
+import { Book } from "@/app/api/edition";
 import Link from "next/link";
 import AddBookToLibraryButton from "../add-to-library-button";
 import { Card, CardContent } from "../ui/card";

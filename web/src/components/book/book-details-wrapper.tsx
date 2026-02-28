@@ -1,4 +1,4 @@
-import { Book, searchById } from "@/app/api/book";
+import { Book, searchById } from "@/app/api/edition";
 import { useEffect, useState } from "react";
 import { Spinner } from "../ui";
 import MissingData from "../missing-data";

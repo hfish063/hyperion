@@ -1,4 +1,4 @@
-import { Book } from "@/app/api/book";
+import { Book } from "@/app/api/edition";
 import { saveBookForUser, ReadingStatus, UserBook } from "@/app/api/user-book";
 import { useState } from "react";
 import { Spinner } from "./ui";

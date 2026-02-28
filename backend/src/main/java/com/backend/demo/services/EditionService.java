@@ -1,9 +1,9 @@
 package com.backend.demo.services;
 
 import com.backend.demo.entities.Edition;
-import com.backend.demo.external.HardcoverClient;
-import com.backend.demo.external.dtos.EditionDto;
-import com.backend.demo.external.dtos.HardcoverEditionsResponseDto;
+import com.backend.demo.external.hardcover.HardcoverClient;
+import com.backend.demo.external.hardcover.dtos.EditionDto;
+import com.backend.demo.external.hardcover.dtos.HardcoverEditionsResponseDto;
 import com.backend.demo.mappers.EntityMapper;
 import com.backend.demo.repositories.EditionRepository;
 import org.springframework.beans.factory.annotation.Autowired;

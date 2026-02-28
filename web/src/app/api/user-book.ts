@@ -1,5 +1,5 @@
 import apiFetch from "./api";
-import { Book } from "./book";
+import { Book } from "./edition";
 
 export async function findAllBooksForUser() {
   const query = `/books/all`;

@@ -1,4 +1,4 @@
-import { Book } from "@/app/api/book";
+import { Book } from "@/app/api/edition";
 import BookCard from "./book-card";
 
 export default function BookCardList({
