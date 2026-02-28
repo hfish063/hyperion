@@ -18,7 +18,7 @@ public class Edition {
     private Long id;
 
     @Column(name = "source_id", unique = true)
-    private int sourceId;
+    private String sourceId;
 
     @Column(name = "title")
     private String title;
@@ -69,7 +69,7 @@ public class Edition {
         return id;
     }
 
-    public int getSourceId() {
+    public String getSourceId() {
         return sourceId;
     }
 
@@ -122,7 +122,7 @@ public class Edition {
         this.id = id;
     }
 
-    public void setSourceId(int sourceId) {
+    public void setSourceId(String sourceId) {
         this.sourceId = sourceId;
     }
 

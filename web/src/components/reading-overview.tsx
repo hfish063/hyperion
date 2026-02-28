@@ -8,7 +8,6 @@ import {
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "./ui/card";
 import ErrorAlert from "./error-alert";
-import Image from "next/image";
 import { Skeleton } from "./ui/skeleton";
 import { Tooltip, TooltipTrigger, TooltipContent } from "./ui/tooltip";
 import { Badge } from "./ui/badge";

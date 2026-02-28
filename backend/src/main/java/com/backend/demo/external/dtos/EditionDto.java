@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EditionDto {
-    private int id;
+    private String id;
     private String title;
     private String subtitle;
     @JsonProperty("isbn_10")
@@ -26,7 +26,7 @@ public class EditionDto {
     public CoverImageDto image;
 
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

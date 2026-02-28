@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface EditionRepository extends JpaRepository<Edition, Long> {
     List<Edition> findAllByTitle(String title);
 
-    Optional<Edition> findBySourceId(int sourceId);
+    Optional<Edition> findBySourceId(String sourceId);
 }
