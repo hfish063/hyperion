@@ -13,7 +13,7 @@ import {
 } from "@/app/api/user-book";
 import { CheckIcon, TrashIcon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
-import { Book } from "@/app/api/edition";
+import { Edition } from "@/app/api/edition";
 import Link from "next/link";
 import { toast } from "sonner";
 import {
@@ -84,7 +84,7 @@ function LibraryCardDetails({ bookDetails }: LibraryCardDetailsProps) {
 }
 
 type LibraryCardDetailsProps = {
-  bookDetails: Book;
+  bookDetails: Edition;
 };
 
 type LibraryCardProps = {

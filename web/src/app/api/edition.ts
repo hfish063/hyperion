@@ -11,7 +11,7 @@ export async function searchForTitle(
   }
 
   const results = await apiFetch(query);
-  const data = (await results.json()) as Book[];
+  const data = (await results.json()) as Edition[];
 
   return data;
 }
@@ -20,12 +20,12 @@ export async function searchById(id: string) {
   const query = `/meta/search/id/${id}`;
 
   const results = await apiFetch(query);
-  const data = (await results.json()) as Book;
+  const data = (await results.json()) as Edition;
 
   return data;
 }
 
-export type Book = {
+export type Edition = {
   id: number;
   sourceId: number;
   title: string;

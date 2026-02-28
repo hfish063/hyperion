@@ -1,4 +1,4 @@
-import { Book } from "@/app/api/edition";
+import { Edition } from "@/app/api/edition";
 import BookCard from "./book-card";
 
 export default function BookCardList({
@@ -20,11 +20,11 @@ export default function BookCardList({
   }
 }
 
-function validBookList(books: Book[]) {
+function validBookList(books: Edition[]) {
   return books[0] ? true : false;
 }
 
 export type BookCardListProps = {
-  books: Book[];
+  books: Edition[];
   bookExistsInLibrary: (bookId: number) => boolean;
 };

@@ -1,4 +1,4 @@
-import { Book } from "@/app/api/edition";
+import { Edition } from "@/app/api/edition";
 import { saveBookForUser, ReadingStatus, UserBook } from "@/app/api/user-book";
 import { useState } from "react";
 import { Spinner } from "./ui";
@@ -61,6 +61,6 @@ export default function AddBookToLibraryButton({
 }
 
 type AddBookToLibraryButtonProps = {
-  metadata: Book;
+  metadata: Edition;
   bookExistsInLibrary: boolean;
 };

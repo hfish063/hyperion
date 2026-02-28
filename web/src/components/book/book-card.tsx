@@ -1,4 +1,4 @@
-import { Book } from "@/app/api/edition";
+import { Edition } from "@/app/api/edition";
 import Link from "next/link";
 import AddBookToLibraryButton from "../add-to-library-button";
 import { Card, CardContent } from "../ui/card";
@@ -40,7 +40,7 @@ export default function BookCard({
 }
 
 type BookCardProps = {
-  metadata: Book;
+  metadata: Edition;
   bookExistsInLibrary: boolean;
 };
 
@@ -57,5 +57,5 @@ function BookCardContent({ metadata }: BookCardContentProps) {
 }
 
 export type BookCardContentProps = {
-  metadata: Book;
+  metadata: Edition;
 };

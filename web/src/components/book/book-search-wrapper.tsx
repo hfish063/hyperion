@@ -1,6 +1,6 @@
 "use client";
 
-import { Book, searchForTitle } from "@/app/api/edition";
+import { Edition, searchForTitle } from "@/app/api/edition";
 import { useEffect, useState } from "react";
 import BookCardList from "./book-card-list";
 import BookSearchBar from "./book-search-bar";
@@ -16,7 +16,7 @@ export default function BookSearchWrapper({
   const router = useRouter();
 
   const [query, setQuery] = useState<string>("");
-  const [books, setBooks] = useState<Book[]>([]);
+  const [books, setBooks] = useState<Edition[]>([]);
   const [library, setLibrary] = useState<UserBook[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
