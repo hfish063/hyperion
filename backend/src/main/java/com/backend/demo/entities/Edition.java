@@ -33,10 +33,10 @@ public class Edition {
     private String isbn13;
 
     @Column(name = "pages")
-    private int pages;
+    private Integer pages;
 
     @Column(name = "release_year")
-    private int releaseYear;
+    private Integer releaseYear;
 
     @Column(name = "edition_format")
     private String editionFormat;
@@ -90,11 +90,11 @@ public class Edition {
         return isbn13;
     }
 
-    public int getPages() {
+    public Integer getPages() {
         return pages;
     }
 
-    public int getReleaseYear() {
+    public Integer getReleaseYear() {
         return releaseYear;
     }
 
@@ -143,11 +143,11 @@ public class Edition {
         this.isbn13 = isbn13;
     }
 
-    public void setPages(int pages) {
+    public void setPages(Integer pages) {
         this.pages = pages;
     }
 
-    public void setReleaseYear(int releaseYear) {
+    public void setReleaseYear(Integer releaseYear) {
         this.releaseYear = releaseYear;
     }
 

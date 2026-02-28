@@ -97,7 +97,7 @@ type ReadingStatusHeaderProps = {
 
 function ReadingStatusPreview({ readingList }: ReadingStatusPreviewProps) {
   if (readingList.length === 0) {
-    return <p>No current reads</p>;
+    return <p className="line-clamp-1">No Data</p>;
   }
 
   return (

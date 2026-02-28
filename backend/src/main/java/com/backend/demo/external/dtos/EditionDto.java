@@ -13,9 +13,9 @@ public class EditionDto {
     @JsonProperty("isbn_13")
     private String isbn13;
     private String asin;
-    private int pages;
+    private Integer pages;
     @JsonProperty("release_year")
-    private int releaseYear;
+    private Integer releaseYear;
     @JsonProperty("edition_format")
     private String editionFormat;
     @JsonProperty("image_id")
@@ -50,11 +50,11 @@ public class EditionDto {
         return asin;
     }
 
-    public int getPages() {
+    public Integer getPages() {
         return pages;
     }
 
-    public int getReleaseYear() {
+    public Integer getReleaseYear() {
         return releaseYear;
     }
 
