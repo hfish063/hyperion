@@ -1,6 +1,6 @@
-package com.backend.demo.external;
+package com.backend.demo.external.hardcover;
 
-import com.backend.demo.external.dtos.HardcoverEditionsResponseDto;
+import com.backend.demo.external.hardcover.dtos.HardcoverEditionsResponseDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;

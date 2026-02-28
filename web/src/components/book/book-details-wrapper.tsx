@@ -1,4 +1,4 @@
-import { Book, searchById } from "@/app/api/book";
+import { Edition, searchById } from "@/app/api/edition";
 import { useEffect, useState } from "react";
 import { Spinner } from "../ui";
 import MissingData from "../missing-data";
@@ -10,7 +10,9 @@ import ErrorAlert from "../error-alert";
 export default function BookDetailsWrapper({
   sourceId,
 }: BookDetailsWrapperProps) {
-  const [bookDetails, setBookDetails] = useState<Book | undefined>(undefined);
+  const [bookDetails, setBookDetails] = useState<Edition | undefined>(
+    undefined,
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
 
@@ -91,7 +93,7 @@ function BookDetailsHeader({ details }: BookDetailsHeaderProps) {
 }
 
 type BookDetailsHeaderProps = {
-  details: Book;
+  details: Edition;
 };
 
 function BookDetailsDescription({ description }: BookDetailsDescriptionProps) {
@@ -123,7 +125,7 @@ function BookCollaboratorsList({ details }: BookCollaboratorsListProps) {
 }
 
 type BookCollaboratorsListProps = {
-  details: Book;
+  details: Edition;
 };
 
 function BookDetailsList({ details }: BookDetailsListProps) {
@@ -147,5 +149,5 @@ function BookDetailsList({ details }: BookDetailsListProps) {
 }
 
 type BookDetailsListProps = {
-  details: Book;
+  details: Edition;
 };

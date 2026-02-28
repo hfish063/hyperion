@@ -1,6 +1,5 @@
 "use client";
 
-import { Book, searchForTitle } from "@/app/api/book";
 import { useEffect, useState } from "react";
 import BookCardList from "./book-card-list";
 import BookSearchBar from "./book-search-bar";
@@ -9,6 +8,7 @@ import ErrorAlert from "../error-alert";
 import { Spinner } from "../ui";
 import { useRouter } from "next/navigation";
 import { ScrollArea } from "../ui/scroll-area";
+import { Edition, searchForTitle } from "@/app/api/edition";
 
 export default function BookSearchWrapper({
   initialQuery,
@@ -16,7 +16,7 @@ export default function BookSearchWrapper({
   const router = useRouter();
 
   const [query, setQuery] = useState<string>("");
-  const [books, setBooks] = useState<Book[]>([]);
+  const [books, setBooks] = useState<Edition[]>([]);
   const [library, setLibrary] = useState<UserBook[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);

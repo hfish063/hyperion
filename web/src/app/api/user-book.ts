@@ -1,5 +1,5 @@
 import apiFetch from "./api";
-import { Book } from "./book";
+import { Edition } from "./edition";
 
 export async function findAllBooksForUser() {
   const query = `/books/all`;
@@ -96,7 +96,7 @@ export async function deleteBookForUser(id: number) {
 
 export type UserBook = {
   id: number;
-  edition: Book;
+  edition: Edition;
   readingStatus: ReadingStatus;
 };
 
