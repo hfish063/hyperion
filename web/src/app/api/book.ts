@@ -29,9 +29,7 @@ export type Book = {
   id: number;
   sourceId: number;
   title: string;
-  subtitle: string;
   description: string;
-  releaseYear: number;
   editionFormat: string;
   isbn10: number;
   isbn13: number;
