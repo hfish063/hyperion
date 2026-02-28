@@ -14,17 +14,13 @@ public class EditionDto {
     private String isbn13;
     private String asin;
     private Integer pages;
-    @JsonProperty("release_year")
-    private Integer releaseYear;
     @JsonProperty("edition_format")
     private String editionFormat;
     @JsonProperty("image_id")
     private int imageId;
     private BookDto book;
-    private PublisherDto publisher;
     private ContributionDto[] contributions;
     public CoverImageDto image;
-
 
     public String getId() {
         return id;
@@ -54,20 +50,12 @@ public class EditionDto {
         return pages;
     }
 
-    public Integer getReleaseYear() {
-        return releaseYear;
-    }
-
     public String getEditionFormat() {
         return editionFormat;
     }
 
     public int getImageId() {
         return imageId;
-    }
-
-    public PublisherDto getPublisher() {
-        return publisher;
     }
 
     public ContributionDto[] getContributions() {

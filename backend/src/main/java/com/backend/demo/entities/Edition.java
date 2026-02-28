@@ -35,17 +35,11 @@ public class Edition {
     @Column(name = "pages")
     private Integer pages;
 
-    @Column(name = "release_year")
-    private Integer releaseYear;
-
     @Column(name = "edition_format")
     private String editionFormat;
 
     @Column(name = "description", length = 2500)
     private String description;
-
-    @Column(name = "publisher")
-    private String publisher;
 
     @Column(name = "cover_image_url")
     private String coverImageUrl;
@@ -94,16 +88,8 @@ public class Edition {
         return pages;
     }
 
-    public Integer getReleaseYear() {
-        return releaseYear;
-    }
-
     public String getEditionFormat() {
         return editionFormat;
-    }
-
-    public String getPublisher() {
-        return publisher;
     }
 
     public String getCoverImageUrl() {
@@ -147,16 +133,8 @@ public class Edition {
         this.pages = pages;
     }
 
-    public void setReleaseYear(Integer releaseYear) {
-        this.releaseYear = releaseYear;
-    }
-
     public void setEditionFormat(String editionFormat) {
         this.editionFormat = editionFormat;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
     }
 
     public void setCoverImageUrl(String coverImageUrl) {
