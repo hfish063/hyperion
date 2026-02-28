@@ -56,15 +56,8 @@ public class UserBook {
         this.id = id;
     }
 
-    public void setEdition(Edition edition) {
-        this.edition = edition;
-    }
-
     public void setReadingStatus(ReadingStatus readingStatus) {
         this.readingStatus = readingStatus;
     }
 
-    public void setDateAdded(LocalDateTime dateAdded) {
-        this.dateAdded = dateAdded;
-    }
 }

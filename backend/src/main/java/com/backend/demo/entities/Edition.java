@@ -145,7 +145,4 @@ public class Edition {
         this.description = description;
     }
 
-    public void setCollaborators(List<Collaborator> collaborators) {
-        this.collaborators = collaborators;
-    }
 }
