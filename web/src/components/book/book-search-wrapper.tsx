@@ -1,6 +1,5 @@
 "use client";
 
-import { Edition, searchForTitle } from "@/app/api/edition";
 import { useEffect, useState } from "react";
 import BookCardList from "./book-card-list";
 import BookSearchBar from "./book-search-bar";
@@ -9,6 +8,7 @@ import ErrorAlert from "../error-alert";
 import { Spinner } from "../ui";
 import { useRouter } from "next/navigation";
 import { ScrollArea } from "../ui/scroll-area";
+import { Edition, searchForTitle } from "@/app/api/edition";
 
 export default function BookSearchWrapper({
   initialQuery,
