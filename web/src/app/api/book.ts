@@ -6,13 +6,12 @@ export async function searchForBook(title: string) {
   const results = await apiFetch(query);
   const data = (await results.json()) as Book[];
 
-  console.log(data);
-
   return data;
 }
 
 export type Book = {
+  id: number;
+  sourceId: string;
   title: string;
-  key: string;
-  cover_edition_key: string;
+  cover_edition_url: string;
 };
