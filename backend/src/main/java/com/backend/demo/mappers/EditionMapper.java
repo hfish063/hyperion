@@ -41,7 +41,6 @@ public class EditionMapper implements EntityMapper<Edition, EditionDto> {
             result.setCoverImageUrl(dto.getImage().getUrl());
         }
 
-        result.setReleaseYear(dto.getReleaseYear());
         result.setIsbn10(dto.getIsbn10());
         result.setIsbn13(dto.getIsbn13());
         result.setPages(dto.getPages());

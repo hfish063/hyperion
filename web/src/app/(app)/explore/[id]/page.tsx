@@ -6,21 +6,13 @@ import { useParams } from "next/navigation";
 
 export default function BookDetails() {
   const params = useParams();
-  const paramId = params.id;
+  const id = Array.isArray(params.id) ? params.id[0] : params.id;
 
-  if (!paramId) {
+  if (!id) {
     return (
-      <ErrorAlert message="Error fetching book details.  Please try again." />
+      <ErrorAlert message="Error fetching book details. Please try again." />
     );
   }
 
-  const id = Number(paramId);
-
-  if (isNaN(id)) {
-    return (
-      <ErrorAlert message="Error fetching book details.  Please try again." />
-    );
-  }
-
-  return <BookDetailsWrapper id={id} />;
+  return <BookDetailsWrapper sourceId={id} />;
 }

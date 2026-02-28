@@ -8,10 +8,10 @@ import {
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "./ui/card";
 import ErrorAlert from "./error-alert";
-import Image from "next/image";
 import { Skeleton } from "./ui/skeleton";
 import { Tooltip, TooltipTrigger, TooltipContent } from "./ui/tooltip";
 import { Badge } from "./ui/badge";
+import CoverImage from "./cover-image";
 
 export default function ReadingOverview() {
   const [currentlyReading, setCurrentlyReading] = useState<UserBook[]>([]);
@@ -97,34 +97,32 @@ type ReadingStatusHeaderProps = {
 
 function ReadingStatusPreview({ readingList }: ReadingStatusPreviewProps) {
   if (readingList.length === 0) {
-    return <p>No current reads</p>;
+    return <p className="line-clamp-1">No Data</p>;
   }
 
-  const booksToShow = readingList.slice(0, 3);
-
   return (
-    <div className="flex gap-4">
-      {booksToShow.map((book) => {
+    <div className="flex gap-4 overflow-hidden">
+      {readingList.map((book) => {
         const { edition } = book;
 
         return (
-          <div key={book.id} className="flex flex-col items-center">
-            {edition.coverImageUrl ? (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Image
-                    className="rounded"
-                    src={edition.coverImageUrl}
+          <div
+            key={book.id}
+            className="flex flex-col items-center flex-shrink-0"
+          >
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div>
+                  <CoverImage
                     width={100}
                     height={150}
-                    alt={edition.title}
+                    title={edition.title}
+                    coverImageUrl={edition.coverImageUrl}
                   />
-                </TooltipTrigger>
-                <TooltipContent>{book.edition.title}</TooltipContent>
-              </Tooltip>
-            ) : (
-              <p className="text-sm text-center w-[100px]">{edition.title}</p>
-            )}
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>{edition.title}</TooltipContent>
+            </Tooltip>
           </div>
         );
       })}

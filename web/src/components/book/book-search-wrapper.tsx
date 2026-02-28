@@ -77,7 +77,7 @@ export default function BookSearchWrapper({
 
       {/* Result list */}
       {!loading ? (
-        <ScrollArea className="w-full max-h-[600px]">
+        <ScrollArea className="w-full max-h-screen">
           <div className="flex flex-col justify-between space-y-4">
             <BookCardList
               books={books}

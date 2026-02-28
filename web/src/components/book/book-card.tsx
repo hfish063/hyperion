@@ -1,9 +1,8 @@
 import { Book } from "@/app/api/book";
-import Image from "next/image";
-import { ImageOff } from "lucide-react";
 import Link from "next/link";
 import AddBookToLibraryButton from "../add-to-library-button";
 import { Card, CardContent } from "../ui/card";
+import CoverImage from "../cover-image";
 
 export default function BookCard({
   metadata,
@@ -21,7 +20,7 @@ export default function BookCard({
               <CoverImage
                 coverImageUrl={metadata.coverImageUrl}
                 title={metadata.title}
-                width={50}
+                width={70}
                 height={100}
               />
               <BookCardContent metadata={metadata} />
@@ -44,44 +43,6 @@ type BookCardProps = {
   metadata: Book;
   bookExistsInLibrary: boolean;
 };
-
-export function CoverImage({
-  coverImageUrl,
-  title,
-  width,
-  height,
-}: CoverImageProps) {
-  return (
-    <>
-      {coverImageUrl ? (
-        <Image
-          src={coverImageUrl}
-          alt={title}
-          width={width}
-          height={height}
-          className="object-contain rounded"
-        />
-      ) : (
-        <CoverImagePlaceholder />
-      )}
-    </>
-  );
-}
-
-type CoverImageProps = {
-  coverImageUrl: string;
-  title: string;
-  width: number;
-  height: number;
-};
-
-function CoverImagePlaceholder() {
-  return (
-    <div className="flex items-center justify-center w-14 h-[80px] border p-2 text-sm text-center rounded bg-muted">
-      <ImageOff />
-    </div>
-  );
-}
 
 function BookCardContent({ metadata }: BookCardContentProps) {
   return (

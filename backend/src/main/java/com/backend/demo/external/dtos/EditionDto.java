@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EditionDto {
-    private int id;
+    private String id;
     private String title;
     private String subtitle;
     @JsonProperty("isbn_10")
@@ -13,20 +13,16 @@ public class EditionDto {
     @JsonProperty("isbn_13")
     private String isbn13;
     private String asin;
-    private int pages;
-    @JsonProperty("release_year")
-    private int releaseYear;
+    private Integer pages;
     @JsonProperty("edition_format")
     private String editionFormat;
     @JsonProperty("image_id")
     private int imageId;
     private BookDto book;
-    private PublisherDto publisher;
     private ContributionDto[] contributions;
     public CoverImageDto image;
 
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -50,12 +46,8 @@ public class EditionDto {
         return asin;
     }
 
-    public int getPages() {
+    public Integer getPages() {
         return pages;
-    }
-
-    public int getReleaseYear() {
-        return releaseYear;
     }
 
     public String getEditionFormat() {
@@ -64,10 +56,6 @@ public class EditionDto {
 
     public int getImageId() {
         return imageId;
-    }
-
-    public PublisherDto getPublisher() {
-        return publisher;
     }
 
     public ContributionDto[] getContributions() {

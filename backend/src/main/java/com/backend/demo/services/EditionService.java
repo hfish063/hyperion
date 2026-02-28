@@ -50,7 +50,7 @@ public class EditionService {
     private List<Edition> filterExistingEditions(List<Edition> apiEditions) {
         List<Edition> editionsToSave = new ArrayList<>();
         for (Edition apiEdition : apiEditions) {
-            int currentSourceId = apiEdition.getSourceId();
+            String currentSourceId = apiEdition.getSourceId();
 
             if (isNewEdition(currentSourceId)) {
                 editionsToSave.add(apiEdition);
@@ -60,7 +60,7 @@ public class EditionService {
         return editionsToSave;
     }
 
-    public Edition findEditionBySourceId(int sourceId) {
+    public Edition findEditionBySourceId(String sourceId) {
         Optional<Edition> result = editionRepository.findBySourceId(sourceId);
 
         if (result.isPresent()) {
@@ -91,7 +91,7 @@ public class EditionService {
      * @param sourceId The sourceId of the edition (fetched from third party API) that we are checking db against.
      * @return True in the case of a new edition (not already stored in database), false if it's already in the db.
      */
-    public boolean isNewEdition(int sourceId) {
+    public boolean isNewEdition(String sourceId) {
         Optional<Edition> stored = editionRepository.findBySourceId(sourceId);
 
         return stored.isEmpty();

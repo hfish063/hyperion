@@ -56,10 +56,10 @@ public class HardcoverClient {
         return getHardcoverEditionsResponseDto(query);
     }
 
-    public HardcoverEditionsResponseDto getEditionById(int id) {
+    public HardcoverEditionsResponseDto getEditionById(String id) {
         String query = """
                 query GetSpecificEdition {
-                  editions(where: {id: {_eq: "%d"}}) {
+                  editions(where: {id: {_eq: "%s"}}) {
                       id
                       title
                       subtitle

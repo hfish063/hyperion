@@ -18,7 +18,7 @@ public class Edition {
     private Long id;
 
     @Column(name = "source_id", unique = true)
-    private int sourceId;
+    private String sourceId;
 
     @Column(name = "title")
     private String title;
@@ -33,19 +33,13 @@ public class Edition {
     private String isbn13;
 
     @Column(name = "pages")
-    private int pages;
-
-    @Column(name = "release_year")
-    private int releaseYear;
+    private Integer pages;
 
     @Column(name = "edition_format")
     private String editionFormat;
 
     @Column(name = "description", length = 2500)
     private String description;
-
-    @Column(name = "publisher")
-    private String publisher;
 
     @Column(name = "cover_image_url")
     private String coverImageUrl;
@@ -69,7 +63,7 @@ public class Edition {
         return id;
     }
 
-    public int getSourceId() {
+    public String getSourceId() {
         return sourceId;
     }
 
@@ -90,20 +84,12 @@ public class Edition {
         return isbn13;
     }
 
-    public int getPages() {
+    public Integer getPages() {
         return pages;
-    }
-
-    public int getReleaseYear() {
-        return releaseYear;
     }
 
     public String getEditionFormat() {
         return editionFormat;
-    }
-
-    public String getPublisher() {
-        return publisher;
     }
 
     public String getCoverImageUrl() {
@@ -122,7 +108,7 @@ public class Edition {
         this.id = id;
     }
 
-    public void setSourceId(int sourceId) {
+    public void setSourceId(String sourceId) {
         this.sourceId = sourceId;
     }
 
@@ -143,20 +129,12 @@ public class Edition {
         this.isbn13 = isbn13;
     }
 
-    public void setPages(int pages) {
+    public void setPages(Integer pages) {
         this.pages = pages;
-    }
-
-    public void setReleaseYear(int releaseYear) {
-        this.releaseYear = releaseYear;
     }
 
     public void setEditionFormat(String editionFormat) {
         this.editionFormat = editionFormat;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
     }
 
     public void setCoverImageUrl(String coverImageUrl) {
@@ -167,7 +145,4 @@ public class Edition {
         this.description = description;
     }
 
-    public void setCollaborators(List<Collaborator> collaborators) {
-        this.collaborators = collaborators;
-    }
 }

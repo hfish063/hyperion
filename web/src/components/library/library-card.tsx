@@ -8,6 +8,7 @@ import { Button } from "../ui/button";
 import {
   deleteBookForUser,
   ReadingStatus,
+  updateUserBookReadingStatus,
   UserBook,
 } from "@/app/api/user-book";
 import { CheckIcon, TrashIcon } from "lucide-react";
@@ -25,8 +26,8 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { DialogDescription } from "@radix-ui/react-dialog";
-import { CoverImage } from "../book/book-card";
 import { Card, CardContent } from "../ui/card";
+import CoverImage from "../cover-image";
 
 export default function LibraryCard({
   userBook,
@@ -43,7 +44,11 @@ export default function LibraryCard({
         </Link>
 
         <div className="flex flex-col space-y-2 sm:flex-row sm:space-x-2 sm:space-y-0 items-center justify-center">
-          <ReadingStatusMenu status={userBook.readingStatus} />
+          <ReadingStatusMenu
+            status={userBook.readingStatus}
+            userBookId={userBook.id}
+            setLibrary={setLibrary}
+          />
           <DeleteLibraryCardButton
             setLibrary={setLibrary}
             userBook={userBook}
@@ -55,17 +60,21 @@ export default function LibraryCard({
 }
 
 function LibraryCardDetails({ bookDetails }: LibraryCardDetailsProps) {
+  const author = bookDetails.collaborators[0]?.author;
+
   return (
     <div className="flex flex-row space-x-4 items-center">
       <CoverImage
         title={bookDetails.title}
         coverImageUrl={bookDetails.coverImageUrl}
-        width={100}
-        height={200}
+        width={120}
+        height={180}
       />
       <div className="flex flex-col w-72">
-        <h3 className="text-xl font-semibold">{bookDetails.title}</h3>
-        <p className="italic">{bookDetails.collaborators[0].author.name}</p>
+        <h3 className="text-xl font-semibold line-clamp-2">
+          {bookDetails.title}
+        </h3>
+        <p className="italic">{author && author.name}</p>
       </div>
       {bookDetails.pages !== undefined && bookDetails.pages > 0 && (
         <p className="hidden sm:block">{bookDetails.pages} pages</p>
@@ -83,7 +92,37 @@ type LibraryCardProps = {
   setLibrary: Dispatch<SetStateAction<UserBook[]>>;
 };
 
-function ReadingStatusMenu({ status }: ReadingStatusMenuProps) {
+function ReadingStatusMenu({
+  status,
+  userBookId,
+  setLibrary,
+}: ReadingStatusMenuProps) {
+  async function handleReadingStatusChange(newStatus: ReadingStatus) {
+    if (newStatus === status) {
+      return;
+    }
+
+    try {
+      const result = await updateUserBookReadingStatus(userBookId, newStatus);
+
+      if (!result) {
+        return;
+      }
+
+      setLibrary((prev) =>
+        prev.map((book) =>
+          book.id === userBookId ? { ...book, readingStatus: newStatus } : book,
+        ),
+      );
+
+      toast.success("Reading status updated");
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        toast.error("Failed to update reading status");
+      }
+    }
+  }
+
   return (
     <div className="flex justify-center items-center">
       <DropdownMenu>
@@ -91,30 +130,14 @@ function ReadingStatusMenu({ status }: ReadingStatusMenuProps) {
           <Button variant="outline">Status</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem>
-            <CurrentStatus
-              currentStatus={status}
-              expectedStatus={ReadingStatus.WANT_TO_READ}
-            />
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <CurrentStatus
-              currentStatus={status}
-              expectedStatus={ReadingStatus.CURRENTLY_READING}
-            />
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <CurrentStatus
-              currentStatus={status}
-              expectedStatus={ReadingStatus.READ}
-            />
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <CurrentStatus
-              currentStatus={status}
-              expectedStatus={ReadingStatus.DROPPED}
-            />
-          </DropdownMenuItem>
+          {Object.values(ReadingStatus).map((value) => (
+            <DropdownMenuItem
+              key={value}
+              onClick={() => handleReadingStatusChange(value)}
+            >
+              <CurrentStatus currentStatus={status} expectedStatus={value} />
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
@@ -123,6 +146,8 @@ function ReadingStatusMenu({ status }: ReadingStatusMenuProps) {
 
 type ReadingStatusMenuProps = {
   status: ReadingStatus;
+  userBookId: number;
+  setLibrary: Dispatch<SetStateAction<UserBook[]>>;
 };
 
 function CurrentStatus({ currentStatus, expectedStatus }: CurrentStatusProps) {

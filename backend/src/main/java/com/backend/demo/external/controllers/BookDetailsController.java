@@ -46,7 +46,7 @@ public class BookDetailsController {
     }
 
     @GetMapping("search/id/{id}")
-    public Edition getEditionById(@PathVariable("id") int id) {
+    public Edition getEditionById(@PathVariable("id") String id) {
         return editionService.findEditionBySourceId(id);
     }
 }

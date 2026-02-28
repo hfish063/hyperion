@@ -7,7 +7,9 @@ import { Card } from "../ui/card";
 import BackButton from "../back-button";
 import ErrorAlert from "../error-alert";
 
-export default function BookDetailsWrapper({ id }: BookDetailsWrapperProps) {
+export default function BookDetailsWrapper({
+  sourceId,
+}: BookDetailsWrapperProps) {
   const [bookDetails, setBookDetails] = useState<Book | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -17,7 +19,7 @@ export default function BookDetailsWrapper({ id }: BookDetailsWrapperProps) {
       setLoading(true);
 
       try {
-        const details = await searchById(id);
+        const details = await searchById(sourceId);
 
         setBookDetails(details);
       } catch (e: unknown) {
@@ -30,7 +32,7 @@ export default function BookDetailsWrapper({ id }: BookDetailsWrapperProps) {
     }
 
     fetchDetails();
-  }, [id]);
+  }, [sourceId]);
 
   if (loading) {
     return (
@@ -61,7 +63,7 @@ export default function BookDetailsWrapper({ id }: BookDetailsWrapperProps) {
 }
 
 type BookDetailsWrapperProps = {
-  id: number;
+  sourceId: string;
 };
 
 function BookDetailsHeader({ details }: BookDetailsHeaderProps) {
@@ -93,11 +95,13 @@ type BookDetailsHeaderProps = {
 };
 
 function BookDetailsDescription({ description }: BookDetailsDescriptionProps) {
-  return (
-    <Card className="p-4">
-      <p>{description}</p>
-    </Card>
-  );
+  if (description) {
+    return (
+      <Card className="p-4">
+        <p>{description}</p>
+      </Card>
+    );
+  }
 }
 
 type BookDetailsDescriptionProps = {
