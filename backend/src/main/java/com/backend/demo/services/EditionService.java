@@ -4,7 +4,7 @@ import com.backend.demo.entities.Author;
 import com.backend.demo.entities.Edition;
 import com.backend.demo.external.hardcover.HardcoverClient;
 import com.backend.demo.external.hardcover.dtos.EditionDto;
-import com.backend.demo.external.hardcover.dtos.HardcoverEditionsResponseDto;
+import com.backend.demo.external.hardcover.dtos.HardcoverEditionsResponse;
 import com.backend.demo.mappers.EntityMapper;
 import com.backend.demo.repositories.AuthorRepository;
 import com.backend.demo.repositories.EditionRepository;
@@ -39,7 +39,7 @@ public class EditionService {
             return localEditions;
         }
 
-        HardcoverEditionsResponseDto apiResponse = hardcoverClient.getEditionsByTitle(title);
+        HardcoverEditionsResponse apiResponse = hardcoverClient.getEditionsByTitle(title);
         List<Edition> apiEditions = editionMapper.mapToEntities(apiResponse.getData().getEditions());
         List<Edition> editionsToSave = findUnsavedEditions(apiEditions);
 
@@ -75,7 +75,7 @@ public class EditionService {
         }
 
         // query Hardcover API if result is not held in database
-        HardcoverEditionsResponseDto clientResult = hardcoverClient.getEditionById(sourceId);
+        HardcoverEditionsResponse clientResult = hardcoverClient.getEditionById(sourceId);
         List<Edition> apiEditions = editionMapper.mapToEntities(clientResult.getData().getEditions());
 
         if (apiEditions.isEmpty()) {

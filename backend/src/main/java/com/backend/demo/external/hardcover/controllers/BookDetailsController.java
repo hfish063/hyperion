@@ -2,8 +2,7 @@ package com.backend.demo.external.hardcover.controllers;
 
 import com.backend.demo.entities.Edition;
 import com.backend.demo.external.hardcover.HardcoverClient;
-import com.backend.demo.external.hardcover.dtos.EditionDto;
-import com.backend.demo.mappers.EntityMapper;
+import com.backend.demo.external.hardcover.dtos.BookDto;
 import com.backend.demo.services.EditionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,14 +18,16 @@ import java.util.List;
 public class BookDetailsController {
     private final HardcoverClient hardcoverClient;
     private final EditionService editionService;
-    private final EntityMapper<Edition, EditionDto> editionMapper;
-
 
     @Autowired
-    public BookDetailsController(HardcoverClient hardcoverClient, EditionService editionService, EntityMapper<Edition, EditionDto> editionMapper) {
+    public BookDetailsController(HardcoverClient hardcoverClient, EditionService editionService) {
         this.hardcoverClient = hardcoverClient;
         this.editionService = editionService;
-        this.editionMapper = editionMapper;
+    }
+
+    @GetMapping("search/books/title/{title}")
+    public List<BookDto> getBooksByTitle(@PathVariable("title") String title) {
+        return hardcoverClient.getBooksByTitle(title).getData().getBooks();
     }
 
     @GetMapping("search/title/{title}")

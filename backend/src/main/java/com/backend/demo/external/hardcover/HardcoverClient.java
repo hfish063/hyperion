@@ -1,6 +1,7 @@
 package com.backend.demo.external.hardcover;
 
-import com.backend.demo.external.hardcover.dtos.HardcoverEditionsResponseDto;
+import com.backend.demo.external.hardcover.dtos.HardcoverBooksResponse;
+import com.backend.demo.external.hardcover.dtos.HardcoverEditionsResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,35 @@ public class HardcoverClient {
     @Value("${hardcover.api.key}")
     private String apiKey;
 
-    public HardcoverEditionsResponseDto getEditionsByTitle(String title) throws IOException {
+    public HardcoverBooksResponse getBooksByTitle(String title) {
+        String query = """
+                query BooksByUserCount {
+                    books(
+                          where: {
+                              title: {
+                                  _eq: "%s"
+                              }
+                          }
+                          order_by: {editions_count: desc}
+                    ) {
+                          id
+                          title
+                          description
+                          pages
+                          release_year
+                          default_cover_edition {
+                            id
+                            image {
+                                url
+                            }
+                          }
+                    }
+                }""".formatted(title);
+
+        return sendQuery(query, HardcoverBooksResponse.class);
+    }
+
+    public HardcoverEditionsResponse getEditionsByTitle(String title) throws IOException {
         String query = """
                 query GetEditionsFromTitle {
                   editions(where: {title: {_eq: "%s"}}) {
@@ -53,10 +82,10 @@ public class HardcoverClient {
                   }
                 }""".formatted(title);
 
-        return getHardcoverEditionsResponseDto(query);
+        return sendQuery(query, HardcoverEditionsResponse.class);
     }
 
-    public HardcoverEditionsResponseDto getEditionById(String id) {
+    public HardcoverEditionsResponse getEditionById(String id) {
         String query = """
                 query GetSpecificEdition {
                   editions(where: {id: {_eq: "%s"}}) {
@@ -91,7 +120,7 @@ public class HardcoverClient {
                   }
                 }""".formatted(id);
 
-        return getHardcoverEditionsResponseDto(query);
+        return sendQuery(query, HardcoverEditionsResponse.class);
     }
 
     /**
@@ -101,7 +130,7 @@ public class HardcoverClient {
      * @param query Graphql query String formatted for Hardcover API
      * @return DTO object containing Hardcover API response
      */
-    private HardcoverEditionsResponseDto getHardcoverEditionsResponseDto(String query) {
+    private <T> T sendQuery(String query, Class<T> responseType) {
         Map<String, String> body = buildQuery(query);
 
         HttpHeaders headers = getHttpHeaders();
@@ -109,11 +138,11 @@ public class HardcoverClient {
 
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(body, headers);
 
-        ResponseEntity<HardcoverEditionsResponseDto> response = restTemplate.exchange(
+        ResponseEntity<T> response = restTemplate.exchange(
                 hardcoverUrl,
                 HttpMethod.POST,
                 entity,
-                HardcoverEditionsResponseDto.class
+                responseType
         );
 
         return response.getBody();
