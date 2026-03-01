@@ -37,6 +37,12 @@ public class ExternalBookService {
         return null;
     }
 
+    /**
+     * Pull data from OpenLibraryAPI if HardcoverAPI fails to find valid search results.
+     *
+     * @param title Query parameter for external API
+     * @return List of search results from secondary data source.
+     */
     private List<Book> searchFallbackSource(String title) {
         OpenLibraryResponse openLibraryResponse = openLibraryClient.searchWorksByTitle(title);
 
@@ -47,6 +53,11 @@ public class ExternalBookService {
         return book.getCoverEditionImageUrl() == null;
     }
 
+    /**
+     * Attempt to fill missing details for book using secondary data source.
+     *
+     * @return List of books that are merged with any extra data found from external API.
+     */
     private List<Book> enrichBooks() {
         return null;
     }
