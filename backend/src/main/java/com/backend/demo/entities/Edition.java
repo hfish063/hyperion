@@ -23,9 +23,6 @@ public class Edition {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "subtitle")
-    private String subtitle;
-
     @Column(name = "isbn10")
     private String isbn10;
 
@@ -71,10 +68,6 @@ public class Edition {
         return title;
     }
 
-    public String getSubtitle() {
-        return subtitle;
-    }
-
 
     public String getIsbn10() {
         return isbn10;
@@ -115,11 +108,7 @@ public class Edition {
     public void setTitle(String title) {
         this.title = title;
     }
-
-
-    public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
-    }
+    
 
     public void setIsbn10(String isbn10) {
         this.isbn10 = isbn10;

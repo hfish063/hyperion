@@ -31,7 +31,6 @@ public class EditionMapper implements EntityMapper<Edition, EditionDto> {
 
         result.setSourceId(dto.getId());
         result.setTitle(dto.getTitle());
-        result.setSubtitle(dto.getSubtitle());
 
         if (dto.getBook() != null) {
             result.setDescription(dto.getBook().getDescription());
