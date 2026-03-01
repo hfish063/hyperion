@@ -105,6 +105,7 @@ public class HardcoverClient {
         Map<String, String> body = buildQuery(query);
 
         HttpHeaders headers = getHttpHeaders();
+        headers.add("User-Agent", "Hyperion: (hayden.fish@icloud.com");
 
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(body, headers);
 
