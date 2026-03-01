@@ -11,7 +11,7 @@ import {
   updateUserBookReadingStatus,
   UserBook,
 } from "@/app/api/user-book";
-import { CheckIcon, TrashIcon } from "lucide-react";
+import { CheckIcon, Info, TrashIcon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { Edition } from "@/app/api/edition";
 import Link from "next/link";
@@ -61,20 +61,22 @@ function LibraryCardDetails({ bookDetails }: LibraryCardDetailsProps) {
 
   return (
     <div className="flex flex-row space-x-4 items-center">
-      <Link href={`/explore/${bookDetails.sourceId}`}>
-        <CoverImage
-          title={bookDetails.title}
-          coverImageUrl={bookDetails.coverImageUrl}
-          width={120}
-          height={180}
-        />
-      </Link>
-      <div className="flex flex-col w-72">
+      <div className="relative inline-block group">
         <Link href={`/explore/${bookDetails.sourceId}`}>
-          <h3 className="text-xl font-semibold line-clamp-2 hover:underline">
-            {bookDetails.title}
-          </h3>
+          <CoverImage
+            title={bookDetails.title}
+            coverImageUrl={bookDetails.coverImageUrl}
+            width={120}
+            height={180}
+          />
         </Link>
+
+        <Info className="absolute top-2 right-2 h-5 w-5 text-white opacity-0 group-hover:opacity-100" />
+      </div>
+      <div className="flex flex-col w-72">
+        <h3 className="text-xl font-semibold line-clamp-2">
+          {bookDetails.title}
+        </h3>
         <p className="italic">{author && author.name}</p>
       </div>
       {bookDetails.pages !== undefined && bookDetails.pages > 0 && (
