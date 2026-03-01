@@ -18,6 +18,6 @@ public class Book {
     @Column(name = "first_publish_year")
     private String firstPublishYear;
 
-    @Column(name = "cover_edition_url")
-    private String coverEditionUrl;
+    @Column(name = "cover_edition_id")
+    private String coverEditionId;
 }
