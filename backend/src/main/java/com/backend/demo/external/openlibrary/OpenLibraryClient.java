@@ -1,21 +1,17 @@
 package com.backend.demo.external.openlibrary;
 
-import com.backend.demo.external.openlibrary.dtos.OpenLibraryDoc;
 import com.backend.demo.external.openlibrary.dtos.OpenLibraryResponse;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Collections;
-import java.util.List;
-
 @Component
 public class OpenLibraryClient {
     private static final String BASE_URL = "https://openlibrary.org";
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public List<OpenLibraryDoc> searchWorksByTitle(String title) {
+    public OpenLibraryResponse searchWorksByTitle(String title) {
         String url = UriComponentsBuilder.fromUriString(BASE_URL + "/search.json")
                 .queryParam("title", title)
                 .build()
@@ -30,9 +26,9 @@ public class OpenLibraryClient {
         OpenLibraryResponse response = responseEntity.getBody();
 
         if (response.getDocs() == null) {
-            return Collections.emptyList();
+            return null;
         }
 
-        return response.getDocs();
+        return response;
     }
 }
