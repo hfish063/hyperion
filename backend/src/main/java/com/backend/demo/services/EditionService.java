@@ -1,10 +1,12 @@
 package com.backend.demo.services;
 
+import com.backend.demo.entities.Author;
 import com.backend.demo.entities.Edition;
 import com.backend.demo.external.hardcover.HardcoverClient;
 import com.backend.demo.external.hardcover.dtos.EditionDto;
 import com.backend.demo.external.hardcover.dtos.HardcoverEditionsResponseDto;
 import com.backend.demo.mappers.EntityMapper;
+import com.backend.demo.repositories.AuthorRepository;
 import com.backend.demo.repositories.EditionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,12 +20,14 @@ import java.util.Optional;
 @Service
 public class EditionService {
     private final EditionRepository editionRepository;
+    private final AuthorRepository authorRepository;
     private final EntityMapper<Edition, EditionDto> editionMapper;
     private final HardcoverClient hardcoverClient;
 
     @Autowired
-    public EditionService(EditionRepository editionRepository, EntityMapper<Edition, EditionDto> editionMapper, HardcoverClient hardcoverClient) {
+    public EditionService(EditionRepository editionRepository, AuthorRepository authorRepository, EntityMapper<Edition, EditionDto> editionMapper, HardcoverClient hardcoverClient) {
         this.editionRepository = editionRepository;
+        this.authorRepository = authorRepository;
         this.editionMapper = editionMapper;
         this.hardcoverClient = hardcoverClient;
     }
@@ -37,7 +41,10 @@ public class EditionService {
 
         HardcoverEditionsResponseDto apiResponse = hardcoverClient.getEditionsByTitle(title);
         List<Edition> apiEditions = editionMapper.mapToEntities(apiResponse.getData().getEditions());
-        List<Edition> editionsToSave = filterExistingEditions(apiEditions);
+        List<Edition> editionsToSave = findUnsavedEditions(apiEditions);
+
+        // persist authors first to prevent transient entity errors
+        editionsToSave.forEach(this::persistAuthorsForEdition);
 
         // try/catch block prevents concurrency issues from multiple threads checking the database simultaneously
         try {
@@ -47,7 +54,7 @@ public class EditionService {
         }
     }
 
-    private List<Edition> filterExistingEditions(List<Edition> apiEditions) {
+    private List<Edition> findUnsavedEditions(List<Edition> apiEditions) {
         List<Edition> editionsToSave = new ArrayList<>();
         for (Edition apiEdition : apiEditions) {
             String currentSourceId = apiEdition.getSourceId();
@@ -76,6 +83,10 @@ public class EditionService {
         }
 
         Edition apiEdition = apiEditions.get(0);
+
+        // persist authors first to prevent transient entity errors
+        persistAuthorsForEdition(apiEdition);
+
         boolean isNewEdition = isNewEdition(apiEdition.getSourceId());
 
         if (isNewEdition) {
@@ -95,5 +106,27 @@ public class EditionService {
         Optional<Edition> stored = editionRepository.findBySourceId(sourceId);
 
         return stored.isEmpty();
+    }
+
+    /**
+     * Persists Author to the database, ensuring that hibernate manages the entity.  Trying to persist without calling
+     * this function will result in a transient entity error.
+     *
+     * @param edition The edition that is about to be saved.
+     */
+    private void persistAuthorsForEdition(Edition edition) {
+        edition.getCollaborators().forEach(collaborator -> {
+            Author author = collaborator.getAuthor();
+
+            if (author != null) {
+                Author storedAuthor = authorRepository.findFirstBySourceId(author.getSourceId());
+
+                if (storedAuthor == null) {
+                    storedAuthor = authorRepository.save(author);
+                }
+
+                collaborator.setAuthor(storedAuthor);
+            }
+        });
     }
 }
