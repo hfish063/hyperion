@@ -10,7 +10,7 @@ public class BookDto {
     private String description;
     private Integer pages;
     @JsonProperty("release_year")
-    private int releaseYear;
+    private Integer releaseYear;
     @JsonProperty("default_cover_edition")
     private CoverEditionDto defaultCoverEdition;
 
@@ -43,7 +43,7 @@ public class BookDto {
         return pages;
     }
 
-    public int getReleaseYear() {
+    public Integer getReleaseYear() {
         return releaseYear;
     }
 
