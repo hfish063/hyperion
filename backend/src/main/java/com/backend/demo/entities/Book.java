@@ -15,9 +15,6 @@ public class Book {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "description", length = 5000)
-    private String description;
-
     @Column(name = "first_publish_year")
     private String firstPublishYear;
 
