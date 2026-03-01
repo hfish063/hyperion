@@ -79,14 +79,12 @@ export default function BookSearchWrapper({
 
       {/* Result list */}
       {!loading ? (
-        <ScrollArea className="w-full max-h-screen">
-          <div className="flex flex-col justify-between space-y-4">
-            <BookCardList
-              books={books}
-              bookExistsInLibrary={bookExistsInLibrary}
-            />
-          </div>
-        </ScrollArea>
+        <div className="flex flex-col justify-between space-y-4 w-full">
+          <BookCardList
+            books={books}
+            bookExistsInLibrary={bookExistsInLibrary}
+          />
+        </div>
       ) : (
         <div className="flex flex-row space-x-4 w-full h-full items-center justify-center">
           <Spinner variant={"circle"} /> <p>Loading...</p>
