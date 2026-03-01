@@ -2,6 +2,7 @@ package com.backend.demo.services;
 
 import com.backend.demo.entities.Book;
 import com.backend.demo.external.hardcover.HardcoverClient;
+import com.backend.demo.external.hardcover.dtos.BookDto;
 import com.backend.demo.external.hardcover.dtos.HardcoverBooksResponse;
 import com.backend.demo.external.openlibrary.OpenLibraryClient;
 import com.backend.demo.external.openlibrary.dtos.OpenLibraryResponse;
@@ -12,13 +13,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class BookAggregationService {
+public class ExternalBookService {
     private final HardcoverClient hardcoverClient;
     private final OpenLibraryClient openLibraryClient;
     private final BookMapper bookMapper;
 
     @Autowired
-    public BookAggregationService(HardcoverClient hardcoverClient, OpenLibraryClient openLibraryClient, BookMapper bookMapper) {
+    public ExternalBookService(HardcoverClient hardcoverClient, OpenLibraryClient openLibraryClient, BookMapper bookMapper) {
         this.hardcoverClient = hardcoverClient;
         this.openLibraryClient = openLibraryClient;
         this.bookMapper = bookMapper;
@@ -26,13 +27,27 @@ public class BookAggregationService {
 
     public List<Book> doExternalBookSearch(String title) {
         HardcoverBooksResponse hardcoverResponse = hardcoverClient.getBooksByTitle(title);
-        OpenLibraryResponse openLibraryResponse = openLibraryClient.searchWorksByTitle(title);
+        List<BookDto> dtos = hardcoverResponse.getData().getBooks();
+        List<Book> apiBooks = bookMapper.mapToEntities(dtos);
 
-        return mergeSearchResults(hardcoverResponse, openLibraryResponse);
+        if (apiBooks.isEmpty()) {
+            return searchFallback(title);
+        }
+
+        return null;
     }
 
-    private List<Book> mergeSearchResults(HardcoverBooksResponse hardcoverResponse,
-                                          OpenLibraryResponse openLibraryResponse) {
+    private List<Book> searchFallback(String title) {
+        OpenLibraryResponse openLibraryResponse = openLibraryClient.searchWorksByTitle(title);
+
+        return null;
+    }
+
+    private boolean needsEnrichment(Book book) {
+        return book.getCoverEditionImageUrl() == null;
+    }
+
+    private List<Book> enrichBooks() {
         return null;
     }
 }
