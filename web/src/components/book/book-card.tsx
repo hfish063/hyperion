@@ -1,10 +1,10 @@
-import { Edition } from "@/app/api/edition";
 import Link from "next/link";
 import AddBookToLibraryButton from "../add-to-library-button";
 import { Card, CardContent } from "../ui/card";
 import CoverImage from "../cover-image";
 import { Button } from "../ui/button";
 import { Info } from "lucide-react";
+import { Book } from "@/app/api/book";
 
 export default function BookCard({
   metadata,
@@ -17,7 +17,7 @@ export default function BookCard({
           <div className="flex flex-row justify-between items-center">
             <div className="flex flex-row space-x-4 items-start flex-1 min-h-[80px]">
               <CoverImage
-                coverImageUrl={metadata.coverImageUrl}
+                coverImageUrl={metadata.coverEditionImageUrl}
                 title={metadata.title}
                 width={70}
                 height={100}
@@ -27,10 +27,10 @@ export default function BookCard({
 
             <div className="flex flex-col space-y-4 items-start justify-center">
               <AddBookToLibraryButton
-                metadata={metadata}
+                data={metadata}
                 bookExistsInLibrary={bookExistsInLibrary}
               />
-              <Link href={`/explore/${metadata.sourceId}`}>
+              <Link href={`/explore/${metadata.coverEditionId}`}>
                 <Button variant={"outline"}>
                   <Info />
                   Details
@@ -45,7 +45,7 @@ export default function BookCard({
 }
 
 type BookCardProps = {
-  metadata: Edition;
+  metadata: Book;
   bookExistsInLibrary: boolean;
 };
 
@@ -53,13 +53,10 @@ function BookCardContent({ metadata }: BookCardContentProps) {
   return (
     <div className="flex flex-col space-y-2">
       <h3 className="text-xl font-medium">{metadata.title}</h3>
-      {metadata.collaborators.length > 0 && (
-        <p className="italic">{metadata.collaborators[0].author.name}</p>
-      )}
     </div>
   );
 }
 
 export type BookCardContentProps = {
-  metadata: Edition;
+  metadata: Book;
 };

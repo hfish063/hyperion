@@ -1,13 +1,14 @@
-import { Edition } from "@/app/api/edition";
 import { saveBookForUser, ReadingStatus, UserBook } from "@/app/api/user-book";
 import { useState } from "react";
 import { Spinner } from "./ui";
 import { Button } from "./ui/button";
 import { BookmarkIcon } from "lucide-react";
 import { toast } from "sonner";
+import { Book } from "@/app/api/book";
+import { searchForEditionById } from "@/app/api/edition";
 
 export default function AddBookToLibraryButton({
-  metadata,
+  data,
   bookExistsInLibrary,
 }: AddBookToLibraryButtonProps) {
   const [loading, setLoading] = useState(false);
@@ -17,8 +18,9 @@ export default function AddBookToLibraryButton({
     setLoading(true);
 
     try {
+      const coverEdition = await searchForEditionById(data.coverEditionId);
       const result = await saveBookForUser({
-        edition: metadata,
+        edition: coverEdition,
         readingStatus: ReadingStatus.WANT_TO_READ,
       } as UserBook);
 
@@ -29,11 +31,11 @@ export default function AddBookToLibraryButton({
       }
     } catch (e: unknown) {
       if (e instanceof Error) {
-        console.log(e.message);
+        toast.error("Failed to add book.");
       }
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   }
 
   if (alreadyAdded) {
@@ -61,6 +63,6 @@ export default function AddBookToLibraryButton({
 }
 
 type AddBookToLibraryButtonProps = {
-  metadata: Edition;
+  data: Book;
   bookExistsInLibrary: boolean;
 };

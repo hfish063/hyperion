@@ -1,4 +1,4 @@
-import { Edition, searchById } from "@/app/api/edition";
+import { Edition, searchForEditionById } from "@/app/api/edition";
 import { useEffect, useState } from "react";
 import { Spinner } from "../ui";
 import MissingData from "../missing-data";
@@ -23,7 +23,7 @@ export default function BookDetailsWrapper({
       setLoading(true);
 
       try {
-        const details = await searchById(sourceId);
+        const details = await searchForEditionById(sourceId);
 
         setBookDetails(details);
       } catch (e: unknown) {

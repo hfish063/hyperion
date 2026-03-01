@@ -8,7 +8,7 @@ import ErrorAlert from "../error-alert";
 import { Spinner } from "../ui";
 import { useRouter } from "next/navigation";
 import { ScrollArea } from "../ui/scroll-area";
-import { Edition, searchForTitle } from "@/app/api/edition";
+import { Book, searchForBooks } from "@/app/api/book";
 
 export default function BookSearchWrapper({
   initialQuery,
@@ -16,7 +16,7 @@ export default function BookSearchWrapper({
   const router = useRouter();
 
   const [query, setQuery] = useState<string>("");
-  const [books, setBooks] = useState<Edition[]>([]);
+  const [books, setBooks] = useState<Book[]>([]);
   const [library, setLibrary] = useState<UserBook[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -31,7 +31,7 @@ export default function BookSearchWrapper({
       setError(undefined);
 
       try {
-        const books = await searchForTitle(initialQuery, 25);
+        const books = await searchForBooks(initialQuery);
         const library = await findAllBooksForUser();
 
         setBooks(books);
@@ -57,8 +57,10 @@ export default function BookSearchWrapper({
   }
 
   // check if specific book has already been saved to user's library
-  function bookExistsInLibrary(bookId: number) {
-    return library.some((book) => book.edition.id === bookId);
+  function bookExistsInLibrary(bookCoverId: string) {
+    return library.some(
+      (book) => Number(book.edition.sourceId) === Number(bookCoverId),
+    );
   }
 
   return (
