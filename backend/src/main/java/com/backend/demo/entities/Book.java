@@ -20,4 +20,7 @@ public class Book {
 
     @Column(name = "cover_edition_id")
     private String coverEditionId;
+
+    @Column(name = "cover_edition_image_url")
+    private String coverEditionImageUrl;
 }
