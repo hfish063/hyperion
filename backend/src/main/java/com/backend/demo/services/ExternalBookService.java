@@ -31,13 +31,13 @@ public class ExternalBookService {
         List<Book> apiBooks = bookMapper.mapToEntities(dtos);
 
         if (apiBooks.isEmpty()) {
-            return searchFallback(title);
+            return searchFallbackSource(title);
         }
 
         return null;
     }
 
-    private List<Book> searchFallback(String title) {
+    private List<Book> searchFallbackSource(String title) {
         OpenLibraryResponse openLibraryResponse = openLibraryClient.searchWorksByTitle(title);
 
         return null;
