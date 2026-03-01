@@ -54,7 +54,7 @@ public class ExternalBookService {
     }
 
     /**
-     * Attempt to fill missing details for book using secondary data source.
+     * Attempt to fill missing details for books using a secondary data source.
      *
      * @return List of books that are merged with any extra data found from external API.
      */
