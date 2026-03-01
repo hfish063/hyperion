@@ -1,6 +1,6 @@
 package com.backend.demo.constants;
 
-public enum Provider {
+public enum Source {
     OPEN_LIBRARY,
     HARDCOVER
 }
