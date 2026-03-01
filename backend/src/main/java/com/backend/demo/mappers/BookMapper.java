@@ -14,6 +14,11 @@ public class BookMapper implements EntityMapper<Book, BookDto> {
         List<Book> results = new ArrayList<>();
 
         for (BookDto dto : bookDtos) {
+            // Skip garbage dto
+            if (dto.getDefaultCoverEdition() == null) {
+                continue;
+            }
+
             results.add(mapToEntity(dto));
         }
 
@@ -41,7 +46,7 @@ public class BookMapper implements EntityMapper<Book, BookDto> {
                 book.setCoverEditionImageUrl(bookDto.getDefaultCoverEdition().getImage().getUrl());
             }
         }
-        
+
         return book;
     }
 }

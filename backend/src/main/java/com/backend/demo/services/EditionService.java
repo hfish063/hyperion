@@ -90,7 +90,13 @@ public class EditionService {
         boolean isNewEdition = isNewEdition(apiEdition.getSourceId());
 
         if (isNewEdition) {
-            return editionRepository.save(apiEdition);
+            try {
+                return editionRepository.save(apiEdition);
+            } catch (DataIntegrityViolationException e) {
+                Optional<Edition> storedEdition = editionRepository.findBySourceId(sourceId);
+                return storedEdition.orElseThrow(() ->
+                        new IllegalStateException("Edition should exist but was not found after save conflict."));
+            }
         }
 
         return apiEdition;
