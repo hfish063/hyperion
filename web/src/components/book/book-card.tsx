@@ -3,6 +3,8 @@ import Link from "next/link";
 import AddBookToLibraryButton from "../add-to-library-button";
 import { Card, CardContent } from "../ui/card";
 import CoverImage from "../cover-image";
+import { Button } from "../ui/button";
+import { Info } from "lucide-react";
 
 export default function BookCard({
   metadata,
@@ -13,10 +15,7 @@ export default function BookCard({
       <CardContent>
         <div className="flex flex-col space-y-4">
           <div className="flex flex-row justify-between items-center">
-            <Link
-              href={`/explore/${metadata.sourceId}`}
-              className="flex flex-row space-x-4 items-start flex-1 min-h-[80px]"
-            >
+            <div className="flex flex-row space-x-4 items-start flex-1 min-h-[80px]">
               <CoverImage
                 coverImageUrl={metadata.coverImageUrl}
                 title={metadata.title}
@@ -24,13 +23,19 @@ export default function BookCard({
                 height={100}
               />
               <BookCardContent metadata={metadata} />
-            </Link>
+            </div>
 
-            <div className="flex items-center">
+            <div className="flex flex-col space-y-4 items-start justify-center">
               <AddBookToLibraryButton
                 metadata={metadata}
                 bookExistsInLibrary={bookExistsInLibrary}
               />
+              <Link href={`/explore/${metadata.sourceId}`}>
+                <Button variant={"outline"}>
+                  <Info />
+                  Details
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -48,7 +53,6 @@ function BookCardContent({ metadata }: BookCardContentProps) {
   return (
     <div className="flex flex-col space-y-2">
       <h3 className="text-xl font-medium">{metadata.title}</h3>
-      {metadata.releaseYear > 0 && <p>{metadata.releaseYear}</p>}
       {metadata.collaborators.length > 0 && (
         <p className="italic">{metadata.collaborators[0].author.name}</p>
       )}
