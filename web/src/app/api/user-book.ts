@@ -103,6 +103,7 @@ export type UserBook = {
   id: number;
   edition: Edition;
   readingStatus: ReadingStatus;
+  dateAdded: Date;
 };
 
 export enum ReadingStatus {
