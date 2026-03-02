@@ -19,6 +19,7 @@ import {
   ReadingStatus,
   UserBook,
 } from "@/app/api/user-book";
+import Link from "next/link";
 
 const STATUS_TABS: {
   label: string;
@@ -88,10 +89,12 @@ export default function LibraryWrapper() {
   return (
     <div className="flex flex-col space-y-4">
       <div className="flex items-center space-x-4">
-        <Button>
-          <Plus />
-          Add Books
-        </Button>
+        <Link href={"/library/add"}>
+          <Button>
+            <Plus />
+            Add Books
+          </Button>
+        </Link>
 
         <Badge variant="outline">{completedCount} Read</Badge>
       </div>

@@ -25,6 +25,15 @@ export async function searchForEditionById(id: string) {
   return data;
 }
 
+export async function searchForEditionByIsbn(isbn: string) {
+  const query = `/meta/search/isbn/${isbn}`;
+
+  const results = await apiFetch(query);
+  const data = (await results.json()) as Edition;
+
+  return data;
+}
+
 export type Edition = {
   id: number;
   sourceId: number;
