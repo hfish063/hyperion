@@ -61,7 +61,7 @@ function LibraryCardDetails({ bookDetails }: LibraryCardDetailsProps) {
 
   return (
     <div className="flex flex-row space-x-4 items-center">
-      <div className="relative inline-block group">
+      <div className="flex flex-shrink-0 relative inline-block group">
         <Link href={`/explore/${bookDetails.sourceId}`}>
           <CoverImage
             title={bookDetails.title}
