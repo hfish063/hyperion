@@ -50,4 +50,9 @@ public class BookDetailsController {
     public Edition getEditionById(@PathVariable("id") String id) {
         return editionService.findEditionBySourceId(id);
     }
+
+    @GetMapping("search/isbn/{isbn}")
+    public Edition getEditionByIsbn(@PathVariable("isbn") String isbn) {
+        return editionService.findEditionByIsbn(isbn);
+    }
 }

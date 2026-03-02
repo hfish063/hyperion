@@ -12,4 +12,8 @@ public interface EditionRepository extends JpaRepository<Edition, Long> {
     List<Edition> findAllByTitle(String title);
 
     Optional<Edition> findBySourceId(String sourceId);
+
+    Optional<Edition> findByIsbn10(String isbn10);
+
+    Optional<Edition> findByIsbn13(String isbn13);
 }

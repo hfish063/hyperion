@@ -2,6 +2,7 @@ package com.backend.demo.services;
 
 import com.backend.demo.entities.Author;
 import com.backend.demo.entities.Edition;
+import com.backend.demo.exceptions.ResourceNotFoundException;
 import com.backend.demo.external.hardcover.HardcoverClient;
 import com.backend.demo.external.hardcover.dtos.EditionDto;
 import com.backend.demo.external.hardcover.dtos.HardcoverEditionsResponse;
@@ -100,6 +101,21 @@ public class EditionService {
         }
 
         return apiEdition;
+    }
+
+    public Edition findEditionByIsbn(String isbn) {
+        Optional<Edition> storedEdition = Optional.empty();
+        if (isbn.length() == 10) {
+            storedEdition = editionRepository.findByIsbn10(isbn);
+        } else if (isbn.length() == 13) {
+            storedEdition = editionRepository.findByIsbn13(isbn);
+        }
+
+        if (storedEdition.isEmpty()) {
+            throw new ResourceNotFoundException("Failed to locate an edition with ISBN: " + isbn);
+        }
+
+        return storedEdition.get();
     }
 
     /**
