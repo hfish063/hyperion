@@ -7,7 +7,6 @@ import { findAllBooksForUser, UserBook } from "@/app/api/user-book";
 import ErrorAlert from "../error-alert";
 import { Spinner } from "../ui";
 import { useRouter } from "next/navigation";
-import { ScrollArea } from "../ui/scroll-area";
 import { Book, searchForBooks } from "@/app/api/book";
 
 export default function BookSearchWrapper({
