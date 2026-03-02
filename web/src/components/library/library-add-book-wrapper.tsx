@@ -1,6 +1,6 @@
 "use client";
 
-import { Book, CircleArrowRight, ScanBarcode } from "lucide-react";
+import { Book, CircleArrowRight, ScanBarcode, Zap } from "lucide-react";
 import { Button } from "../ui/button";
 import { Field, FieldDescription, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
@@ -15,10 +15,8 @@ export default function LibraryQuickAddForm() {
     <div className="flex flex-col space-y-4">
       <Card>
         <CardHeader>
-          <CardTitle>
-            <div className="flex flex-row space-x-2 items-center">
-              <Book /> <p>Details</p>
-            </div>
+          <CardTitle className="flex flex-row space-x-2 items-center">
+            <Book /> <p>Details</p>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -26,6 +24,11 @@ export default function LibraryQuickAddForm() {
         </CardContent>
       </Card>
       <Card>
+        <CardHeader>
+          <CardTitle className="flex flex-row space-x-2 items-center">
+            <Zap /> <p>Quick Search</p>
+          </CardTitle>
+        </CardHeader>
         <CardContent>
           <IsbnSearchForm setEdition={setEdition} />
         </CardContent>
