@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { PaintBucket, UserCircleIcon } from "lucide-react";
+import { PaintBucket } from "lucide-react";
 import Link from "next/link";
 
 export default function SettingsPage() {
