@@ -50,4 +50,28 @@ public class BookDto {
     public CoverEditionDto getDefaultCoverEdition() {
         return defaultCoverEdition;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPages(Integer pages) {
+        this.pages = pages;
+    }
+
+    public void setReleaseYear(Integer releaseYear) {
+        this.releaseYear = releaseYear;
+    }
+
+    public void setDefaultCoverEdition(CoverEditionDto defaultCoverEdition) {
+        this.defaultCoverEdition = defaultCoverEdition;
+    }
 }

@@ -5,11 +5,13 @@ import com.backend.demo.external.hardcover.HardcoverClient;
 import com.backend.demo.external.hardcover.dtos.BookDto;
 import com.backend.demo.external.hardcover.dtos.HardcoverBooksResponse;
 import com.backend.demo.external.openlibrary.OpenLibraryClient;
+import com.backend.demo.external.openlibrary.dtos.OpenLibraryDoc;
 import com.backend.demo.external.openlibrary.dtos.OpenLibraryResponse;
 import com.backend.demo.mappers.BookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -47,6 +49,18 @@ public class ExternalBookService {
         OpenLibraryResponse openLibraryResponse = openLibraryClient.searchWorksByTitle(title);
 
         return null;
+    }
+
+    private List<BookDto> convertFallbackSourceResponse(OpenLibraryResponse openLibraryResponse) {
+        List<BookDto> dtos = new ArrayList<>();
+
+        List<OpenLibraryDoc> docs = openLibraryResponse.getDocs();
+
+        if (docs == null || docs.isEmpty()) {
+            return dtos;
+        }
+
+        return dtos;
     }
 
     private boolean needsEnrichment(Book book) {
