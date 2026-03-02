@@ -49,6 +49,6 @@ public class EditionController {
 
     @PostMapping("/save")
     public Edition saveEdition(@RequestBody Edition edition) {
-        return null;
+        return editionService.saveEdition(edition);
     }
 }

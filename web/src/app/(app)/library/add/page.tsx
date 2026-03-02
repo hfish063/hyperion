@@ -1,5 +1,5 @@
 import BackButton from "@/components/back-button";
-import LibraryQuickAddForm from "@/components/library/library-quick-add-form";
+import LibraryQuickAddForm from "@/components/library/library-add-book-wrapper";
 
 export default function LibraryAddPage() {
   return (
