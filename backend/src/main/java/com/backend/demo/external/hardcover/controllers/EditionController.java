@@ -15,12 +15,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/meta/")
 @CrossOrigin(origins = "http://localhost:3000")
-public class BookDetailsController {
+public class EditionController {
     private final EditionService editionService;
     private final BookService bookService;
 
     @Autowired
-    public BookDetailsController(EditionService editionService, BookService bookService) {
+    public EditionController(EditionService editionService, BookService bookService) {
         this.editionService = editionService;
         this.bookService = bookService;
     }
