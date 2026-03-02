@@ -1,43 +1,58 @@
 "use client";
 
+import { useState, useEffect, useMemo, useCallback } from "react";
+import { Plus } from "lucide-react";
+
 import LibraryList from "./library-list";
+import LibraryGrid from "./library-grid";
+import LibrarySearchBar from "./library-search-bar";
+import ViewToggle, { ViewMode } from "../view-toggle";
+
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import { Spinner } from "../ui";
+import ErrorAlert from "../error-alert";
+
 import {
   findAllBooksForUser,
   ReadingStatus,
   UserBook,
 } from "@/app/api/user-book";
-import LibrarySearchBar from "./library-search-bar";
-import { useState, useEffect } from "react";
-import { Spinner } from "../ui";
-import ErrorAlert from "../error-alert";
-import { Badge } from "../ui/badge";
-import ViewToggle, { ViewMode } from "../view-toggle";
-import LibraryGrid from "./library-grid";
+
+const STATUS_TABS: {
+  label: string;
+  value: string;
+  status?: ReadingStatus;
+}[] = [
+  { label: "All", value: "all" },
+  { label: "Want to Read", value: "want", status: ReadingStatus.WANT_TO_READ },
+  {
+    label: "Currently Reading",
+    value: "current",
+    status: ReadingStatus.CURRENTLY_READING,
+  },
+  { label: "Read", value: "read", status: ReadingStatus.READ },
+  { label: "Dropped", value: "dropped", status: ReadingStatus.DROPPED },
+];
 
 export default function LibraryWrapper() {
   const [library, setLibrary] = useState<UserBook[]>([]);
   const [isLoading, setLoading] = useState(true);
-  const [error, setError] = useState<string | undefined>(undefined);
-  const [view, setView] = useState<ViewMode>("list");
-
-  const getCompletedBooksCount = () => {
-    const readCount = library.filter(
-      (book) => book.readingStatus === ReadingStatus.READ,
-    ).length;
-    return readCount;
-  };
+  const [error, setError] = useState<string>();
+  const [view, setView] = useState<ViewMode>("grid");
+  const [activeTab, setActiveTab] = useState<string>("all");
 
   useEffect(() => {
-    async function getLibrary() {
-      setLoading(true);
-      setError(undefined);
-
+    async function fetchLibrary() {
       try {
-        const library = await findAllBooksForUser();
+        setLoading(true);
+        setError(undefined);
 
-        setLibrary(library);
-      } catch (e: unknown) {
+        const data = await findAllBooksForUser();
+
+        setLibrary(data);
+      } catch (e) {
         if (e instanceof Error) {
           setError(e.message);
         }
@@ -46,7 +61,24 @@ export default function LibraryWrapper() {
       }
     }
 
-    getLibrary();
+    fetchLibrary();
+  }, []);
+
+  const completedCount = useMemo(() => {
+    return library.filter((book) => book.readingStatus === ReadingStatus.READ)
+      .length;
+  }, [library]);
+
+  const filteredLibrary = useMemo(() => {
+    const active = STATUS_TABS.find((tab) => tab.value === activeTab);
+
+    if (!active?.status) return library;
+
+    return library.filter((book) => book.readingStatus === active.status);
+  }, [library, activeTab]);
+
+  const handleViewChange = useCallback((newValue: ViewMode | null) => {
+    if (newValue) setView(newValue);
   }, []);
 
   if (error) {
@@ -55,124 +87,58 @@ export default function LibraryWrapper() {
 
   return (
     <div className="flex flex-col space-y-4">
-      <UserProfileHeader completedBooksCount={getCompletedBooksCount()} />
-      <h2 className="text-2xl font-semibold">Books</h2>
+      <div className="flex items-center space-x-4">
+        <Button>
+          <Plus />
+          Add Books
+        </Button>
+
+        <Badge variant="outline">{completedCount} Read</Badge>
+      </div>
+
       <hr />
 
       {isLoading ? (
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center py-8">
           <Spinner variant="circle" />
         </div>
       ) : (
-        <Tabs className="flex flex-col space-y-2" defaultValue="all">
+        <Tabs
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className="flex flex-col space-y-4"
+        >
           <div className="flex flex-col space-y-4 w-full">
             <LibrarySearchBar setLibrary={setLibrary} />
+
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <TabsList className="flex flex-row gap-2">
-                <TabsTrigger value="all">All</TabsTrigger>
-                <TabsTrigger value="want to read">Want to Read</TabsTrigger>
-                <TabsTrigger value="currently reading">
-                  Currently Reading
-                </TabsTrigger>
-                <TabsTrigger value="read">Read</TabsTrigger>
-                <TabsTrigger value="dropped">Dropped</TabsTrigger>
+              <TabsList className="flex flex-row gap-2 flex-wrap">
+                {STATUS_TABS.map((tab) => (
+                  <TabsTrigger key={tab.value} value={tab.value}>
+                    {tab.label}
+                  </TabsTrigger>
+                ))}
               </TabsList>
 
-              <div className="sm:ml-auto">
-                <ViewToggle
-                  value={view}
-                  onChange={(newValue) => {
-                    if (!newValue) {
-                      return;
-                    }
-                    setView(newValue);
-                  }}
-                />
-              </div>
+              <ViewToggle value={view} onChange={handleViewChange} />
             </div>
           </div>
-          <TabsContent value="all">
-            {view === "grid" ? (
-              <LibraryGrid library={library} />
-            ) : (
-              <LibraryList library={library} setLibrary={setLibrary} />
-            )}
-          </TabsContent>
-          <TabsContent value="want to read">
-            {view === "grid" ? (
-              <LibraryGrid
-                library={library.filter(
-                  (book) => book.readingStatus === ReadingStatus.WANT_TO_READ,
-                )}
-              />
-            ) : (
-              <LibraryList
-                library={library}
-                setLibrary={setLibrary}
-                status={ReadingStatus.WANT_TO_READ}
-              />
-            )}
-          </TabsContent>
-          <TabsContent value="currently reading">
-            {view === "grid" ? (
-              <LibraryGrid
-                library={library.filter(
-                  (book) =>
-                    book.readingStatus === ReadingStatus.CURRENTLY_READING,
-                )}
-              />
-            ) : (
-              <LibraryList
-                library={library}
-                setLibrary={setLibrary}
-                status={ReadingStatus.CURRENTLY_READING}
-              />
-            )}
-          </TabsContent>
-          <TabsContent value="read">
-            {view === "grid" ? (
-              <LibraryGrid
-                library={library.filter(
-                  (book) => book.readingStatus === ReadingStatus.READ,
-                )}
-              />
-            ) : (
-              <LibraryList
-                library={library}
-                setLibrary={setLibrary}
-                status={ReadingStatus.READ}
-              />
-            )}
-          </TabsContent>
-          <TabsContent value="dropped">
-            {view === "grid" ? (
-              <LibraryGrid
-                library={library.filter(
-                  (book) => book.readingStatus === ReadingStatus.DROPPED,
-                )}
-              />
-            ) : (
-              <LibraryList
-                library={library}
-                setLibrary={setLibrary}
-                status={ReadingStatus.DROPPED}
-              />
-            )}
-          </TabsContent>
+
+          {STATUS_TABS.map((tab) => (
+            <TabsContent key={tab.value} value={tab.value}>
+              {view === "grid" ? (
+                <LibraryGrid library={filteredLibrary} />
+              ) : (
+                <LibraryList
+                  library={filteredLibrary}
+                  setLibrary={setLibrary}
+                  status={tab.status}
+                />
+              )}
+            </TabsContent>
+          ))}
         </Tabs>
       )}
     </div>
   );
 }
-
-function UserProfileHeader({ completedBooksCount }: UserProfileHeaderProps) {
-  return (
-    <div className="flex flex-row space-x-4 items-center">
-      <Badge>{completedBooksCount} Read</Badge>
-    </div>
-  );
-}
-
-type UserProfileHeaderProps = {
-  completedBooksCount: number;
-};
