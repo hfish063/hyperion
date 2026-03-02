@@ -1,7 +1,7 @@
 import apiFetch from "./api";
 
 export async function searchForBooks(title: string) {
-  const query = `/meta/search/books/title/${title}`;
+  const query = `/books/search/title/${title}`;
 
   const results = await apiFetch(query);
   const data = (await results.json()) as Book[];

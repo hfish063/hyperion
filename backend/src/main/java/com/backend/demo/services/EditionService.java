@@ -151,4 +151,8 @@ public class EditionService {
             }
         });
     }
+
+    public Edition saveEdition(Edition newEdition) {
+        return editionRepository.save(newEdition);
+    }
 }

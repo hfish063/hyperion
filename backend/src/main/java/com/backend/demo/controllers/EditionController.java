@@ -1,8 +1,6 @@
-package com.backend.demo.external.hardcover.controllers;
+package com.backend.demo.controllers;
 
-import com.backend.demo.entities.Book;
 import com.backend.demo.entities.Edition;
-import com.backend.demo.services.BookService;
 import com.backend.demo.services.EditionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,24 +11,17 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/meta/")
+@RequestMapping("/api/editions")
 @CrossOrigin(origins = "http://localhost:3000")
 public class EditionController {
     private final EditionService editionService;
-    private final BookService bookService;
 
     @Autowired
-    public EditionController(EditionService editionService, BookService bookService) {
+    public EditionController(EditionService editionService) {
         this.editionService = editionService;
-        this.bookService = bookService;
     }
 
-    @GetMapping("search/books/title/{title}")
-    public List<Book> getBooksByTitle(@PathVariable("title") String title) {
-        return bookService.findAllBooksByTitle(title);
-    }
-
-    @GetMapping("search/title/{title}")
+    @GetMapping("/search/title/{title}")
     public List<Edition> getEditionsByTitle(@PathVariable("title") String title,
                                             @RequestParam(required = false) Integer limit,
                                             @RequestParam(defaultValue = "0") int offset) throws IOException {
@@ -46,13 +37,18 @@ public class EditionController {
         return results.subList(offset, end);
     }
 
-    @GetMapping("search/id/{id}")
+    @GetMapping("/search/id/{id}")
     public Edition getEditionById(@PathVariable("id") String id) {
         return editionService.findEditionBySourceId(id);
     }
 
-    @GetMapping("search/isbn/{isbn}")
+    @GetMapping("/search/isbn/{isbn}")
     public Edition getEditionByIsbn(@PathVariable("isbn") String isbn) {
         return editionService.findEditionByIsbn(isbn);
+    }
+
+    @PostMapping("/save")
+    public Edition saveEdition(@RequestBody Edition edition) {
+        return null;
     }
 }

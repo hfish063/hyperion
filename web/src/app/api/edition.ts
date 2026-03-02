@@ -4,7 +4,7 @@ export async function searchForTitle(
   title: string,
   limit: number | undefined = undefined,
 ) {
-  let query = `/meta/search/title/${title}`;
+  let query = `/editions/search/title/${title}`;
 
   if (limit) {
     query += `?limit=${limit}`;
@@ -17,7 +17,7 @@ export async function searchForTitle(
 }
 
 export async function searchForEditionById(id: string) {
-  const query = `/meta/search/id/${id}`;
+  const query = `/editions/search/id/${id}`;
 
   const results = await apiFetch(query);
   const data = (await results.json()) as Edition;
@@ -26,7 +26,7 @@ export async function searchForEditionById(id: string) {
 }
 
 export async function searchForEditionByIsbn(isbn: string) {
-  const query = `/meta/search/isbn/${isbn}`;
+  const query = `/editions/search/isbn/${isbn}`;
 
   const results = await apiFetch(query);
   const data = (await results.json()) as Edition;
