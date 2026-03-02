@@ -8,12 +8,10 @@ import {
   UserBook,
 } from "@/app/api/user-book";
 import LibrarySearchBar from "./library-search-bar";
-import { UserAvatar, useUser } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
 import { Spinner } from "../ui";
 import ErrorAlert from "../error-alert";
 import { Badge } from "../ui/badge";
-import { Skeleton } from "../ui/skeleton";
 import ViewToggle, { ViewMode } from "../view-toggle";
 import LibraryGrid from "./library-grid";
 
@@ -168,22 +166,8 @@ export default function LibraryWrapper() {
 }
 
 function UserProfileHeader({ completedBooksCount }: UserProfileHeaderProps) {
-  const { user, isLoaded } = useUser();
-
-  if (!isLoaded) {
-    return (
-      <div className="flex flex-row space-x-4">
-        <Skeleton className="rounded-full size-6" />
-        <Skeleton className="h-6 w-24" />
-        <Skeleton className="h-6 w-12" />
-      </div>
-    );
-  }
-
   return (
     <div className="flex flex-row space-x-4 items-center">
-      <UserAvatar />
-      <h1 className="text-4xl font-bold">{user?.username}</h1>
       <Badge>{completedBooksCount} Read</Badge>
     </div>
   );

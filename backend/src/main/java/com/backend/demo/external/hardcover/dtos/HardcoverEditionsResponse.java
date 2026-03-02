@@ -2,7 +2,7 @@ package com.backend.demo.external.hardcover.dtos;
 
 import java.util.List;
 
-public class HardcoverEditionsResponseDto {
+public class HardcoverEditionsResponse {
     private HardcoverEditionsData data;
 
     public HardcoverEditionsData getData() {

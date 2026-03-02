@@ -1,11 +1,9 @@
 package com.backend.demo.external.openlibrary.controllers;
 
 import com.backend.demo.external.openlibrary.OpenLibraryClient;
-import com.backend.demo.external.openlibrary.dtos.OpenLibraryDoc;
+import com.backend.demo.external.openlibrary.dtos.OpenLibraryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -19,7 +17,7 @@ public class BookController {
     }
 
     @GetMapping("/search/title/{title}")
-    public List<OpenLibraryDoc> findAllBooksByTitle(@PathVariable("title") String title) {
+    public OpenLibraryResponse findAllBooksByTitle(@PathVariable("title") String title) {
         return openLibraryClient.searchWorksByTitle(title);
     }
 }

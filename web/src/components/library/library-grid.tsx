@@ -9,7 +9,7 @@ export default function LibraryGrid({ library }: LibraryGridProps) {
         <div key={userBook.id} className="flex flex-col h-full">
           <Link
             href={`/explore/${userBook.edition.sourceId}`}
-            className="flex flex-col flex-1 items-center"
+            className="flex flex-col flex-1 items-center hover:underline"
           >
             <CoverImage
               width={120}

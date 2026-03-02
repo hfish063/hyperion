@@ -16,7 +16,7 @@ export async function searchForTitle(
   return data;
 }
 
-export async function searchById(id: string) {
+export async function searchForEditionById(id: string) {
   const query = `/meta/search/id/${id}`;
 
   const results = await apiFetch(query);

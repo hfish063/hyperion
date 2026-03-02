@@ -7,12 +7,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class BookDto {
     private int id;
     private String title;
-    private String subtitle;
     private String description;
-    private int pages;
+    private Integer pages;
     @JsonProperty("release_year")
-    private int releaseYear;
-    private CoverImageDto image;
+    private Integer releaseYear;
+    @JsonProperty("default_cover_edition")
+    private CoverEditionDto defaultCoverEdition;
+
+    public static class CoverEditionDto {
+        private int id;
+        private CoverImageDto image;
+
+        public int getId() {
+            return id;
+        }
+
+        public CoverImageDto getImage() {
+            return image;
+        }
+    }
 
     public int getId() {
         return id;
@@ -22,23 +35,43 @@ public class BookDto {
         return title;
     }
 
-    public String getSubtitle() {
-        return subtitle;
-    }
-
     public String getDescription() {
         return description;
     }
 
-    public int getPages() {
+    public Integer getPages() {
         return pages;
     }
 
-    public int getReleaseYear() {
+    public Integer getReleaseYear() {
         return releaseYear;
     }
 
-    public CoverImageDto getImage() {
-        return image;
+    public CoverEditionDto getDefaultCoverEdition() {
+        return defaultCoverEdition;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPages(Integer pages) {
+        this.pages = pages;
+    }
+
+    public void setReleaseYear(Integer releaseYear) {
+        this.releaseYear = releaseYear;
+    }
+
+    public void setDefaultCoverEdition(CoverEditionDto defaultCoverEdition) {
+        this.defaultCoverEdition = defaultCoverEdition;
     }
 }

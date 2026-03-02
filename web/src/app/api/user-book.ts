@@ -44,6 +44,11 @@ export async function saveBookForUser(newUserBook: UserBook) {
   };
 
   const result = await apiFetch(query, options);
+
+  if (!result.ok) {
+    throw new Error("Failed to save book.");
+  }
+
   const data = (await result.json()) as UserBook;
 
   return data;
@@ -98,6 +103,7 @@ export type UserBook = {
   id: number;
   edition: Edition;
   readingStatus: ReadingStatus;
+  dateAdded: Date;
 };
 
 export enum ReadingStatus {

@@ -11,7 +11,7 @@ import {
   updateUserBookReadingStatus,
   UserBook,
 } from "@/app/api/user-book";
-import { CheckIcon, TrashIcon } from "lucide-react";
+import { CheckIcon, Info, TrashIcon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { Edition } from "@/app/api/edition";
 import Link from "next/link";
@@ -36,12 +36,9 @@ export default function LibraryCard({
   return (
     <Card className="w-full min-w-0">
       <CardContent className="flex flex-row space-x-4">
-        <Link
-          className="flex-1 min-w-0"
-          href={`/explore/${userBook.edition.sourceId}`}
-        >
+        <div className="flex-1 min-w-0">
           <LibraryCardDetails bookDetails={userBook.edition} />
-        </Link>
+        </div>
 
         <div className="flex flex-col space-y-2 sm:flex-row sm:space-x-2 sm:space-y-0 items-center justify-center">
           <ReadingStatusMenu
@@ -64,12 +61,18 @@ function LibraryCardDetails({ bookDetails }: LibraryCardDetailsProps) {
 
   return (
     <div className="flex flex-row space-x-4 items-center">
-      <CoverImage
-        title={bookDetails.title}
-        coverImageUrl={bookDetails.coverImageUrl}
-        width={120}
-        height={180}
-      />
+      <div className="flex flex-shrink-0 relative inline-block group">
+        <Link href={`/explore/${bookDetails.sourceId}`}>
+          <CoverImage
+            title={bookDetails.title}
+            coverImageUrl={bookDetails.coverImageUrl}
+            width={120}
+            height={180}
+          />
+        </Link>
+
+        <Info className="absolute top-2 right-2 h-5 w-5 text-white opacity-0 group-hover:opacity-100" />
+      </div>
       <div className="flex flex-col w-72">
         <h3 className="text-xl font-semibold line-clamp-2">
           {bookDetails.title}
