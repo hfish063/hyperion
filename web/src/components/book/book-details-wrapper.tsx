@@ -133,7 +133,7 @@ type BookCollaboratorsListProps = {
   details: Edition;
 };
 
-function BookDetailsList({ details }: BookDetailsListProps) {
+export function BookDetailsList({ details }: BookDetailsListProps) {
   const fields: { label: string; value?: string | number | null }[] = [
     { label: "Format", value: details.editionFormat },
     { label: "ISBN 10", value: details.isbn10 },

@@ -1,12 +1,13 @@
 "use client";
 
-import { Book, CircleArrowRight, ScanBarcode } from "lucide-react";
+import { CircleArrowRight, ScanBarcode } from "lucide-react";
 import { Button } from "../ui/button";
 import { Field, FieldDescription, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 import { useState } from "react";
 import { Edition, searchForEditionByIsbn } from "@/app/api/edition";
-import { Card, CardContent, CardHeader } from "../ui/card";
+import { Card, CardContent } from "../ui/card";
+import CoverImage from "../cover-image";
 
 export default function LibraryQuickAddForm() {
   const [isbn, setIsbn] = useState("");
@@ -61,18 +62,40 @@ export default function LibraryQuickAddForm() {
           </div>
         </Field>
       </form>
-      {edition && <EditionOverview edition={edition} />}
+      {edition && <EditionOverviewCard edition={edition} />}
     </div>
   );
 }
 
-function EditionOverview({ edition }: EditionOverViewProps) {
+function EditionOverviewCard({ edition }: EditionOverViewProps) {
   if (!edition.id) {
     return;
   }
+
   return (
     <Card>
-      <CardContent>{edition.title}</CardContent>
+      <CardContent>
+        <div className="flex flex-row space-x-4">
+          <CoverImage
+            title={edition.title}
+            width={100}
+            height={160}
+            coverImageUrl={edition.coverImageUrl}
+          />
+          <div className="flex flex-col space-y-4 w-24">
+            <p className="font-semibold">Title</p>
+            <p className="font-semibold">ISBN 10</p>
+            <p className="font-semibold">ISBN 13</p>
+            <p className="font-semibold">Pages</p>
+          </div>
+          <div className="flex flex-col space-y-4">
+            <p className="line-clamp-1">{edition.title}</p>
+            <p>{edition.isbn10}</p>
+            <p>{edition.isbn13}</p>
+            <p>{edition.pages}</p>
+          </div>
+        </div>
+      </CardContent>
     </Card>
   );
 }

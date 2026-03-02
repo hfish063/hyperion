@@ -9,18 +9,9 @@ export default function LibraryGrid({ library }: LibraryGridProps) {
         <div key={userBook.id} className="flex flex-col h-full">
           <Link
             href={`/explore/${userBook.edition.sourceId}`}
-            className="flex flex-col flex-1 items-center hover:underline"
+            className="flex flex-col flex-1 items-center"
           >
-            <CoverImage
-              width={120}
-              height={180}
-              title={userBook.edition.title}
-              coverImageUrl={userBook.edition.coverImageUrl}
-            />
-
-            <p className="text-sm mt-2 text-center line-clamp-2 min-h-[2.5rem]">
-              {userBook.edition.title}
-            </p>
+            <LibraryGridItem userBook={userBook} />
           </Link>
         </div>
       ))}
@@ -30,4 +21,27 @@ export default function LibraryGrid({ library }: LibraryGridProps) {
 
 type LibraryGridProps = {
   library: UserBook[];
+};
+
+function LibraryGridItem({ userBook }: LibraryCardProps) {
+  return (
+    <div className="flex flex-col items-center">
+      <CoverImage
+        width={120}
+        height={180}
+        title={userBook.edition.title}
+        coverImageUrl={userBook.edition.coverImageUrl}
+      />
+
+      <div className="flex flex-row space-x-2 justify-between">
+        <p className="text-sm text-center line-clamp-2 text-center">
+          {userBook.edition.title}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+type LibraryCardProps = {
+  userBook: UserBook;
 };
