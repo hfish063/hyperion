@@ -1,11 +1,17 @@
 import BackButton from "@/components/back-button";
 import LibraryAddForm from "@/components/library/library-add-book-wrapper";
 
-export default function LibraryAddPage() {
+export default async function QuickAddToLibraryPage({
+  params,
+}: {
+  params: { isbn: string };
+}) {
+  const pageParams = await params;
+
   return (
     <div className="flex flex-col space-y-4">
       <LibraryAddPageHeader />
-      <LibraryAddForm />
+      <LibraryAddForm initialIsbn={pageParams.isbn} />
     </div>
   );
 }

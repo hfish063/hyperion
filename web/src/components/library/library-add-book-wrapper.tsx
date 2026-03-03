@@ -1,18 +1,58 @@
 "use client";
 
-import { Book, CircleArrowRight, ScanBarcode, Zap } from "lucide-react";
+import {
+  Book,
+  CircleArrowRight,
+  Delete,
+  Plus,
+  ScanBarcode,
+  Zap,
+} from "lucide-react";
 import { Button } from "../ui/button";
 import { Field, FieldDescription, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
-import { Dispatch, SetStateAction, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  SubmitEvent,
+  useEffect,
+  useState,
+} from "react";
 import { Edition, searchForEditionByIsbn } from "@/app/api/edition";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import ErrorAlert from "../error-alert";
+import { useRouter } from "next/navigation";
 
-export default function LibraryQuickAddForm() {
+export default function LibraryAddForm({ initialIsbn }: LibraryAddFormProps) {
   const [edition, setEdition] = useState<Edition | undefined>(undefined);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (initialIsbn) {
+      fetchEdition(initialIsbn);
+    }
+  }, [initialIsbn]);
+
+  const fetchEdition = async (isbnToFetch: string) => {
+    if (!isbnToFetch) {
+      return;
+    }
+
+    if (isbnToFetch.length == 10 || isbnToFetch.length == 13) {
+      try {
+        const result = await searchForEditionByIsbn(isbnToFetch);
+        setEdition(result);
+      } catch (e: unknown) {
+        if (e instanceof Error) {
+          setError(e.message);
+        }
+      }
+    }
+  };
 
   return (
     <div className="flex flex-col space-y-4">
+      {error && <ErrorAlert message={error} />}
       <Card>
         <CardHeader>
           <CardTitle className="flex flex-row space-x-2 items-center">
@@ -30,7 +70,7 @@ export default function LibraryQuickAddForm() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <IsbnSearchForm setEdition={setEdition} />
+          <IsbnSearchForm />
         </CardContent>
       </Card>
     </div>
@@ -38,60 +78,147 @@ export default function LibraryQuickAddForm() {
 }
 
 function EditionDetailsForm({ edition }: EditionDetailsFormProps) {
+  const [title, setTitle] = useState("");
+  const [authors, setAuthors] = useState([""]);
+  const [description, setDescription] = useState("");
+  const [isbn10, setIsbn10] = useState("");
+  const [isbn13, setIsbn13] = useState("");
+  const [pages, setPages] = useState("");
+  const [coverImageUrl, setCoverImageUrl] = useState("");
+
+  useEffect(() => {
+    if (edition?.title) setTitle(edition.title);
+
+    const authorNames =
+      edition?.collaborators
+        ?.filter((c) => c.author?.name)
+        .map((c) => c.author.name) ?? [];
+    setAuthors(authorNames.length ? authorNames : [""]);
+
+    if (edition?.description) setDescription(edition.description);
+    if (edition?.isbn10) setIsbn10(String(edition.isbn10));
+    if (edition?.isbn13) setIsbn13(String(edition.isbn13));
+    if (edition?.pages) setPages(String(edition.pages));
+    if (edition?.coverImageUrl) setCoverImageUrl(edition.coverImageUrl);
+  }, [edition]);
+
   return (
     <form className="flex flex-col space-y-4">
       <Field>
         <FieldLabel>Title</FieldLabel>
-        <Input />
+        <Input value={title} onChange={(e) => setTitle(e.target.value)} />
       </Field>
+
+      <Card>
+        <CardContent>
+          <AuthorsField authors={authors} setAuthors={setAuthors} />
+        </CardContent>
+      </Card>
+
       <Field>
         <FieldLabel>Description (Optional)</FieldLabel>
-        <Input />
+        <Input
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
       </Field>
+
       <Field>
         <FieldLabel>ISBN 10</FieldLabel>
-        <Input />
+        <Input value={isbn10} onChange={(e) => setIsbn10(e.target.value)} />
       </Field>
+
       <Field>
         <FieldLabel>ISBN 13</FieldLabel>
-        <Input />
+        <Input value={isbn13} onChange={(e) => setIsbn13(e.target.value)} />
       </Field>
+
+      <Field>
+        <FieldLabel>Pages</FieldLabel>
+        <Input
+          type="number"
+          value={pages}
+          onChange={(e) => {
+            if (Number(e.target.value) > 0) {
+              setPages(e.target.value);
+            }
+          }}
+        />
+      </Field>
+
       <Field>
         <FieldLabel>Cover Image</FieldLabel>
-        <Input />
+        <Input
+          value={coverImageUrl}
+          onChange={(e) => setCoverImageUrl(e.target.value)}
+        />
       </Field>
+
+      <Button>
+        <Plus /> Add
+      </Button>
     </form>
   );
 }
 
-function IsbnSearchForm({ setEdition }: IsbnSearchFormProps) {
-  const [isbn, setIsbn] = useState("");
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState<string | undefined>(undefined);
+function AuthorsField({ authors, setAuthors }: AuthorsFieldProps) {
+  const handleAuthorChange = (index: number, value: string) => {
+    const updated = [...authors];
+    updated[index] = value;
+    setAuthors(updated);
+  };
 
-  async function handleSearch(e: React.FormEvent<HTMLFormElement>) {
+  const addAuthor = () => {
+    setAuthors([...authors, ""]);
+  };
+
+  const deleteAuthor = (index: number) => {
+    setAuthors(authors.filter((_, i) => i !== index));
+  };
+
+  return (
+    <Field>
+      <FieldLabel>Author(s)</FieldLabel>
+      <div className="flex flex-col space-y-4">
+        {authors.map((author, index) => (
+          <div key={index} className="flex flex-row space-x-4">
+            <Input
+              value={author}
+              onChange={(e) => {
+                handleAuthorChange(index, e.target.value);
+              }}
+            />
+            {index + 1 == authors.length ? (
+              <Button type="button" variant={"outline"} onClick={addAuthor}>
+                Add Author
+              </Button>
+            ) : (
+              <Button
+                type="button"
+                variant={"outline"}
+                onClick={() => deleteAuthor(index)}
+              >
+                <Delete />
+              </Button>
+            )}
+          </div>
+        ))}
+      </div>
+    </Field>
+  );
+}
+
+function IsbnSearchForm() {
+  const router = useRouter();
+  const [isbn, setIsbn] = useState("");
+
+  async function handleSearch(e: SubmitEvent) {
     e.preventDefault();
 
     if (!isbn) return;
 
-    runSearch();
+    router.push(`/library/add/${encodeURIComponent(isbn)}`);
   }
-
-  const runSearch = async () => {
-    try {
-      if (isbn.length == 10 || isbn.length == 13) {
-        const result = await searchForEditionByIsbn(isbn);
-
-        setEdition(result);
-      }
-    } catch (e: unknown) {
-      if (e instanceof Error) {
-        setError(e.message);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <form onSubmit={handleSearch}>
@@ -118,10 +245,15 @@ function IsbnSearchForm({ setEdition }: IsbnSearchFormProps) {
   );
 }
 
+type LibraryAddFormProps = {
+  initialIsbn?: string;
+};
+
 type EditionDetailsFormProps = {
   edition: Edition | undefined;
 };
 
-type IsbnSearchFormProps = {
-  setEdition: Dispatch<SetStateAction<Edition | undefined>>;
+type AuthorsFieldProps = {
+  authors: string[];
+  setAuthors: Dispatch<SetStateAction<string[]>>;
 };

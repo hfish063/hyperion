@@ -1,6 +1,7 @@
 package com.backend.demo.constants;
 
-public enum Source {
+public enum DataSource {
     OPEN_LIBRARY,
-    HARDCOVER
+    HARDCOVER,
+    MANUAL
 }

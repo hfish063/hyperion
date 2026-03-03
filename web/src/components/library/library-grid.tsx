@@ -1,6 +1,6 @@
 import { UserBook } from "@/app/api/user-book";
 import Link from "next/link";
-import CoverImage from "../cover-image";
+import CoverImage from "../book/cover-image";
 
 export default function LibraryGrid({ library }: LibraryGridProps) {
   return (

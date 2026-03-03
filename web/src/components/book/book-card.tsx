@@ -1,7 +1,7 @@
 import Link from "next/link";
-import AddBookToLibraryButton from "../add-to-library-button";
+import AddBookToLibraryButton from "./add-to-library-button";
 import { Card, CardContent } from "../ui/card";
-import CoverImage from "../cover-image";
+import CoverImage from "./cover-image";
 import { Button } from "../ui/button";
 import { Info } from "lucide-react";
 import { Book } from "@/app/api/book";

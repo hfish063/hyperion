@@ -1,4 +1,4 @@
-import BookSearchWrapper from "@/components/book/book-search-wrapper";
+import BookSearchWrapper from "@/components/book/book-search-results";
 
 export default async function SearchPage({ params }: SearchPageParams) {
   const resolvedParams = await params;

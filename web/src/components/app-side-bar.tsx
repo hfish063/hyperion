@@ -8,21 +8,12 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-import {
-  Home,
-  Search,
-  BookOpen,
-  FlameIcon,
-  Settings,
-  List,
-} from "lucide-react";
+import { Home, BookOpen, FlameIcon, List } from "lucide-react";
 
 const items = [
   { title: "Home", url: "/", icon: Home },
   { title: "Library", url: "/library", icon: BookOpen },
   { title: "Lists", url: "/lists", icon: List },
-  { title: "Explore", url: "/explore", icon: Search },
-  { title: "Settings", url: "/settings", icon: Settings },
 ];
 
 export function AppSidebar() {

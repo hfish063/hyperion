@@ -11,7 +11,7 @@ import ErrorAlert from "./error-alert";
 import { Skeleton } from "./ui/skeleton";
 import { Tooltip, TooltipTrigger, TooltipContent } from "./ui/tooltip";
 import { Badge } from "./ui/badge";
-import CoverImage from "./cover-image";
+import CoverImage from "./book/cover-image";
 
 export default function ReadingOverview() {
   const [currentlyReading, setCurrentlyReading] = useState<UserBook[]>([]);

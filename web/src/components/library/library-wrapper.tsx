@@ -5,7 +5,6 @@ import { Plus } from "lucide-react";
 
 import LibraryList from "./library-list";
 import LibraryGrid from "./library-grid";
-import LibrarySearchBar from "./library-search-bar";
 import ViewToggle, { ViewMode } from "../view-toggle";
 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
@@ -20,6 +19,7 @@ import {
   UserBook,
 } from "@/app/api/user-book";
 import Link from "next/link";
+import { Skeleton } from "../ui/skeleton";
 
 const STATUS_TABS: {
   label: string;
@@ -96,7 +96,11 @@ export default function LibraryWrapper() {
           </Button>
         </Link>
 
-        <Badge variant="outline">{completedCount} Read</Badge>
+        {isLoading ? (
+          <Skeleton className="h-5 w-15" />
+        ) : (
+          <Badge variant="outline">{completedCount} Read</Badge>
+        )}
       </div>
 
       <hr />
@@ -111,20 +115,16 @@ export default function LibraryWrapper() {
           onValueChange={setActiveTab}
           className="flex flex-col space-y-4"
         >
-          <div className="flex flex-col space-y-4 w-full">
-            <LibrarySearchBar setLibrary={setLibrary} />
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <TabsList className="flex flex-row gap-2 flex-wrap">
+              {STATUS_TABS.map((tab) => (
+                <TabsTrigger key={tab.value} value={tab.value}>
+                  {tab.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
 
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <TabsList className="flex flex-row gap-2 flex-wrap">
-                {STATUS_TABS.map((tab) => (
-                  <TabsTrigger key={tab.value} value={tab.value}>
-                    {tab.label}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-
-              <ViewToggle value={view} onChange={handleViewChange} />
-            </div>
+            <ViewToggle value={view} onChange={handleViewChange} />
           </div>
 
           {STATUS_TABS.map((tab) => (

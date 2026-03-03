@@ -17,7 +17,7 @@ import { Edition } from "@/app/api/edition";
 import Link from "next/link";
 import { toast } from "sonner";
 import { Card, CardContent } from "../ui/card";
-import CoverImage from "../cover-image";
+import CoverImage from "../book/cover-image";
 
 export default function LibraryCard({
   userBook,

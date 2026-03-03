@@ -1,8 +1,8 @@
 import { saveBookForUser, ReadingStatus, UserBook } from "@/app/api/user-book";
 import { useState } from "react";
-import { Spinner } from "./ui";
-import { Button } from "./ui/button";
-import { BookmarkIcon } from "lucide-react";
+import { Spinner } from "../ui";
+import { Button } from "../ui/button";
+import { Plus } from "lucide-react";
 import { toast } from "sonner";
 import { Book } from "@/app/api/book";
 import { searchForEditionById } from "@/app/api/edition";
@@ -51,7 +51,7 @@ export default function AddBookToLibraryButton({
       <Button onClick={AddBookToLibrary} className="w-32">
         {!loading ? (
           <div className="flex flex-row items-center space-x-1">
-            <BookmarkIcon />
+            <Plus />
             <p>Add to Library</p>
           </div>
         ) : (
