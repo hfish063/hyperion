@@ -1,9 +1,7 @@
 import { Search } from "lucide-react";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
 import { SubmitEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ButtonGroup } from "./ui/button-group";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
@@ -24,16 +22,16 @@ export default function SearchBar() {
       className="flex flex-row space-x-4 items-center"
       onSubmit={handleSearch}
     >
-      <ButtonGroup>
-        <Input
+      <InputGroup>
+        <InputGroupAddon>
+          <Search />
+        </InputGroupAddon>
+        <InputGroupInput
           placeholder="Search books by title..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        <Button>
-          <Search />
-        </Button>
-      </ButtonGroup>
+      </InputGroup>
     </form>
   );
 }

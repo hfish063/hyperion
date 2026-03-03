@@ -100,9 +100,12 @@ function ReadingStatusPreview({ readingList }: ReadingStatusPreviewProps) {
     return <p className="line-clamp-1">No Data</p>;
   }
 
+  const MAX_PREVIEW_ITEMS = 10;
+  const previewList = readingList.slice(0, MAX_PREVIEW_ITEMS);
+
   return (
-    <div className="flex gap-4 overflow-hidden">
-      {readingList.map((book) => {
+    <div className="flex gap-4 overflow-x-auto items-center">
+      {previewList.map((book) => {
         const { edition } = book;
 
         return (
@@ -126,6 +129,11 @@ function ReadingStatusPreview({ readingList }: ReadingStatusPreviewProps) {
           </div>
         );
       })}
+      {previewList.length < readingList.length && (
+        <p className="text-sm text-center">
+          + {readingList.length - previewList.length} more
+        </p>
+      )}
     </div>
   );
 }

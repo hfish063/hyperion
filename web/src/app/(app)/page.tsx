@@ -7,8 +7,8 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col space-y-4 w-full px-4 md:px-0">
-      <div className="flex flex-col items-center w-full space-y-4">
+    <div className="flex flex-col space-y-4">
+      <div className="flex flex-col items-center space-y-4">
         <PageHeader text="Get Started" />
         <QuickLinks />
         <ReadingOverview />
