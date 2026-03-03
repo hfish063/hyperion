@@ -36,7 +36,7 @@ public class ExternalBookService {
             return searchFallbackSource(title);
         }
 
-        return null;
+        return apiBooks;
     }
 
     /**
@@ -48,7 +48,7 @@ public class ExternalBookService {
     private List<Book> searchFallbackSource(String title) {
         OpenLibraryResponse openLibraryResponse = openLibraryClient.searchWorksByTitle(title);
 
-        return null;
+        return List.of();
     }
 
     private List<BookDto> convertFallbackSourceResponse(OpenLibraryResponse openLibraryResponse) {

@@ -2,7 +2,6 @@ package com.backend.demo.services;
 
 import com.backend.demo.entities.Book;
 import com.backend.demo.external.hardcover.HardcoverClient;
-import com.backend.demo.external.hardcover.dtos.BookDto;
 import com.backend.demo.external.openlibrary.OpenLibraryClient;
 import com.backend.demo.mappers.BookMapper;
 import com.backend.demo.repositories.BookRepository;
@@ -15,13 +14,15 @@ import java.util.Optional;
 
 @Service
 public class BookService {
+    private final ExternalBookService externalBookService;
     private final HardcoverClient hardcoverClient;
     private final OpenLibraryClient openLibraryClient;
     private final BookMapper bookMapper;
     private final BookRepository bookRepository;
 
     @Autowired
-    public BookService(HardcoverClient hardcoverClient, OpenLibraryClient openLibraryClient, BookMapper bookMapper, BookRepository bookRepository) {
+    public BookService(ExternalBookService externalBookService, HardcoverClient hardcoverClient, OpenLibraryClient openLibraryClient, BookMapper bookMapper, BookRepository bookRepository) {
+        this.externalBookService = externalBookService;
         this.hardcoverClient = hardcoverClient;
         this.openLibraryClient = openLibraryClient;
         this.bookMapper = bookMapper;
@@ -35,9 +36,8 @@ public class BookService {
             return storedBooks;
         }
 
-        List<BookDto> hardcoverResults = hardcoverClient.getBooksByTitle(title).getData().getBooks();
-        List<Book> apiBooks = bookMapper.mapToEntities(hardcoverResults);
-        List<Book> newBooks = findUnsavedBooks(apiBooks);
+        List<Book> externalBooks = externalBookService.doExternalBookSearch(title);
+        List<Book> newBooks = findUnsavedBooks(externalBooks);
 
         try {
             return bookRepository.saveAll(newBooks);
