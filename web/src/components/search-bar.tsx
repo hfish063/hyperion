@@ -3,6 +3,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { SubmitEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { ButtonGroup } from "./ui/button-group";
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
@@ -23,14 +24,16 @@ export default function SearchBar() {
       className="flex flex-row space-x-4 items-center"
       onSubmit={handleSearch}
     >
-      <Input
-        placeholder="Search books by title..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
-      <Button>
-        <Search />
-      </Button>
+      <ButtonGroup>
+        <Input
+          placeholder="Search books by title..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <Button>
+          <Search />
+        </Button>
+      </ButtonGroup>
     </form>
   );
 }
