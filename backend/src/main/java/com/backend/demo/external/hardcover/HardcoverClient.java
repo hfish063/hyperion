@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Component
 public class HardcoverClient {
-    private RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate = new RestTemplate();
     private String hardcoverUrl = "https://api.hardcover.app/v1/graphql";
     @Value("${hardcover.api.key}")
     private String apiKey;

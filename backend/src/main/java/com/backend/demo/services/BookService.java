@@ -1,9 +1,6 @@
 package com.backend.demo.services;
 
 import com.backend.demo.entities.Book;
-import com.backend.demo.external.hardcover.HardcoverClient;
-import com.backend.demo.external.openlibrary.OpenLibraryClient;
-import com.backend.demo.mappers.BookMapper;
 import com.backend.demo.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,17 +12,11 @@ import java.util.Optional;
 @Service
 public class BookService {
     private final ExternalBookService externalBookService;
-    private final HardcoverClient hardcoverClient;
-    private final OpenLibraryClient openLibraryClient;
-    private final BookMapper bookMapper;
     private final BookRepository bookRepository;
 
     @Autowired
-    public BookService(ExternalBookService externalBookService, HardcoverClient hardcoverClient, OpenLibraryClient openLibraryClient, BookMapper bookMapper, BookRepository bookRepository) {
+    public BookService(ExternalBookService externalBookService, BookRepository bookRepository) {
         this.externalBookService = externalBookService;
-        this.hardcoverClient = hardcoverClient;
-        this.openLibraryClient = openLibraryClient;
-        this.bookMapper = bookMapper;
         this.bookRepository = bookRepository;
     }
 
