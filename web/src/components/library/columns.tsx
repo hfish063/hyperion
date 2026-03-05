@@ -1,6 +1,6 @@
 import { Edition } from "@/app/api/edition";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, Ellipsis } from "lucide-react";
+import { ChevronsUpDown, Ellipsis } from "lucide-react";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 
@@ -35,7 +35,7 @@ export const columns: ColumnDef<Edition>[] = [
           variant={"ghost"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Title <ArrowUpDown />
+          Title <ChevronsUpDown />
         </Button>
       );
     },
@@ -50,7 +50,7 @@ export const columns: ColumnDef<Edition>[] = [
           variant={"ghost"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Pages <ArrowUpDown />
+          Pages <ChevronsUpDown />
         </Button>
       );
     },
