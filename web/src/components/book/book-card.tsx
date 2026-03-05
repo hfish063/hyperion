@@ -15,12 +15,14 @@ export default function BookCard({
 
   return (
     <div className="flex flex-row space-x-4">
-      <CoverImage
-        coverImageUrl={metadata.coverEditionImageUrl}
-        title={metadata.title}
-        width={coverImageWidth}
-        height={coverImageHeight}
-      />
+      <div className="flex-shrink-0">
+        <CoverImage
+          coverImageUrl={metadata.coverEditionImageUrl}
+          title={metadata.title}
+          width={coverImageWidth}
+          height={coverImageHeight}
+        />
+      </div>
       <Card className="flex-1">
         <CardContent>
           <div className="flex flex-col space-y-4">
