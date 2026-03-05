@@ -44,6 +44,12 @@ public class ExternalService {
         return apiBooks;
     }
 
+    /**
+     * Search external data sources by ISBN (10 or 13) and retrieve edition information.
+     *
+     * @param isbn ISBN to search by, formatted numerically (1234567890123, 1234567890).
+     * @return Edition class with data from external search results mapped to the object's fields
+     */
     public Edition doExternalIsbnSearch(String isbn) {
         if (isbn.length() == 10) {
             List<EditionDto> dtos = hardcoverClient.getEditionByIsbn10(isbn).getData().getEditions();
