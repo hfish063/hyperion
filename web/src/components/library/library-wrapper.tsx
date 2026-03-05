@@ -116,13 +116,15 @@ export default function LibraryWrapper() {
           className="flex flex-col space-y-4"
         >
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <TabsList className="flex flex-row gap-2 flex-wrap">
-              {STATUS_TABS.map((tab) => (
-                <TabsTrigger key={tab.value} value={tab.value}>
-                  {tab.label}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+            <div className="overflow-x-auto">
+              <TabsList className="flex flex-row space-x-2">
+                {STATUS_TABS.map((tab) => (
+                  <TabsTrigger key={tab.value} value={tab.value}>
+                    {tab.label}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
 
             <ViewToggle value={view} onChange={handleViewChange} />
           </div>
