@@ -6,8 +6,6 @@ import Image from "next/image";
 import { Card } from "../ui/card";
 import BackButton from "../back-button";
 import ErrorAlert from "../error-alert";
-import { Button } from "../ui/button";
-import Link from "next/link";
 
 export default function BookDetailsWrapper({
   sourceId,
@@ -59,9 +57,6 @@ export default function BookDetailsWrapper({
         />
         <BookDetailsHeader details={bookDetails} />
         <hr />
-        <Link href={`/explore/${bookDetails.sourceId}/editions`}>
-          <Button variant={"outline"}>Select Edition</Button>
-        </Link>
         <BookDetailsDescription description={bookDetails.description} />
         <BookDetailsList details={bookDetails} />
       </div>
