@@ -60,7 +60,7 @@ type BookCardProps = {
 function BookCardContent({ metadata }: BookCardContentProps) {
   return (
     <div className="flex flex-col space-y-2">
-      <h3 className="text-xl font-medium">{metadata.title}</h3>
+      <h3 className="text-xl font-medium line-clamp-3">{metadata.title}</h3>
     </div>
   );
 }
