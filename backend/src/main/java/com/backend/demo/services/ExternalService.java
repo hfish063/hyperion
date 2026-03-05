@@ -1,13 +1,16 @@
 package com.backend.demo.services;
 
 import com.backend.demo.entities.Book;
+import com.backend.demo.entities.Edition;
 import com.backend.demo.external.hardcover.HardcoverClient;
 import com.backend.demo.external.hardcover.dtos.BookDto;
+import com.backend.demo.external.hardcover.dtos.EditionDto;
 import com.backend.demo.external.hardcover.dtos.HardcoverBooksResponse;
 import com.backend.demo.external.openlibrary.OpenLibraryClient;
 import com.backend.demo.external.openlibrary.dtos.OpenLibraryDoc;
 import com.backend.demo.external.openlibrary.dtos.OpenLibraryResponse;
 import com.backend.demo.mappers.BookMapper;
+import com.backend.demo.mappers.EditionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +18,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ExternalBookService {
+public class ExternalService {
     private final HardcoverClient hardcoverClient;
     private final OpenLibraryClient openLibraryClient;
     private final BookMapper bookMapper;
+    private final EditionMapper editionMapper;
 
     @Autowired
-    public ExternalBookService(HardcoverClient hardcoverClient, OpenLibraryClient openLibraryClient, BookMapper bookMapper) {
+    public ExternalService(HardcoverClient hardcoverClient, OpenLibraryClient openLibraryClient, BookMapper bookMapper, EditionMapper editionMapper) {
         this.hardcoverClient = hardcoverClient;
         this.openLibraryClient = openLibraryClient;
         this.bookMapper = bookMapper;
+        this.editionMapper = editionMapper;
     }
 
     public List<Book> doExternalBookSearch(String title) {
@@ -39,13 +44,15 @@ public class ExternalBookService {
         return apiBooks;
     }
 
-    public Book doExternalIsbnSearch(String isbn) {
+    public Edition doExternalIsbnSearch(String isbn) {
         if (isbn.length() == 10) {
-
+            List<EditionDto> dtos = hardcoverClient.getEditionByIsbn10(isbn).getData().getEditions();
+            return editionMapper.mapToEntities(dtos).get(0);
         }
 
         if (isbn.length() == 13) {
-            
+            List<EditionDto> dtos = hardcoverClient.getEditionByIsbn13(isbn).getData().getEditions();
+            return editionMapper.mapToEntities(dtos).get(0);
         }
 
         return null;

@@ -2,7 +2,6 @@ package com.backend.demo.services;
 
 import com.backend.demo.entities.Author;
 import com.backend.demo.entities.Edition;
-import com.backend.demo.exceptions.ResourceNotFoundException;
 import com.backend.demo.external.hardcover.HardcoverClient;
 import com.backend.demo.external.hardcover.dtos.EditionDto;
 import com.backend.demo.external.hardcover.dtos.HardcoverEditionsResponse;
@@ -23,13 +22,15 @@ public class EditionService {
     private final EditionRepository editionRepository;
     private final AuthorRepository authorRepository;
     private final EntityMapper<Edition, EditionDto> editionMapper;
+    private final ExternalService externalService;
     private final HardcoverClient hardcoverClient;
 
     @Autowired
-    public EditionService(EditionRepository editionRepository, AuthorRepository authorRepository, EntityMapper<Edition, EditionDto> editionMapper, HardcoverClient hardcoverClient) {
+    public EditionService(EditionRepository editionRepository, AuthorRepository authorRepository, EntityMapper<Edition, EditionDto> editionMapper, ExternalService externalService, HardcoverClient hardcoverClient) {
         this.editionRepository = editionRepository;
         this.authorRepository = authorRepository;
         this.editionMapper = editionMapper;
+        this.externalService = externalService;
         this.hardcoverClient = hardcoverClient;
     }
 
@@ -111,11 +112,7 @@ public class EditionService {
             storedEdition = editionRepository.findByIsbn13(isbn);
         }
 
-        if (storedEdition.isEmpty()) {
-            throw new ResourceNotFoundException("Failed to locate an edition with ISBN: " + isbn);
-        }
-
-        return storedEdition.get();
+        return storedEdition.orElseGet(() -> externalService.doExternalIsbnSearch(isbn));
     }
 
     /**

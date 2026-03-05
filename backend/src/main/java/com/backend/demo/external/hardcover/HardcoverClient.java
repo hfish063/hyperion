@@ -124,11 +124,79 @@ public class HardcoverClient {
     }
 
     public HardcoverEditionsResponse getEditionByIsbn10(String isbn10) {
-        return null;
+        String query = """
+                query GetEditionByISBN {
+                  editions(where: {isbn_10: {_eq: "%s"}}) {
+                      id
+                      title
+                      subtitle
+                      isbn_10
+                      isbn_13
+                      asin
+                      pages
+                      release_year
+                      edition_format
+                      image_id
+                      book {
+                          id
+                          description
+                      }
+                      publisher {
+                          id
+                          name
+                      }
+                      contributions {
+                        author {
+                            id
+                            name
+                        }
+                        contribution
+                      }
+                      image {
+                        url
+                      }
+                  }
+                }""".formatted(isbn10);
+
+        return sendQuery(query, HardcoverEditionsResponse.class);
     }
 
     public HardcoverEditionsResponse getEditionByIsbn13(String isbn13) {
-        return null;
+        String query = """
+                query GetEditionByISBN {
+                  editions(where: {isbn_13: {_eq: "%s"}}) {
+                      id
+                      title
+                      subtitle
+                      isbn_10
+                      isbn_13
+                      asin
+                      pages
+                      release_year
+                      edition_format
+                      image_id
+                      book {
+                          id
+                          description
+                      }
+                      publisher {
+                          id
+                          name
+                      }
+                      contributions {
+                        author {
+                            id
+                            name
+                        }
+                        contribution
+                      }
+                      image {
+                        url
+                      }
+                  }
+                }""".formatted(isbn13);
+
+        return sendQuery(query, HardcoverEditionsResponse.class);
     }
 
     /**

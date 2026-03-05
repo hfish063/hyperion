@@ -11,11 +11,11 @@ import java.util.Optional;
 
 @Service
 public class BookService {
-    private final ExternalBookService externalBookService;
+    private final ExternalService externalBookService;
     private final BookRepository bookRepository;
 
     @Autowired
-    public BookService(ExternalBookService externalBookService, BookRepository bookRepository) {
+    public BookService(ExternalService externalBookService, BookRepository bookRepository) {
         this.externalBookService = externalBookService;
         this.bookRepository = bookRepository;
     }
