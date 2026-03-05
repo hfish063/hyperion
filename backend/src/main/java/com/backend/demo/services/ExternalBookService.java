@@ -39,6 +39,18 @@ public class ExternalBookService {
         return apiBooks;
     }
 
+    public Book doExternalIsbnSearch(String isbn) {
+        if (isbn.length() == 10) {
+
+        }
+
+        if (isbn.length() == 13) {
+            
+        }
+
+        return null;
+    }
+
     /**
      * Pull data from OpenLibraryAPI if HardcoverAPI fails to find valid search results.
      *

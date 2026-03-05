@@ -123,6 +123,14 @@ public class HardcoverClient {
         return sendQuery(query, HardcoverEditionsResponse.class);
     }
 
+    public HardcoverEditionsResponse getEditionByIsbn10(String isbn10) {
+        return null;
+    }
+
+    public HardcoverEditionsResponse getEditionByIsbn13(String isbn13) {
+        return null;
+    }
+
     /**
      * Send request to Hardcover API at the 'hardCoverUrl' field.  This method saves results to database if they don't already exist,
      * to cache data and reduce future requests.  All setup for headers and response entity (RestTemplate) are handled here.
