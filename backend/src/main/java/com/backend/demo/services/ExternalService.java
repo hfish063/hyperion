@@ -47,12 +47,20 @@ public class ExternalService {
     public Edition doExternalIsbnSearch(String isbn) {
         if (isbn.length() == 10) {
             List<EditionDto> dtos = hardcoverClient.getEditionByIsbn10(isbn).getData().getEditions();
-            return editionMapper.mapToEntities(dtos).get(0);
+            List<Edition> results = editionMapper.mapToEntities(dtos);
+
+            if (!results.isEmpty()) {
+                return results.get(0);
+            }
         }
 
         if (isbn.length() == 13) {
             List<EditionDto> dtos = hardcoverClient.getEditionByIsbn13(isbn).getData().getEditions();
-            return editionMapper.mapToEntities(dtos).get(0);
+            List<Edition> results = editionMapper.mapToEntities(dtos);
+
+            if (!results.isEmpty()) {
+                return results.get(0);
+            }
         }
 
         return null;
