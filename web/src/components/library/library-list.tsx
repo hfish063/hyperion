@@ -1,6 +1,8 @@
 import { ReadingStatus, UserBook } from "@/app/api/user-book";
 import { Dispatch, SetStateAction } from "react";
 import LibraryCard from "./library-card";
+import DataTable, { columns } from "./data-table";
+import { Edition } from "@/app/api/edition";
 
 export default function LibraryList({
   status,
@@ -14,12 +16,15 @@ export default function LibraryList({
     );
   }
 
+  const editions: Edition[] = [];
+  library.forEach((value) => {
+    editions.push(value.edition);
+  });
+
   // return list of all items in library
   return (
     <div className="flex flex-col space-y-4">
-      {library.map((book, index) => (
-        <LibraryCard key={index} userBook={book} setLibrary={setLibrary} />
-      ))}
+      <DataTable columns={columns} data={editions} />
     </div>
   );
 }
