@@ -1,6 +1,5 @@
 import { ReadingStatus, UserBook } from "@/app/api/user-book";
 import { Dispatch, SetStateAction } from "react";
-import LibraryCard from "./library-card";
 import { Edition } from "@/app/api/edition";
 import DataTable from "./data-table";
 import { columns } from "./columns";
