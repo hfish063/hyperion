@@ -41,11 +41,12 @@ function FilteredList({ library, status, setLibrary }: FilteredListProps) {
     return book.readingStatus === status;
   });
 
+  const editions: Edition[] = [];
+  filtered.forEach((value) => editions.push(value.edition));
+
   return (
     <div className="flex flex-col space-y-4">
-      {filtered.map((book, index) => (
-        <LibraryCard key={index} userBook={book} setLibrary={setLibrary} />
-      ))}
+      <DataTable columns={columns} data={editions} />
     </div>
   );
 }

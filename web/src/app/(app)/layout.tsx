@@ -16,7 +16,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
         <hr />
 
-        <div className="w-full xl:w-1/2 mx-auto">{children}</div>
+        <div className="w-full p-0 xl:pr-24 xl:pl-24 2xl:w-1/2 mx-auto">
+          {children}
+        </div>
       </main>
 
       <Toaster />
