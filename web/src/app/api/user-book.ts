@@ -99,6 +99,23 @@ export async function deleteBookForUser(id: number) {
   return result.ok;
 }
 
+export async function deleteAllUserBooksByIds(ids: number[]) {
+  const query = `/books/delete/all/edition/ids`;
+
+  const headers: HeadersInit = {
+    "Content-Type": "application/json",
+  };
+
+  const options: RequestInit = {
+    headers: headers,
+    method: "DELETE",
+    body: JSON.stringify(ids),
+  };
+
+  const result = await apiFetch(query, options);
+  return result.ok;
+}
+
 export type UserBook = {
   id: number;
   edition: Edition;

@@ -5,6 +5,7 @@ import com.backend.demo.entities.UserBook;
 import com.backend.demo.exceptions.ResourceAlreadyExistsException;
 import com.backend.demo.exceptions.ResourceNotFoundException;
 import com.backend.demo.repositories.UserBookRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,7 +64,8 @@ public class UserBookService {
         userBookRepository.deleteById(id);
     }
 
-    public void deleteAllUserBooksByIds(List<Long> ids) {
-        userBookRepository.deleteAllById(ids);
+    @Transactional
+    public void deleteAllUserBooksByEditionIds(List<Long> editionIds) {
+        userBookRepository.deleteAllByEditionIdIn(editionIds);
     }
 }
