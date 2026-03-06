@@ -6,8 +6,8 @@ import {
 import { Dispatch, SetStateAction } from "react";
 import { Edition } from "@/app/api/edition";
 import DataTable from "./data-table";
-import { columns } from "./columns";
 import { toast } from "sonner";
+import { getLibraryColumns } from "./columns";
 
 export default function LibraryList({
   status,
@@ -50,7 +50,7 @@ export default function LibraryList({
   return (
     <div className="flex flex-col space-y-4">
       <DataTable
-        columns={columns}
+        columns={getLibraryColumns(setLibrary)}
         data={editions}
         handleDelete={handleDelete}
       />
@@ -80,7 +80,7 @@ function FilteredList({
   return (
     <div className="flex flex-col space-y-4">
       <DataTable
-        columns={columns}
+        columns={getLibraryColumns(setLibrary)}
         data={editions}
         handleDelete={handleDelete}
       />

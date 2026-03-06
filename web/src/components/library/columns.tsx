@@ -1,10 +1,20 @@
 import { Edition } from "@/app/api/edition";
 import { ColumnDef } from "@tanstack/react-table";
-import { ChevronsUpDown, Ellipsis } from "lucide-react";
+import { ChevronsUpDown, Ellipsis, Trash } from "lucide-react";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { deleteAllUserBooksByIds, UserBook } from "@/app/api/user-book";
+import { toast } from "sonner";
+import { Dispatch, SetStateAction } from "react";
 
-export const columns: ColumnDef<Edition>[] = [
+export const getLibraryColumns = (
+  setUserBooks: Dispatch<SetStateAction<UserBook[]>>,
+): ColumnDef<Edition>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -29,31 +39,27 @@ export const columns: ColumnDef<Edition>[] = [
   },
   {
     accessorKey: "title",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant={"ghost"}
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Title <ChevronsUpDown />
-        </Button>
-      );
-    },
+    header: ({ column }) => (
+      <Button
+        variant={"ghost"}
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Title <ChevronsUpDown />
+      </Button>
+    ),
   },
   { accessorKey: "isbn10", header: "ISBN 10" },
   { accessorKey: "isbn13", header: "ISBN 13" },
   {
     accessorKey: "pages",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant={"ghost"}
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Pages <ChevronsUpDown />
-        </Button>
-      );
-    },
+    header: ({ column }) => (
+      <Button
+        variant={"ghost"}
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Pages <ChevronsUpDown />
+      </Button>
+    ),
   },
   { accessorKey: "editionFormat", header: "Format" },
   {
@@ -61,10 +67,36 @@ export const columns: ColumnDef<Edition>[] = [
     cell: ({ row }) => {
       const edition = row.original;
 
+      const handleDelete = async (editionId: number) => {
+        const isSuccessful = await deleteAllUserBooksByIds([editionId]);
+
+        if (isSuccessful) {
+          setUserBooks((prev) =>
+            prev.filter((userBook) => userBook.edition.id !== editionId),
+          );
+          toast.success("Successfully deleted book.");
+        } else {
+          toast.error("Failed to delete book.");
+        }
+      };
+
       return (
-        <Button variant={"ghost"}>
-          <Ellipsis />
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant={"ghost"}>
+              <Ellipsis />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <Button
+              className="w-full"
+              variant={"ghost"}
+              onClick={() => handleDelete(edition.id)}
+            >
+              <Trash /> Delete
+            </Button>
+          </DropdownMenuContent>
+        </DropdownMenu>
       );
     },
     header: "Manage",
