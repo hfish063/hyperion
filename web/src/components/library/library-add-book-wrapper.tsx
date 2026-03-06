@@ -3,9 +3,9 @@
 import {
   Book,
   CircleArrowRight,
-  Delete,
   Plus,
   ScanBarcode,
+  Trash,
   Zap,
 } from "lucide-react";
 import { Button } from "../ui/button";
@@ -197,8 +197,9 @@ function AuthorsField({ authors, setAuthors }: AuthorsFieldProps) {
                 type="button"
                 variant={"outline"}
                 onClick={() => deleteAuthor(index)}
+                size={"icon"}
               >
-                <Delete />
+                <Trash />
               </Button>
             )}
           </div>
