@@ -12,6 +12,7 @@ import { Skeleton } from "./ui/skeleton";
 import { Tooltip, TooltipTrigger, TooltipContent } from "./ui/tooltip";
 import { Badge } from "./ui/badge";
 import CoverImage from "./book/cover-image";
+import MissingData from "./missing-data";
 
 export default function ReadingOverview() {
   const [currentlyReading, setCurrentlyReading] = useState<UserBook[]>([]);
@@ -97,7 +98,7 @@ type ReadingStatusHeaderProps = {
 
 function ReadingStatusPreview({ readingList }: ReadingStatusPreviewProps) {
   if (readingList.length === 0) {
-    return <p className="line-clamp-1">No Data</p>;
+    return <MissingData />;
   }
 
   const MAX_PREVIEW_ITEMS = 10;
