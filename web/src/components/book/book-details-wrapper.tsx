@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Card } from "../ui/card";
 import BackButton from "../back-button";
 import ErrorAlert from "../error-alert";
+import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
 export default function BookDetailsWrapper({
   sourceId,
@@ -57,6 +58,7 @@ export default function BookDetailsWrapper({
         />
         <BookDetailsHeader details={bookDetails} />
         <hr />
+        <BookDetailsTabs />
         <BookDetailsDescription description={bookDetails.description} />
         <BookDetailsList details={bookDetails} />
       </div>
@@ -95,6 +97,24 @@ function BookDetailsHeader({ details }: BookDetailsHeaderProps) {
 type BookDetailsHeaderProps = {
   details: Edition;
 };
+
+function BookDetailsTabs() {
+  const TABS = ["Details", "Edit Details", "Select Edition"];
+
+  const [activeTab, setActiveTab] = useState("Details");
+
+  return (
+    <Tabs value={activeTab} onValueChange={setActiveTab}>
+      <TabsList className="flex flex-row space-x-2">
+        {TABS.map((TAB, index) => (
+          <TabsTrigger key={index} value={TAB}>
+            {TAB}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+    </Tabs>
+  );
+}
 
 function BookDetailsDescription({ description }: BookDetailsDescriptionProps) {
   if (description) {
