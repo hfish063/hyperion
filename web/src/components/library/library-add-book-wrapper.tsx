@@ -22,6 +22,7 @@ import { Edition, searchForEditionByIsbn } from "@/app/api/edition";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import ErrorAlert from "../error-alert";
 import { useRouter } from "next/navigation";
+import { Textarea } from "../ui/textarea";
 
 export default function LibraryAddForm({ initialIsbn }: LibraryAddFormProps) {
   const [edition, setEdition] = useState<Edition | undefined>(undefined);
@@ -117,7 +118,7 @@ function EditionDetailsForm({ edition }: EditionDetailsFormProps) {
 
       <Field>
         <FieldLabel>Description (Optional)</FieldLabel>
-        <Input
+        <Textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
