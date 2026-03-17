@@ -56,7 +56,7 @@ export default function ManagementMenu({
           </Button>
         ))}
 
-        <hr />
+        <hr className="my-1" />
 
         <Button
           className="w-full"
