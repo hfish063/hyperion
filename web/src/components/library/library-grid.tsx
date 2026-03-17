@@ -1,6 +1,8 @@
 import { UserBook } from "@/app/api/user-book";
 import Link from "next/link";
 import CoverImage from "../book/cover-image";
+import ManagementMenu from "./management-menu";
+import { EllipsisVertical } from "lucide-react";
 
 export default function LibraryGrid({ library }: LibraryGridProps) {
   return (
@@ -25,7 +27,7 @@ type LibraryGridProps = {
 
 function LibraryGridItem({ userBook }: LibraryCardProps) {
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center relative">
       <CoverImage
         width={120}
         height={180}
@@ -37,6 +39,15 @@ function LibraryGridItem({ userBook }: LibraryCardProps) {
         <p className="text-sm text-center line-clamp-2 text-center">
           {userBook.edition.title}
         </p>
+      </div>
+
+      <div
+        className="absolute top-2 right-2 bg-muted rounded-md p-1"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <ManagementMenu edition={userBook.edition} setUserBooks={() => {}}>
+          <EllipsisVertical />
+        </ManagementMenu>
       </div>
     </div>
   );
