@@ -8,7 +8,11 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { deleteAllUserBooksByIds, UserBook } from "@/app/api/user-book";
+import {
+  deleteAllUserBooksByIds,
+  ReadingStatus,
+  UserBook,
+} from "@/app/api/user-book";
 import { toast } from "sonner";
 import { Dispatch, SetStateAction } from "react";
 
@@ -80,6 +84,14 @@ export const getLibraryColumns = (
         }
       };
 
+      const statuses = Object.values(ReadingStatus);
+      const statusLabels = {
+        WANT_TO_READ: "Want to Read",
+        CURRENTLY_READING: "Currently Reading",
+        READ: "Read",
+        DROPPED: "Dropped",
+      };
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -87,7 +99,15 @@ export const getLibraryColumns = (
               <Ellipsis />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
+          <DropdownMenuContent className="flex flex-col">
+            {statuses.map((readingStatus) => (
+              <Button key={readingStatus} variant={"ghost"}>
+                {statusLabels[readingStatus]}
+              </Button>
+            ))}
+
+            <hr />
+
             <Button
               className="w-full"
               variant={"ghost"}
