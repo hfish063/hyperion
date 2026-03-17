@@ -3,6 +3,7 @@ import Link from "next/link";
 import CoverImage from "../book/cover-image";
 import ManagementMenu from "./management-menu";
 import { EllipsisVertical } from "lucide-react";
+import { Button } from "../ui/button";
 
 export default function LibraryGrid({ library }: LibraryGridProps) {
   return (
@@ -42,11 +43,13 @@ function LibraryGridItem({ userBook }: LibraryCardProps) {
       </div>
 
       <div
-        className="absolute top-2 right-2 bg-muted rounded-md p-1"
+        className="absolute top-2 right-2"
         onClick={(e) => e.stopPropagation()}
       >
         <ManagementMenu edition={userBook.edition} setUserBooks={() => {}}>
-          <EllipsisVertical />
+          <Button variant={"secondary"} size={"icon"}>
+            <EllipsisVertical />
+          </Button>
         </ManagementMenu>
       </div>
     </div>
