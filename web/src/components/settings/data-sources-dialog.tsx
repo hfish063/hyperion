@@ -12,8 +12,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 export const STORAGE_KEY_DATA_SOURCE = "hyperion_data_source";
 export const STORAGE_KEY_HARDCOVER_API_KEY = "hyperion_hardcover_api_key";
@@ -29,22 +30,19 @@ export default function DataSourcesDialog({
   open,
   onOpenChange,
 }: DataSourcesDialogProps) {
-  const [selectedSource, setSelectedSource] =
-    useState<DataSource>("OpenLibraryAPI");
+  const [activeSource, setActiveSource] = useState<DataSource>("OpenLibraryAPI");
   const [apiKey, setApiKey] = useState("");
 
   useEffect(() => {
     if (!open) return;
-    const savedSource = localStorage.getItem(
-      STORAGE_KEY_DATA_SOURCE,
-    ) as DataSource | null;
-    if (savedSource) setSelectedSource(savedSource);
+    const saved = localStorage.getItem(STORAGE_KEY_DATA_SOURCE) as DataSource | null;
+    setActiveSource(saved ?? "OpenLibraryAPI");
     setApiKey(localStorage.getItem(STORAGE_KEY_HARDCOVER_API_KEY) ?? "");
   }, [open]);
 
   const handleSave = () => {
-    localStorage.setItem(STORAGE_KEY_DATA_SOURCE, selectedSource);
-    if (selectedSource === "HardcoverAPI") {
+    localStorage.setItem(STORAGE_KEY_DATA_SOURCE, activeSource);
+    if (activeSource === "HardcoverAPI") {
       localStorage.setItem(STORAGE_KEY_HARDCOVER_API_KEY, apiKey);
     }
     onOpenChange(false);
@@ -57,37 +55,40 @@ export default function DataSourcesDialog({
         <DialogHeader>
           <DialogTitle>Data Sources</DialogTitle>
           <DialogDescription>
-            Choose the source used to fetch book data.
+            Enable a source to fetch book data from. Only one source can be
+            active at a time.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex flex-col gap-4">
-          <ToggleGroup
-            type="single"
-            variant="outline"
-            value={selectedSource}
-            onValueChange={(val) => {
-              if (val) setSelectedSource(val as DataSource);
-            }}
-          >
-            <ToggleGroupItem value="OpenLibraryAPI">
-              Open Library
-            </ToggleGroupItem>
-            <ToggleGroupItem value="HardcoverAPI">Hardcover</ToggleGroupItem>
-          </ToggleGroup>
+        <div className="flex flex-col gap-3">
+          <DataSourceRow
+            label="Open Library"
+            description="Free, open book database with no API key required."
+            active={activeSource === "OpenLibraryAPI"}
+            disabled={activeSource === "HardcoverAPI"}
+            onActivate={() => setActiveSource("OpenLibraryAPI")}
+          />
 
-          {selectedSource === "HardcoverAPI" && (
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="hardcover-api-key">API Key</Label>
-              <Input
-                id="hardcover-api-key"
-                type="password"
-                placeholder="Enter your Hardcover API key"
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-              />
-            </div>
-          )}
+          <DataSourceRow
+            label="Hardcover"
+            description="Personalized reading tracker with rich metadata."
+            active={activeSource === "HardcoverAPI"}
+            disabled={activeSource === "OpenLibraryAPI"}
+            onActivate={() => setActiveSource("HardcoverAPI")}
+          >
+            {activeSource === "HardcoverAPI" && (
+              <div className="flex flex-col gap-2 pt-2">
+                <Label htmlFor="hardcover-api-key">API Key</Label>
+                <Input
+                  id="hardcover-api-key"
+                  type="password"
+                  placeholder="Enter your Hardcover API key"
+                  value={apiKey}
+                  onChange={(e) => setApiKey(e.target.value)}
+                />
+              </div>
+            )}
+          </DataSourceRow>
         </div>
 
         <DialogFooter>
@@ -95,5 +96,41 @@ export default function DataSourcesDialog({
         </DialogFooter>
       </DialogContent>
     </Dialog>
+  );
+}
+
+type DataSourceRowProps = {
+  label: string;
+  description: string;
+  active: boolean;
+  disabled: boolean;
+  onActivate: () => void;
+  children?: React.ReactNode;
+};
+
+function DataSourceRow({
+  label,
+  description,
+  active,
+  disabled,
+  onActivate,
+  children,
+}: DataSourceRowProps) {
+  return (
+    <div
+      className={cn(
+        "rounded-lg border p-4 transition-opacity",
+        disabled && "opacity-50",
+      )}
+    >
+      <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-0.5">
+          <span className="text-sm font-medium">{label}</span>
+          <span className="text-muted-foreground text-xs">{description}</span>
+        </div>
+        <Switch checked={active} onCheckedChange={() => onActivate()} />
+      </div>
+      {children}
+    </div>
   );
 }
