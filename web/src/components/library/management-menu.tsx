@@ -4,7 +4,7 @@ import {
   updateUserBookReadingStatus,
   UserBook,
 } from "@/app/api/user-book";
-import { Trash } from "lucide-react";
+import { Check, Trash } from "lucide-react";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -64,6 +64,7 @@ export default function ManagementMenu({
             variant={"ghost"}
             onClick={() => handleStatusChange(readingStatus)}
           >
+            {readingStatus === userBook.readingStatus && <Check />}
             {statusLabels[readingStatus]}
           </Button>
         ))}
