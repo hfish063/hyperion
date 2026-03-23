@@ -2,11 +2,9 @@
 
 import {
   ColumnDef,
-  ColumnFiltersState,
   VisibilityState,
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
   getSortedRowModel,
   SortingState,
   useReactTable,
@@ -28,7 +26,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Input } from "../ui/input";
+import { Columns3 } from "lucide-react";
 
 export default function DataTable<TData, TValue>({
   columns,
@@ -37,7 +35,6 @@ export default function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({});
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
   const table = useReactTable({
@@ -46,13 +43,10 @@ export default function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
     onColumnVisibilityChange: setColumnVisibility,
     state: {
       sorting,
-      columnFilters,
       rowSelection,
       columnVisibility,
     },
@@ -61,7 +55,9 @@ export default function DataTable<TData, TValue>({
   const onDeleteClicked = () => {
     const selectedIds = table
       .getFilteredSelectedRowModel()
-      .rows.map((row) => (row.original as { edition: { id: number } }).edition.id);
+      .rows.map(
+        (row) => (row.original as { edition: { id: number } }).edition.id,
+      );
 
     table.resetRowSelection();
 
@@ -70,25 +66,13 @@ export default function DataTable<TData, TValue>({
 
   return (
     <div className="flex flex-col space-y-4">
-      <div className="flex flex-row space-x-4 justify-between">
-        <Input
-          placeholder="Filter titles..."
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+      <div className="flex flex-row space-x-4">
         <div className="flex flex-row space-x-4">
-          {(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected()) && (
-            <Button variant={"destructive"} onClick={onDeleteClicked}>
-              Delete Selected ({table.getFilteredSelectedRowModel().rows.length}
-              )
-            </Button>
-          )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant={"outline"}>Columns</Button>
+              <Button variant={"outline"} size={"icon"}>
+                <Columns3 />
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               {table
@@ -110,6 +94,12 @@ export default function DataTable<TData, TValue>({
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
+          {(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected()) && (
+            <Button variant={"destructive"} onClick={onDeleteClicked}>
+              Delete Selected ({table.getFilteredSelectedRowModel().rows.length}
+              )
+            </Button>
+          )}
         </div>
       </div>
       <div className="overflow-hidden rounded-md border">

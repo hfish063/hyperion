@@ -10,6 +10,7 @@ import ViewToggle, { ViewMode } from "../view-toggle";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 import { Spinner } from "../ui";
 import ErrorAlert from "../error-alert";
 
@@ -43,6 +44,7 @@ export default function LibraryWrapper() {
   const [error, setError] = useState<string>();
   const [view, setView] = useState<ViewMode>("grid");
   const [activeTab, setActiveTab] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
     async function fetchLibrary() {
@@ -73,10 +75,19 @@ export default function LibraryWrapper() {
   const filteredLibrary = useMemo(() => {
     const active = STATUS_TABS.find((tab) => tab.value === activeTab);
 
-    if (!active?.status) return library;
+    let result = active?.status
+      ? library.filter((book) => book.readingStatus === active.status)
+      : library;
 
-    return library.filter((book) => book.readingStatus === active.status);
-  }, [library, activeTab]);
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter((book) =>
+        book.edition.title.toLowerCase().includes(q),
+      );
+    }
+
+    return result;
+  }, [library, activeTab, searchQuery]);
 
   const handleViewChange = useCallback((newValue: ViewMode | null) => {
     if (newValue) setView(newValue);
@@ -128,6 +139,13 @@ export default function LibraryWrapper() {
 
             <ViewToggle value={view} onChange={handleViewChange} />
           </div>
+
+          <Input
+            placeholder="Filter titles..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="max-w-sm"
+          />
 
           {STATUS_TABS.map((tab) => (
             <TabsContent key={tab.value} value={tab.value}>
