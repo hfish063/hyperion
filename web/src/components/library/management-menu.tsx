@@ -1,6 +1,7 @@
 import {
   deleteAllUserBooksByIds,
   ReadingStatus,
+  updateUserBookReadingStatus,
   UserBook,
 } from "@/app/api/user-book";
 import { Trash } from "lucide-react";
@@ -12,16 +13,15 @@ import {
 } from "../ui/dropdown-menu";
 import { toast } from "sonner";
 import { Dispatch, ReactNode, SetStateAction } from "react";
-import { Edition } from "@/app/api/edition";
 
 type ManagementMenuProps = {
-  edition: Edition;
+  userBook: UserBook;
   setUserBooks: Dispatch<SetStateAction<UserBook[]>>;
   children: ReactNode;
 };
 
 export default function ManagementMenu({
-  edition,
+  userBook,
   setUserBooks,
   children,
 }: ManagementMenuProps) {
@@ -33,12 +33,20 @@ export default function ManagementMenu({
     DROPPED: "Dropped",
   };
 
+  const handleStatusChange = async (newStatus: ReadingStatus) => {
+    const updated = await updateUserBookReadingStatus(userBook.id, newStatus);
+    setUserBooks((prev) =>
+      prev.map((book) => (book.id === userBook.id ? updated : book)),
+    );
+    toast.success("Reading status updated.");
+  };
+
   const handleDelete = async (editionId: number) => {
     const isSuccessful = await deleteAllUserBooksByIds([editionId]);
 
     if (isSuccessful) {
       setUserBooks((prev) =>
-        prev.filter((userBook) => userBook.edition.id !== editionId),
+        prev.filter((book) => book.edition.id !== editionId),
       );
       toast.success("Successfully deleted book.");
     } else {
@@ -51,7 +59,11 @@ export default function ManagementMenu({
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
       <DropdownMenuContent className="flex flex-col">
         {statuses.map((readingStatus) => (
-          <Button key={readingStatus} variant={"ghost"}>
+          <Button
+            key={readingStatus}
+            variant={"ghost"}
+            onClick={() => handleStatusChange(readingStatus)}
+          >
             {statusLabels[readingStatus]}
           </Button>
         ))}
@@ -61,7 +73,7 @@ export default function ManagementMenu({
         <Button
           className="w-full"
           variant={"ghost"}
-          onClick={() => handleDelete(edition.id)}
+          onClick={() => handleDelete(userBook.edition.id)}
         >
           <Trash /> Delete
         </Button>

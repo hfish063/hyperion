@@ -4,7 +4,6 @@ import {
   UserBook,
 } from "@/app/api/user-book";
 import { Dispatch, SetStateAction } from "react";
-import { Edition } from "@/app/api/edition";
 import DataTable from "./data-table";
 import { toast } from "sonner";
 import { getLibraryColumns } from "./columns";
@@ -41,17 +40,12 @@ export default function LibraryList({
     );
   }
 
-  const editions: Edition[] = [];
-  library.forEach((value) => {
-    editions.push(value.edition);
-  });
-
   // return list of all items in library
   return (
     <div className="flex flex-col space-y-4">
       <DataTable
         columns={getLibraryColumns(setLibrary)}
-        data={editions}
+        data={library}
         handleDelete={handleDelete}
       />
     </div>
@@ -74,14 +68,11 @@ function FilteredList({
     return book.readingStatus === status;
   });
 
-  const editions: Edition[] = [];
-  filtered.forEach((value) => editions.push(value.edition));
-
   return (
     <div className="flex flex-col space-y-4">
       <DataTable
         columns={getLibraryColumns(setLibrary)}
-        data={editions}
+        data={filtered}
         handleDelete={handleDelete}
       />
     </div>

@@ -81,7 +81,8 @@ public class ExternalService {
     private List<Book> searchFallbackSource(String title) {
         OpenLibraryResponse openLibraryResponse = openLibraryClient.searchWorksByTitle(title);
 
-        return List.of();
+        List<BookDto> convertedResponse = convertFallbackSourceResponse(openLibraryResponse);
+        return bookMapper.mapToEntities(convertedResponse);
     }
 
     private List<BookDto> convertFallbackSourceResponse(OpenLibraryResponse openLibraryResponse) {
@@ -91,6 +92,16 @@ public class ExternalService {
 
         if (docs == null || docs.isEmpty()) {
             return dtos;
+        }
+
+        for (OpenLibraryDoc doc : docs) {
+            BookDto dto = new BookDto();
+            dto.setTitle(doc.getTitle());
+            dto.setReleaseYear(doc.getFirstPublishYear());
+
+            // create dto objects for storing cover edition data
+
+            dtos.add(dto);
         }
 
         return dtos;

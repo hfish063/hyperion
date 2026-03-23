@@ -61,7 +61,7 @@ export default function DataTable<TData, TValue>({
   const onDeleteClicked = () => {
     const selectedIds = table
       .getFilteredSelectedRowModel()
-      .rows.map((row) => (row.original as { id: number }).id);
+      .rows.map((row) => (row.original as { edition: { id: number } }).edition.id);
 
     table.resetRowSelection();
 

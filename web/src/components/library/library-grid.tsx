@@ -4,8 +4,9 @@ import CoverImage from "../book/cover-image";
 import ManagementMenu from "./management-menu";
 import { EllipsisVertical } from "lucide-react";
 import { Button } from "../ui/button";
+import { Dispatch, SetStateAction } from "react";
 
-export default function LibraryGrid({ library }: LibraryGridProps) {
+export default function LibraryGrid({ library, setUserBooks }: LibraryGridProps) {
   return (
     <div className="grid gap-6 grid-cols-[repeat(auto-fill,minmax(120px,1fr))]">
       {library.map((userBook) => (
@@ -14,7 +15,7 @@ export default function LibraryGrid({ library }: LibraryGridProps) {
             href={`/explore/${userBook.edition.sourceId}`}
             className="flex flex-col flex-1 items-center"
           >
-            <LibraryGridItem userBook={userBook} />
+            <LibraryGridItem userBook={userBook} setUserBooks={setUserBooks} />
           </Link>
         </div>
       ))}
@@ -24,9 +25,10 @@ export default function LibraryGrid({ library }: LibraryGridProps) {
 
 type LibraryGridProps = {
   library: UserBook[];
+  setUserBooks: Dispatch<SetStateAction<UserBook[]>>;
 };
 
-function LibraryGridItem({ userBook }: LibraryCardProps) {
+function LibraryGridItem({ userBook, setUserBooks }: LibraryCardProps) {
   return (
     <div className="flex flex-col items-center relative">
       <CoverImage
@@ -46,7 +48,7 @@ function LibraryGridItem({ userBook }: LibraryCardProps) {
         className="absolute top-2 right-2"
         onClick={(e) => e.stopPropagation()}
       >
-        <ManagementMenu edition={userBook.edition} setUserBooks={() => {}}>
+        <ManagementMenu userBook={userBook} setUserBooks={setUserBooks}>
           <Button variant={"secondary"} size={"icon"}>
             <EllipsisVertical />
           </Button>
@@ -58,4 +60,5 @@ function LibraryGridItem({ userBook }: LibraryCardProps) {
 
 type LibraryCardProps = {
   userBook: UserBook;
+  setUserBooks: Dispatch<SetStateAction<UserBook[]>>;
 };

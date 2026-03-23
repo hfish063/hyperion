@@ -1,4 +1,3 @@
-import { Edition } from "@/app/api/edition";
 import { ColumnDef } from "@tanstack/react-table";
 import { ChevronsUpDown, Ellipsis } from "lucide-react";
 import { Button } from "../ui/button";
@@ -9,7 +8,7 @@ import ManagementMenu from "./management-menu";
 
 export const getLibraryColumns = (
   setUserBooks: Dispatch<SetStateAction<UserBook[]>>,
-): ColumnDef<Edition>[] => [
+): ColumnDef<UserBook>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -33,7 +32,8 @@ export const getLibraryColumns = (
     enableHiding: false,
   },
   {
-    accessorKey: "title",
+    id: "title",
+    accessorFn: (row) => row.edition.title,
     header: ({ column }) => (
       <Button
         variant={"ghost"}
@@ -43,10 +43,11 @@ export const getLibraryColumns = (
       </Button>
     ),
   },
-  { accessorKey: "isbn10", header: "ISBN 10" },
-  { accessorKey: "isbn13", header: "ISBN 13" },
+  { id: "isbn10", accessorFn: (row) => row.edition.isbn10, header: "ISBN 10" },
+  { id: "isbn13", accessorFn: (row) => row.edition.isbn13, header: "ISBN 13" },
   {
-    accessorKey: "pages",
+    id: "pages",
+    accessorFn: (row) => row.edition.pages,
     header: ({ column }) => (
       <Button
         variant={"ghost"}
@@ -56,14 +57,18 @@ export const getLibraryColumns = (
       </Button>
     ),
   },
-  { accessorKey: "editionFormat", header: "Format" },
+  {
+    id: "editionFormat",
+    accessorFn: (row) => row.edition.editionFormat,
+    header: "Format",
+  },
   {
     id: "actions",
     cell: ({ row }) => {
-      const edition = row.original;
+      const userBook = row.original;
 
       return (
-        <ManagementMenu edition={edition} setUserBooks={setUserBooks}>
+        <ManagementMenu userBook={userBook} setUserBooks={setUserBooks}>
           <Button variant={"ghost"} size={"icon"}>
             <Ellipsis />
           </Button>

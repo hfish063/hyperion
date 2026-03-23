@@ -132,7 +132,7 @@ export default function LibraryWrapper() {
           {STATUS_TABS.map((tab) => (
             <TabsContent key={tab.value} value={tab.value}>
               {view === "grid" ? (
-                <LibraryGrid library={filteredLibrary} />
+                <LibraryGrid library={filteredLibrary} setUserBooks={setLibrary} />
               ) : (
                 <LibraryList
                   library={filteredLibrary}
