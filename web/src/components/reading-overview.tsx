@@ -11,7 +11,8 @@ import ErrorAlert from "./error-alert";
 import { Skeleton } from "./ui/skeleton";
 import { Tooltip, TooltipTrigger, TooltipContent } from "./ui/tooltip";
 import { Badge } from "./ui/badge";
-import CoverImage from "./cover-image";
+import CoverImage from "./book/cover-image";
+import MissingData from "./missing-data";
 
 export default function ReadingOverview() {
   const [currentlyReading, setCurrentlyReading] = useState<UserBook[]>([]);
@@ -97,12 +98,15 @@ type ReadingStatusHeaderProps = {
 
 function ReadingStatusPreview({ readingList }: ReadingStatusPreviewProps) {
   if (readingList.length === 0) {
-    return <p className="line-clamp-1">No Data</p>;
+    return <MissingData />;
   }
 
+  const MAX_PREVIEW_ITEMS = 10;
+  const previewList = readingList.slice(0, MAX_PREVIEW_ITEMS);
+
   return (
-    <div className="flex gap-4 overflow-hidden">
-      {readingList.map((book) => {
+    <div className="flex gap-4 overflow-x-auto items-center">
+      {previewList.map((book) => {
         const { edition } = book;
 
         return (
@@ -126,6 +130,11 @@ function ReadingStatusPreview({ readingList }: ReadingStatusPreviewProps) {
           </div>
         );
       })}
+      {previewList.length < readingList.length && (
+        <p className="text-sm text-center">
+          + {readingList.length - previewList.length} more
+        </p>
+      )}
     </div>
   );
 }

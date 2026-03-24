@@ -6,8 +6,7 @@ import Image from "next/image";
 import { Card } from "../ui/card";
 import BackButton from "../back-button";
 import ErrorAlert from "../error-alert";
-import { Button } from "../ui/button";
-import Link from "next/link";
+import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
 export default function BookDetailsWrapper({
   sourceId,
@@ -59,9 +58,7 @@ export default function BookDetailsWrapper({
         />
         <BookDetailsHeader details={bookDetails} />
         <hr />
-        <Link href={`/explore/${bookDetails.sourceId}/editions`}>
-          <Button variant={"outline"}>Select Edition</Button>
-        </Link>
+        <BookDetailsTabs />
         <BookDetailsDescription description={bookDetails.description} />
         <BookDetailsList details={bookDetails} />
       </div>
@@ -101,6 +98,24 @@ type BookDetailsHeaderProps = {
   details: Edition;
 };
 
+function BookDetailsTabs() {
+  const TABS = ["Details", "Edit Details", "Select Edition"];
+
+  const [activeTab, setActiveTab] = useState("Details");
+
+  return (
+    <Tabs value={activeTab} onValueChange={setActiveTab}>
+      <TabsList className="flex flex-row space-x-2">
+        {TABS.map((TAB, index) => (
+          <TabsTrigger key={index} value={TAB}>
+            {TAB}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+    </Tabs>
+  );
+}
+
 function BookDetailsDescription({ description }: BookDetailsDescriptionProps) {
   if (description) {
     return (
@@ -133,7 +148,7 @@ type BookCollaboratorsListProps = {
   details: Edition;
 };
 
-function BookDetailsList({ details }: BookDetailsListProps) {
+export function BookDetailsList({ details }: BookDetailsListProps) {
   const fields: { label: string; value?: string | number | null }[] = [
     { label: "Format", value: details.editionFormat },
     { label: "ISBN 10", value: details.isbn10 },

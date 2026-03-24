@@ -1,9 +1,9 @@
-import apiFetch from "./api";
+import apiFetch, { getHardcoverHeaders } from "./api";
 
 export async function searchForBooks(title: string) {
-  const query = `/meta/search/books/title/${title}`;
+  const query = `/books/search/title/${title}`;
 
-  const results = await apiFetch(query);
+  const results = await apiFetch(query, { headers: getHardcoverHeaders() });
   const data = (await results.json()) as Book[];
 
   return data;

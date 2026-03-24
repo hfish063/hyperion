@@ -13,4 +13,6 @@ public interface UserBookRepository extends JpaRepository<UserBook, Long> {
     boolean existsByEdition(Edition editionId);
 
     List<UserBook> findAllByReadingStatus(ReadingStatus status);
+
+    void deleteAllByEditionIdIn(List<Long> editionIds);
 }

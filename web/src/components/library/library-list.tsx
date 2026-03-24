@@ -1,25 +1,53 @@
-import { ReadingStatus, UserBook } from "@/app/api/user-book";
+import {
+  deleteAllUserBooksByIds,
+  ReadingStatus,
+  UserBook,
+} from "@/app/api/user-book";
 import { Dispatch, SetStateAction } from "react";
-import LibraryCard from "./library-card";
+import DataTable from "./data-table";
+import { toast } from "sonner";
+import { getLibraryColumns } from "./columns";
 
 export default function LibraryList({
   status,
   library,
   setLibrary,
 }: LibraryListProps) {
+  const handleDelete = async (ids: number[]) => {
+    const isSuccessful = await deleteAllUserBooksByIds(ids);
+
+    if (isSuccessful) {
+      setLibrary(
+        library.filter((userBook) => {
+          return !ids.includes(userBook.edition.id);
+        }),
+      );
+
+      toast.success("Successfully deleted books.");
+    } else {
+      toast.error("Error deleting books.");
+    }
+  };
   // filter the library items if status is specified
   if (status) {
     return (
-      <FilteredList library={library} status={status} setLibrary={setLibrary} />
+      <FilteredList
+        library={library}
+        status={status}
+        setLibrary={setLibrary}
+        handleDelete={handleDelete}
+      />
     );
   }
 
   // return list of all items in library
   return (
     <div className="flex flex-col space-y-4">
-      {library.map((book, index) => (
-        <LibraryCard key={index} userBook={book} setLibrary={setLibrary} />
-      ))}
+      <DataTable
+        columns={getLibraryColumns(setLibrary)}
+        data={library}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 }
@@ -30,16 +58,23 @@ type LibraryListProps = {
   setLibrary: Dispatch<SetStateAction<UserBook[]>>;
 };
 
-function FilteredList({ library, status, setLibrary }: FilteredListProps) {
+function FilteredList({
+  library,
+  status,
+  setLibrary,
+  handleDelete,
+}: FilteredListProps) {
   const filtered = library.filter((book) => {
     return book.readingStatus === status;
   });
 
   return (
     <div className="flex flex-col space-y-4">
-      {filtered.map((book, index) => (
-        <LibraryCard key={index} userBook={book} setLibrary={setLibrary} />
-      ))}
+      <DataTable
+        columns={getLibraryColumns(setLibrary)}
+        data={filtered}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 }
@@ -48,4 +83,5 @@ type FilteredListProps = {
   library: UserBook[];
   status: ReadingStatus;
   setLibrary: Dispatch<SetStateAction<UserBook[]>>;
+  handleDelete: (ids: number[]) => void;
 };

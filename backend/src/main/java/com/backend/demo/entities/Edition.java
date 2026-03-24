@@ -23,10 +23,10 @@ public class Edition {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "isbn10")
+    @Column(name = "isbn10", unique = true)
     private String isbn10;
 
-    @Column(name = "isbn13")
+    @Column(name = "isbn13", unique = true)
     private String isbn13;
 
     @Column(name = "pages")
@@ -108,7 +108,7 @@ public class Edition {
     public void setTitle(String title) {
         this.title = title;
     }
-    
+
 
     public void setIsbn10(String isbn10) {
         this.isbn10 = isbn10;

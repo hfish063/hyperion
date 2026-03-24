@@ -2,19 +2,14 @@
 
 import { useEffect, useState } from "react";
 import BookCardList from "./book-card-list";
-import BookSearchBar from "./book-search-bar";
 import { findAllBooksForUser, UserBook } from "@/app/api/user-book";
 import ErrorAlert from "../error-alert";
 import { Spinner } from "../ui";
-import { useRouter } from "next/navigation";
 import { Book, searchForBooks } from "@/app/api/book";
 
 export default function BookSearchWrapper({
   initialQuery,
 }: BookSearchWrapperProps) {
-  const router = useRouter();
-
-  const [query, setQuery] = useState<string>("");
   const [books, setBooks] = useState<Book[]>([]);
   const [library, setLibrary] = useState<UserBook[]>([]);
   const [loading, setLoading] = useState(false);
@@ -47,14 +42,6 @@ export default function BookSearchWrapper({
     runSearch();
   }, [initialQuery]);
 
-  async function handleSearch(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    if (!query) return;
-
-    router.push(`/explore/search/${encodeURIComponent(query)}`);
-  }
-
   // check if specific book has already been saved to user's library
   function bookExistsInLibrary(bookCoverId: string) {
     return library.some(
@@ -64,19 +51,8 @@ export default function BookSearchWrapper({
 
   return (
     <div className="flex flex-col h-full space-y-4 items-center">
-      {/* Search bar */}
-      <div className="w-full">
-        <BookSearchBar
-          query={query}
-          setQuery={setQuery}
-          handleSearch={handleSearch}
-        />
-      </div>
-
-      {/* Error message when applicable */}
       {error && <ErrorAlert message={error} />}
 
-      {/* Result list */}
       {!loading ? (
         <div className="flex flex-col justify-between space-y-4 w-full">
           <BookCardList
