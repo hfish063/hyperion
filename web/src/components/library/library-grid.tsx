@@ -6,7 +6,10 @@ import { EllipsisVertical } from "lucide-react";
 import { Button } from "../ui/button";
 import { Dispatch, SetStateAction } from "react";
 
-export default function LibraryGrid({ library, setUserBooks }: LibraryGridProps) {
+export default function LibraryGrid({
+  library,
+  setUserBooks,
+}: LibraryGridProps) {
   return (
     <div className="grid gap-6 grid-cols-[repeat(auto-fill,minmax(120px,1fr))]">
       {library.map((userBook) => (
@@ -30,29 +33,27 @@ type LibraryGridProps = {
 
 function LibraryGridItem({ userBook, setUserBooks }: LibraryCardProps) {
   return (
-    <div className="flex flex-col items-center relative">
-      <CoverImage
-        width={120}
-        height={180}
-        title={userBook.edition.title}
-        coverImageUrl={userBook.edition.coverImageUrl}
-      />
+    <div className="flex flex-col items-center w-full">
+      <div className="flex flex-col gap-1 w-[120px]">
+        <CoverImage
+          width={120}
+          height={180}
+          title={userBook.edition.title}
+          coverImageUrl={userBook.edition.coverImageUrl}
+        />
 
-      <div className="flex flex-row space-x-2 justify-between">
-        <p className="text-sm text-center line-clamp-2 text-center">
-          {userBook.edition.title}
-        </p>
-      </div>
-
-      <div
-        className="absolute top-2 right-2"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <ManagementMenu userBook={userBook} setUserBooks={setUserBooks}>
-          <Button variant={"secondary"} size={"icon"}>
-            <EllipsisVertical />
-          </Button>
-        </ManagementMenu>
+        <div className="flex flex-row items-start justify-between gap-1">
+          <p className="text-sm line-clamp-2 flex-1 min-w-0">
+            {userBook.edition.title}
+          </p>
+          <div className="shrink-0" onClick={(e) => e.stopPropagation()}>
+            <ManagementMenu userBook={userBook} setUserBooks={setUserBooks}>
+              <Button variant="ghost" size="icon" className="size-6">
+                <EllipsisVertical className="size-3.5" />
+              </Button>
+            </ManagementMenu>
+          </div>
+        </div>
       </div>
     </div>
   );
