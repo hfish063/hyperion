@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { Plus } from "lucide-react";
+import { Plus, ChevronDown, Check } from "lucide-react";
 
 import LibraryList from "./library-list";
 import LibraryGrid from "./library-grid";
@@ -13,6 +13,12 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Spinner } from "../ui";
 import ErrorAlert from "../error-alert";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 import {
   findAllBooksForUser,
@@ -45,6 +51,7 @@ export default function LibraryWrapper() {
   const [view, setView] = useState<ViewMode>("grid");
   const [activeTab, setActiveTab] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [sortBy, setSortBy] = useState<"title" | "dateAdded">("dateAdded");
 
   useEffect(() => {
     async function fetchLibrary() {
@@ -86,8 +93,19 @@ export default function LibraryWrapper() {
       );
     }
 
+    if (sortBy === "title") {
+      result = [...result].sort((a, b) =>
+        a.edition.title.localeCompare(b.edition.title),
+      );
+    } else {
+      result = [...result].sort(
+        (a, b) =>
+          new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime(),
+      );
+    }
+
     return result;
-  }, [library, activeTab, searchQuery]);
+  }, [library, activeTab, searchQuery, sortBy]);
 
   const handleViewChange = useCallback((newValue: ViewMode | null) => {
     if (newValue) setView(newValue);
@@ -140,17 +158,47 @@ export default function LibraryWrapper() {
             <ViewToggle value={view} onChange={handleViewChange} />
           </div>
 
-          <Input
-            placeholder="Filter titles..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="max-w-sm"
-          />
+          <div className="flex items-center gap-2">
+            <Input
+              placeholder="Filter titles..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="max-w-sm"
+            />
+          </div>
+
+          {view === "grid" && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="shrink-0 w-min">
+                  Sort: {sortBy === "title" ? "Title" : "Date Added"}
+                  <ChevronDown className="ml-1 size-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onSelect={() => setSortBy("dateAdded")}>
+                  <Check
+                    className={`mr-2 size-4 ${sortBy === "dateAdded" ? "opacity-100" : "opacity-0"}`}
+                  />
+                  Date Added
+                </DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => setSortBy("title")}>
+                  <Check
+                    className={`mr-2 size-4 ${sortBy === "title" ? "opacity-100" : "opacity-0"}`}
+                  />
+                  Title
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
 
           {STATUS_TABS.map((tab) => (
             <TabsContent key={tab.value} value={tab.value}>
               {view === "grid" ? (
-                <LibraryGrid library={filteredLibrary} setUserBooks={setLibrary} />
+                <LibraryGrid
+                  library={filteredLibrary}
+                  setUserBooks={setLibrary}
+                />
               ) : (
                 <LibraryList
                   library={filteredLibrary}
