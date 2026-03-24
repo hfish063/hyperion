@@ -10,6 +10,7 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
+  DropdownMenuSeparator,
 } from "../ui/dropdown-menu";
 import { toast } from "sonner";
 import { Dispatch, ReactNode, SetStateAction } from "react";
@@ -69,7 +70,7 @@ export default function ManagementMenu({
           </Button>
         ))}
 
-        <hr className="my-1" />
+        <DropdownMenuSeparator />
 
         <Button
           className="w-full"

@@ -7,8 +7,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import DataSourcesDialog from "./data-sources-dialog";
@@ -25,8 +23,6 @@ export default function SettingsDropdown() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Settings</DropdownMenuLabel>
-          <DropdownMenuSeparator />
           <DropdownMenuItem onSelect={() => setDataSourcesOpen(true)}>
             Data Sources
           </DropdownMenuItem>
