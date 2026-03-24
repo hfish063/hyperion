@@ -6,6 +6,9 @@ Book data is pulled from multiple third party services, namely the **Hardcover**
 All data is cached in a Postgresql database, therefore, as searches are completed the cache will grow.  This method reduces queries to third party APIs and allows for faster retrieval times.  
 
 ## Guide
+### Running the Application
+Development is currently active and instructions will be updated as work progresses.
+
 ### Data Sources
 OpenLibrary is the default data source as it is free-to-use and doesn't require an API key.  However, it has some limitations compared to Hardcover API, which provides richer data.  In order to use Hardcover API you must have a valid Hardcover account, then follow these instructions to retrieve your API Key ([Guide](https://hardcover.app/account/api)).
 
