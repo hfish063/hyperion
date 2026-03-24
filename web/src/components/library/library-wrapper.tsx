@@ -51,7 +51,7 @@ export default function LibraryWrapper() {
   const [view, setView] = useState<ViewMode>("grid");
   const [activeTab, setActiveTab] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [sortBy, setSortBy] = useState<"title" | "dateAdded">("dateAdded");
+  const [sortBy, setSortBy] = useState<"title" | "dateAdded" | "pages">("dateAdded");
 
   useEffect(() => {
     async function fetchLibrary() {
@@ -96,6 +96,10 @@ export default function LibraryWrapper() {
     if (sortBy === "title") {
       result = [...result].sort((a, b) =>
         a.edition.title.localeCompare(b.edition.title),
+      );
+    } else if (sortBy === "pages") {
+      result = [...result].sort(
+        (a, b) => (a.edition.pages ?? 0) - (b.edition.pages ?? 0),
       );
     } else {
       result = [...result].sort(
@@ -171,7 +175,7 @@ export default function LibraryWrapper() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="shrink-0 w-min">
-                  <ArrowUpDown /> {sortBy === "title" ? "Title" : "Date Added"}
+                  <ArrowUpDown /> {sortBy === "title" ? "Title" : sortBy === "pages" ? "Pages" : "Date Added"}
                   <ChevronDown className="ml-1 size-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -187,6 +191,12 @@ export default function LibraryWrapper() {
                     className={`mr-2 size-4 ${sortBy === "title" ? "opacity-100" : "opacity-0"}`}
                   />
                   Title
+                </DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => setSortBy("pages")}>
+                  <Check
+                    className={`mr-2 size-4 ${sortBy === "pages" ? "opacity-100" : "opacity-0"}`}
+                  />
+                  Pages
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
