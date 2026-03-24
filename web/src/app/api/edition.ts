@@ -1,4 +1,4 @@
-import apiFetch from "./api";
+import apiFetch, { getHardcoverHeaders } from "./api";
 
 export async function searchForTitle(
   title: string,
@@ -10,7 +10,7 @@ export async function searchForTitle(
     query += `?limit=${limit}`;
   }
 
-  const results = await apiFetch(query);
+  const results = await apiFetch(query, { headers: getHardcoverHeaders() });
   const data = (await results.json()) as Edition[];
 
   return data;
@@ -19,7 +19,7 @@ export async function searchForTitle(
 export async function searchForEditionById(id: string) {
   const query = `/editions/search/id/${id}`;
 
-  const results = await apiFetch(query);
+  const results = await apiFetch(query, { headers: getHardcoverHeaders() });
   const data = (await results.json()) as Edition;
 
   return data;
@@ -28,7 +28,7 @@ export async function searchForEditionById(id: string) {
 export async function searchForEditionByIsbn(isbn: string) {
   const query = `/editions/search/isbn/${isbn}`;
 
-  const results = await apiFetch(query);
+  const results = await apiFetch(query, { headers: getHardcoverHeaders() });
   const data = (await results.json()) as Edition;
 
   return data;

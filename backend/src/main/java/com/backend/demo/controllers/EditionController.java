@@ -3,6 +3,8 @@ package com.backend.demo.controllers;
 import com.backend.demo.entities.Edition;
 import com.backend.demo.services.EditionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -22,29 +24,49 @@ public class EditionController {
     }
 
     @GetMapping("/search/title/{title}")
-    public List<Edition> getEditionsByTitle(@PathVariable("title") String title,
-                                            @RequestParam(required = false) Integer limit,
-                                            @RequestParam(defaultValue = "0") int offset) throws IOException {
-        List<Edition> results = editionService.findAllEditionsByTitle(title);
+    public ResponseEntity<List<Edition>> getEditionsByTitle(
+            @PathVariable("title") String title,
+            @RequestParam(required = false) Integer limit,
+            @RequestParam(defaultValue = "0") int offset,
+            @RequestHeader(value = "X-Hardcover-Token", required = false) String hardcoverToken) throws IOException {
 
-        // apply offset and limit rules to response
+        if (hardcoverToken == null || hardcoverToken.isBlank()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        List<Edition> results = editionService.findAllEditionsByTitle(title, hardcoverToken);
+
         if (offset >= results.size()) {
-            return new ArrayList<>(Collections.emptyList());
+            return ResponseEntity.ok(new ArrayList<>(Collections.emptyList()));
         }
 
         int end = limit == null ? results.size() : Math.min(offset + limit, results.size());
 
-        return results.subList(offset, end);
+        return ResponseEntity.ok(results.subList(offset, end));
     }
 
     @GetMapping("/search/id/{id}")
-    public Edition getEditionById(@PathVariable("id") String id) {
-        return editionService.findEditionBySourceId(id);
+    public ResponseEntity<Edition> getEditionById(
+            @PathVariable("id") String id,
+            @RequestHeader(value = "X-Hardcover-Token", required = false) String hardcoverToken) {
+
+        if (hardcoverToken == null || hardcoverToken.isBlank()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        return ResponseEntity.ok(editionService.findEditionBySourceId(id, hardcoverToken));
     }
 
     @GetMapping("/search/isbn/{isbn}")
-    public Edition getEditionByIsbn(@PathVariable("isbn") String isbn) {
-        return editionService.findEditionByIsbn(isbn);
+    public ResponseEntity<Edition> getEditionByIsbn(
+            @PathVariable("isbn") String isbn,
+            @RequestHeader(value = "X-Hardcover-Token", required = false) String hardcoverToken) {
+
+        if (hardcoverToken == null || hardcoverToken.isBlank()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        return ResponseEntity.ok(editionService.findEditionByIsbn(isbn, hardcoverToken));
     }
 
     @PostMapping("/save")

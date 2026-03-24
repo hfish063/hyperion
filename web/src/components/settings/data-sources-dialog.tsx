@@ -30,21 +30,28 @@ export default function DataSourcesDialog({
   open,
   onOpenChange,
 }: DataSourcesDialogProps) {
-  const [activeSource, setActiveSource] = useState<DataSource>("OpenLibraryAPI");
+  const [activeSource, setActiveSource] =
+    useState<DataSource>("OpenLibraryAPI");
   const [apiKey, setApiKey] = useState("");
 
   useEffect(() => {
     if (!open) return;
-    const saved = localStorage.getItem(STORAGE_KEY_DATA_SOURCE) as DataSource | null;
+
+    const saved = localStorage.getItem(
+      STORAGE_KEY_DATA_SOURCE,
+    ) as DataSource | null;
+
     setActiveSource(saved ?? "OpenLibraryAPI");
     setApiKey(localStorage.getItem(STORAGE_KEY_HARDCOVER_API_KEY) ?? "");
   }, [open]);
 
   const handleSave = () => {
     localStorage.setItem(STORAGE_KEY_DATA_SOURCE, activeSource);
+
     if (activeSource === "HardcoverAPI") {
       localStorage.setItem(STORAGE_KEY_HARDCOVER_API_KEY, apiKey);
     }
+
     onOpenChange(false);
     toast.success("Data source saved.");
   };

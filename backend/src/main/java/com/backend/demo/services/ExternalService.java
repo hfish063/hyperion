@@ -32,8 +32,8 @@ public class ExternalService {
         this.editionMapper = editionMapper;
     }
 
-    public List<Book> doExternalBookSearch(String title) {
-        HardcoverBooksResponse hardcoverResponse = hardcoverClient.getBooksByTitle(title);
+    public List<Book> doExternalBookSearch(String title, String apiToken) {
+        HardcoverBooksResponse hardcoverResponse = hardcoverClient.getBooksByTitle(title, apiToken);
         List<BookDto> dtos = hardcoverResponse.getData().getBooks();
         List<Book> apiBooks = bookMapper.mapToEntities(dtos);
 
@@ -47,12 +47,13 @@ public class ExternalService {
     /**
      * Search external data sources by ISBN (10 or 13) and retrieve edition information.
      *
-     * @param isbn ISBN to search by, formatted numerically (1234567890123, 1234567890).
+     * @param isbn     ISBN to search by, formatted numerically (1234567890123, 1234567890).
+     * @param apiToken Bearer token provided by the frontend client
      * @return Edition class with data from external search results mapped to the object's fields
      */
-    public Edition doExternalIsbnSearch(String isbn) {
+    public Edition doExternalIsbnSearch(String isbn, String apiToken) {
         if (isbn.length() == 10) {
-            List<EditionDto> dtos = hardcoverClient.getEditionByIsbn10(isbn).getData().getEditions();
+            List<EditionDto> dtos = hardcoverClient.getEditionByIsbn10(isbn, apiToken).getData().getEditions();
             List<Edition> results = editionMapper.mapToEntities(dtos);
 
             if (!results.isEmpty()) {
@@ -61,7 +62,7 @@ public class ExternalService {
         }
 
         if (isbn.length() == 13) {
-            List<EditionDto> dtos = hardcoverClient.getEditionByIsbn13(isbn).getData().getEditions();
+            List<EditionDto> dtos = hardcoverClient.getEditionByIsbn13(isbn, apiToken).getData().getEditions();
             List<Edition> results = editionMapper.mapToEntities(dtos);
 
             if (!results.isEmpty()) {

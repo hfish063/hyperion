@@ -20,14 +20,14 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> findAllBooksByTitle(String title) {
+    public List<Book> findAllBooksByTitle(String title, String apiToken) {
         List<Book> storedBooks = bookRepository.findAllByTitle(title);
 
         if (!storedBooks.isEmpty()) {
             return storedBooks;
         }
 
-        List<Book> externalBooks = externalBookService.doExternalBookSearch(title);
+        List<Book> externalBooks = externalBookService.doExternalBookSearch(title, apiToken);
         List<Book> newBooks = findUnsavedBooks(externalBooks);
 
         try {

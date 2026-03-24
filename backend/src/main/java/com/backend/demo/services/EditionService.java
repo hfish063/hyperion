@@ -34,14 +34,14 @@ public class EditionService {
         this.hardcoverClient = hardcoverClient;
     }
 
-    public List<Edition> findAllEditionsByTitle(String title) throws IOException {
+    public List<Edition> findAllEditionsByTitle(String title, String apiToken) throws IOException {
         List<Edition> localEditions = editionRepository.findAllByTitle(title);
 
         if (!localEditions.isEmpty()) {
             return localEditions;
         }
 
-        HardcoverEditionsResponse apiResponse = hardcoverClient.getEditionsByTitle(title);
+        HardcoverEditionsResponse apiResponse = hardcoverClient.getEditionsByTitle(title, apiToken);
         List<Edition> apiEditions = editionMapper.mapToEntities(apiResponse.getData().getEditions());
         List<Edition> editionsToSave = findUnsavedEditions(apiEditions);
 
@@ -69,7 +69,7 @@ public class EditionService {
         return editionsToSave;
     }
 
-    public Edition findEditionBySourceId(String sourceId) {
+    public Edition findEditionBySourceId(String sourceId, String apiToken) {
         Optional<Edition> result = editionRepository.findBySourceId(sourceId);
 
         if (result.isPresent()) {
@@ -77,7 +77,7 @@ public class EditionService {
         }
 
         // query Hardcover API if result is not held in database
-        HardcoverEditionsResponse clientResult = hardcoverClient.getEditionById(sourceId);
+        HardcoverEditionsResponse clientResult = hardcoverClient.getEditionById(sourceId, apiToken);
         List<Edition> apiEditions = editionMapper.mapToEntities(clientResult.getData().getEditions());
 
         if (apiEditions.isEmpty()) {
@@ -104,7 +104,7 @@ public class EditionService {
         return apiEdition;
     }
 
-    public Edition findEditionByIsbn(String isbn) {
+    public Edition findEditionByIsbn(String isbn, String apiToken) {
         Optional<Edition> storedEdition = Optional.empty();
         if (isbn.length() == 10) {
             storedEdition = editionRepository.findByIsbn10(isbn);
@@ -112,7 +112,7 @@ public class EditionService {
             storedEdition = editionRepository.findByIsbn13(isbn);
         }
 
-        return storedEdition.orElseGet(() -> externalService.doExternalIsbnSearch(isbn));
+        return storedEdition.orElseGet(() -> externalService.doExternalIsbnSearch(isbn, apiToken));
     }
 
     /**
