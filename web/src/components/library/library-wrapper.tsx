@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { Plus, ChevronDown, Check } from "lucide-react";
+import { Plus, ChevronDown, Check, ArrowUpDown } from "lucide-react";
 
 import LibraryList from "./library-list";
 import LibraryGrid from "./library-grid";
@@ -171,7 +171,7 @@ export default function LibraryWrapper() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="shrink-0 w-min">
-                  Sort: {sortBy === "title" ? "Title" : "Date Added"}
+                  <ArrowUpDown /> {sortBy === "title" ? "Title" : "Date Added"}
                   <ChevronDown className="ml-1 size-4" />
                 </Button>
               </DropdownMenuTrigger>
