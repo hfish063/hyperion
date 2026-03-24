@@ -5,11 +5,11 @@ import {
   UserBook,
 } from "@/app/api/user-book";
 import { Check, Trash } from "lucide-react";
-import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuSeparator,
 } from "../ui/dropdown-menu";
 import { toast } from "sonner";
@@ -58,27 +58,28 @@ export default function ManagementMenu({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
-      <DropdownMenuContent className="flex flex-col">
+      <DropdownMenuContent>
         {statuses.map((readingStatus) => (
-          <Button
+          <DropdownMenuItem
             key={readingStatus}
-            variant={"ghost"}
-            onClick={() => handleStatusChange(readingStatus)}
+            onSelect={() => handleStatusChange(readingStatus)}
           >
-            {readingStatus === userBook.readingStatus && <Check />}
+            <Check
+              className={`mr-2 size-4 ${readingStatus === userBook.readingStatus ? "opacity-100" : "opacity-0"}`}
+            />
             {statusLabels[readingStatus]}
-          </Button>
+          </DropdownMenuItem>
         ))}
 
         <DropdownMenuSeparator />
 
-        <Button
-          className="w-full"
-          variant={"ghost"}
-          onClick={() => handleDelete(userBook.edition.id)}
+        <DropdownMenuItem
+          variant="destructive"
+          onSelect={() => handleDelete(userBook.edition.id)}
         >
-          <Trash /> Delete
-        </Button>
+          <Trash className="mr-2 size-4" />
+          Delete
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
