@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Spinner } from "../ui";
 import MissingData from "../missing-data";
 import Image from "next/image";
-import { Card } from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import BackButton from "../back-button";
 import ErrorAlert from "../error-alert";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
@@ -39,7 +39,7 @@ export default function BookDetailsWrapper({
 
   if (loading) {
     return (
-      <div className="flex flex-row space-x-4 w-full h-full items-center justify-center">
+      <div className="flex flex-row gap-4 w-full h-full items-center justify-center">
         <Spinner variant={"circle"} /> <p>Loading...</p>
       </div>
     );
@@ -51,7 +51,7 @@ export default function BookDetailsWrapper({
 
   if (bookDetails != undefined) {
     return (
-      <div className="flex flex-col space-y-4">
+      <div className="flex flex-col gap-4">
         <BackButton
           href={`/explore/search/${bookDetails.title}`}
           label="See Similar"
@@ -72,7 +72,7 @@ type BookDetailsWrapperProps = {
 
 function BookDetailsHeader({ details }: BookDetailsHeaderProps) {
   return (
-    <div className="flex flex-row space-x-4">
+    <div className="flex flex-row gap-4">
       {details.coverImageUrl && (
         <Image
           className="rounded"
@@ -82,12 +82,10 @@ function BookDetailsHeader({ details }: BookDetailsHeaderProps) {
           alt={details.title}
         />
       )}
-      <div>
-        <div className="flex flex-col space-y-4 size-full justify-between">
-          <div className="space-y-2">
-            <h1 className="text-4xl font-bold">{details.title}</h1>
-            <BookCollaboratorsList details={details} />
-          </div>
+      <div className="flex flex-col gap-4 size-full justify-between">
+        <div className="flex flex-col gap-2">
+          <h1 className="text-4xl font-bold">{details.title}</h1>
+          <BookCollaboratorsList details={details} />
         </div>
       </div>
     </div>
@@ -105,7 +103,7 @@ function BookDetailsTabs() {
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab}>
-      <TabsList className="flex flex-row space-x-2">
+      <TabsList className="flex flex-row gap-2">
         {TABS.map((TAB, index) => (
           <TabsTrigger key={index} value={TAB}>
             {TAB}
@@ -119,8 +117,10 @@ function BookDetailsTabs() {
 function BookDetailsDescription({ description }: BookDetailsDescriptionProps) {
   if (description) {
     return (
-      <Card className="p-4">
-        <p>{description}</p>
+      <Card>
+        <CardContent>
+          <p>{description}</p>
+        </CardContent>
       </Card>
     );
   }
@@ -133,9 +133,9 @@ type BookDetailsDescriptionProps = {
 function BookCollaboratorsList({ details }: BookCollaboratorsListProps) {
   if (details.collaborators) {
     return (
-      <div>
+      <div className="flex flex-col gap-1">
         {details.collaborators.map((collaborator, index) => (
-          <p key={index} className="italic">
+          <p key={index} className="italic text-muted-foreground">
             {collaborator.author.name}
           </p>
         ))}
@@ -157,13 +157,20 @@ export function BookDetailsList({ details }: BookDetailsListProps) {
   ];
 
   return (
-    <Card className="flex flex-col space-y-4 p-4">
-      {fields.map(({ label, value }) => (
-        <div key={label} className="flex flex-row space-x-4">
-          <p className="font-semibold w-24">{label}</p>
-          {value ? <p>{value}</p> : <MissingData />}
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-base">Edition Details</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-col gap-3">
+          {fields.map(({ label, value }) => (
+            <div key={label} className="flex flex-row gap-4">
+              <p className="w-24 text-sm font-medium text-muted-foreground">{label}</p>
+              {value ? <p className="text-sm">{value}</p> : <MissingData />}
+            </div>
+          ))}
         </div>
-      ))}
+      </CardContent>
     </Card>
   );
 }
