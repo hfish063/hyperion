@@ -14,7 +14,7 @@ export default function AddBookToLibraryButton({
   const [loading, setLoading] = useState(false);
   const [alreadyAdded, setAlreadyAdded] = useState(bookExistsInLibrary);
 
-  async function AddBookToLibrary() {
+  async function addBookToLibrary() {
     setLoading(true);
 
     try {
@@ -48,7 +48,7 @@ export default function AddBookToLibraryButton({
 
   return (
     <div className="flex items-center">
-      <Button onClick={AddBookToLibrary} className="w-32">
+      <Button onClick={addBookToLibrary} className="w-32">
         {!loading ? (
           <div className="flex flex-row items-center space-x-1">
             <Plus />
