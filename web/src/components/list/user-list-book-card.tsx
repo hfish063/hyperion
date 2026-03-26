@@ -44,7 +44,7 @@ export default function UserListBookCard({ userList }: UserListBookCardProps) {
           className="ml-auto gap-1.5 text-muted-foreground transition-colors group-hover:text-foreground"
         >
           View list
-          <ArrowRight className="size-3.5" />
+          <ArrowRight />
         </Button>
       </CardFooter>
     </Card>
