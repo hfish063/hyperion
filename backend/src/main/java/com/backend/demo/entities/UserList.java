@@ -1,5 +1,6 @@
 package com.backend.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -19,6 +20,7 @@ public class UserList {
     @Column(name = "description", length = 1020)
     private String description;
 
+    @JsonProperty("isOrdered")
     @Column(name = "is_ordered", nullable = false)
     private boolean isOrdered;
 
@@ -51,5 +53,9 @@ public class UserList {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public void setOrdered(boolean ordered) {
+        isOrdered = ordered;
     }
 }
