@@ -1,5 +1,6 @@
 "use client";
 
+import PageHeader from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -24,7 +25,7 @@ export default function CreateListPage() {
 
   return (
     <div className="flex flex-col space-y-4">
-      <h1 className="text-3xl font-semibold">Create List</h1>
+      <PageHeader text="Create List" />
       <Card>
         <CardContent>
           <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
