@@ -11,6 +11,7 @@ import { Button } from "../ui/button";
 import { ArrowRight, EllipsisVertical, List, ListOrdered } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import ListManagementMenu from "./list-management-menu";
+import Link from "next/link";
 
 type UserListBookCardProps = {
   userList: UserList;
@@ -36,9 +37,7 @@ export default function UserListBookCard({
             </CardTitle>
           </div>
           <div className="flex shrink-0 items-center gap-2">
-            {userList.isOrdered && (
-              <Badge variant="secondary">Ranked</Badge>
-            )}
+            {userList.isOrdered && <Badge variant="secondary">Ranked</Badge>}
             <div onClick={(e) => e.stopPropagation()}>
               <ListManagementMenu
                 userList={userList}
@@ -58,14 +57,16 @@ export default function UserListBookCard({
         )}
       </CardHeader>
       <CardFooter className="border-t pt-4">
-        <Button
-          variant="link"
-          size="sm"
-          className="ml-auto gap-1.5 text-muted-foreground transition-colors group-hover:text-foreground"
-        >
-          View list
-          <ArrowRight />
-        </Button>
+        <Link href={`/lists/${userList.id}`} className="ml-auto">
+          <Button
+            variant="link"
+            size="sm"
+            className="gap-1.5 text-muted-foreground transition-colors group-hover:text-foreground"
+          >
+            View list
+            <ArrowRight />
+          </Button>
+        </Link>
       </CardFooter>
     </Card>
   );
