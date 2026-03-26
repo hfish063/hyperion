@@ -47,6 +47,10 @@ export async function saveUserList(newUserList: UserList) {
 export async function deleteUserListById(id: number) {
   const query = `/lists/delete/${id}`;
 
-  const results = await apiFetch(query);
+  const options: RequestInit = {
+    method: "DELETE",
+  };
+
+  const results = await apiFetch(query, options);
   return results.ok;
 }

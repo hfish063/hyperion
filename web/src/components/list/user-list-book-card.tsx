@@ -8,13 +8,23 @@ import {
 } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { ArrowRight, List, ListOrdered } from "lucide-react";
+import { ArrowRight, EllipsisVertical, List, ListOrdered } from "lucide-react";
+import { Dispatch, SetStateAction } from "react";
+import ListManagementMenu from "./list-management-menu";
 
-export default function UserListBookCard({ userList }: UserListBookCardProps) {
+type UserListBookCardProps = {
+  userList: UserList;
+  setUserLists: Dispatch<SetStateAction<UserList[]>>;
+};
+
+export default function UserListBookCard({
+  userList,
+  setUserLists,
+}: UserListBookCardProps) {
   return (
     <Card className="group flex flex-col justify-between transition-shadow hover:shadow-md">
       <CardHeader>
-        <div className="flex items-start justify-between gap-6">
+        <div className="flex items-center justify-between gap-6">
           <div className="flex min-w-0 items-center gap-2">
             {userList.isOrdered ? (
               <ListOrdered className="size-4 shrink-0 text-muted-foreground" />
@@ -25,11 +35,21 @@ export default function UserListBookCard({ userList }: UserListBookCardProps) {
               {userList.name}
             </CardTitle>
           </div>
-          {userList.isOrdered && (
-            <Badge variant="secondary" className="shrink-0">
-              Ranked
-            </Badge>
-          )}
+          <div className="flex shrink-0 items-center gap-2">
+            {userList.isOrdered && (
+              <Badge variant="secondary">Ranked</Badge>
+            )}
+            <div onClick={(e) => e.stopPropagation()}>
+              <ListManagementMenu
+                userList={userList}
+                setUserLists={setUserLists}
+              >
+                <Button variant="ghost" size="icon" className="size-7">
+                  <EllipsisVertical className="size-3.5" />
+                </Button>
+              </ListManagementMenu>
+            </div>
+          </div>
         </div>
         {userList.description && (
           <CardDescription className="mt-1 line-clamp-2">
@@ -50,7 +70,3 @@ export default function UserListBookCard({ userList }: UserListBookCardProps) {
     </Card>
   );
 }
-
-type UserListBookCardProps = {
-  userList: UserList;
-};
