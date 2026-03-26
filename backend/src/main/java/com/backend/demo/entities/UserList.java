@@ -3,6 +3,7 @@ package com.backend.demo.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "user_lists")
@@ -23,6 +24,9 @@ public class UserList {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "userList")
+    private List<UserListBook> userListBooks;
 
     @PrePersist
     protected void onCreate() {

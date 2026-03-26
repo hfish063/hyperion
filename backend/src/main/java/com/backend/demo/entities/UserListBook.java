@@ -11,11 +11,13 @@ public class UserListBook {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "user_list_id")
-    private Long userListId;
+    @ManyToOne
+    @JoinColumn(name = "user_list_id")
+    private UserList userList;
 
-    @Column(name = "user_book_id")
-    private Long userBookId;
+    @ManyToOne
+    @JoinColumn(name = "user_book_id")
+    private UserBook userBook;
 
     @Column(name = "ordinal")
     private Integer ordinal;
@@ -32,12 +34,12 @@ public class UserListBook {
         return id;
     }
 
-    public Long getUserListId() {
-        return userListId;
+    public UserList getUserList() {
+        return userList;
     }
 
-    public Long getUserBookId() {
-        return userBookId;
+    public UserBook getUserBook() {
+        return userBook;
     }
 
     public Integer getOrdinal() {

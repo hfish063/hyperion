@@ -4,6 +4,7 @@ import com.backend.demo.constants.ReadingStatus;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "user_books")
@@ -26,6 +27,9 @@ public class UserBook {
 
     @Column(name = "date_added")
     private LocalDateTime dateAdded;
+
+    @OneToMany(mappedBy = "userBook")
+    private List<UserListBook> userListBooks;
 
     @PrePersist
     protected void onCreate() {
