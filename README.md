@@ -29,3 +29,8 @@ Copy your API key, including the `Bearer` portion, and paste it into the Hardcov
 ### Quick Add
 <img src="examples/quick-add.png" width="800"/>
 
+### Lists
+<img src="examples/lists.png" width="800"/>
+
+<img src="examples/list-books.png" width="800"/>
+
