@@ -1,5 +1,6 @@
 package com.backend.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -27,7 +28,8 @@ public class UserList {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "userList")
+    @JsonIgnore
+    @OneToMany(mappedBy = "userList", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserListBook> userListBooks;
 
     @PrePersist
@@ -53,6 +55,10 @@ public class UserList {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public List<UserListBook> getUserListBooks() {
+        return userListBooks;
     }
 
     public void setOrdered(boolean ordered) {

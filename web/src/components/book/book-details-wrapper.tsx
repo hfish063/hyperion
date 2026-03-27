@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { Spinner } from "../ui";
 import MissingData from "../missing-data";
 import Image from "next/image";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent } from "../ui/card";
 import BackButton from "../back-button";
 import ErrorAlert from "../error-alert";
-import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
+import ExpandableText from "../expandable-text";
 
 export default function BookDetailsWrapper({
   sourceId,
@@ -58,7 +58,6 @@ export default function BookDetailsWrapper({
         />
         <BookDetailsHeader details={bookDetails} />
         <hr />
-        <BookDetailsTabs />
         <BookDetailsDescription description={bookDetails.description} />
         <BookDetailsList details={bookDetails} />
       </div>
@@ -96,30 +95,12 @@ type BookDetailsHeaderProps = {
   details: Edition;
 };
 
-function BookDetailsTabs() {
-  const TABS = ["Details", "Edit Details", "Select Edition"];
-
-  const [activeTab, setActiveTab] = useState("Details");
-
-  return (
-    <Tabs value={activeTab} onValueChange={setActiveTab}>
-      <TabsList className="flex flex-row gap-2">
-        {TABS.map((TAB, index) => (
-          <TabsTrigger key={index} value={TAB}>
-            {TAB}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-    </Tabs>
-  );
-}
-
 function BookDetailsDescription({ description }: BookDetailsDescriptionProps) {
   if (description) {
     return (
       <Card>
         <CardContent>
-          <p>{description}</p>
+          <ExpandableText text={description} maxLength={400} />
         </CardContent>
       </Card>
     );
@@ -133,9 +114,9 @@ type BookDetailsDescriptionProps = {
 function BookCollaboratorsList({ details }: BookCollaboratorsListProps) {
   if (details.collaborators) {
     return (
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-2">
         {details.collaborators.map((collaborator, index) => (
-          <p key={index} className="italic text-muted-foreground">
+          <p key={index} className="text-muted-foreground">
             {collaborator.author.name}
           </p>
         ))}
@@ -158,15 +139,12 @@ export function BookDetailsList({ details }: BookDetailsListProps) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="text-base">Edition Details</CardTitle>
-      </CardHeader>
       <CardContent>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-4">
           {fields.map(({ label, value }) => (
             <div key={label} className="flex flex-row gap-4">
-              <p className="w-24 text-sm font-medium text-muted-foreground">{label}</p>
-              {value ? <p className="text-sm">{value}</p> : <MissingData />}
+              <p className="w-24 font-semibold">{label}</p>
+              {value ? <p>{value}</p> : <MissingData />}
             </div>
           ))}
         </div>

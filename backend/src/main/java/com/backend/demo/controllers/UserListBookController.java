@@ -1,5 +1,6 @@
 package com.backend.demo.controllers;
 
+import com.backend.demo.dtos.UserListBookDto;
 import com.backend.demo.entities.UserListBook;
 import com.backend.demo.services.UserListBookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,11 @@ public class UserListBookController {
     @PostMapping("/save")
     public UserListBook saveUserListBook(@RequestBody UserListBook newUserListBook) {
         return userListBookService.saveUserListBook(newUserListBook);
+    }
+
+    @PostMapping("/add")
+    public UserListBook addEditionToList(@RequestBody UserListBookDto dto) {
+        return userListBookService.addEditionToList(dto);
     }
 
     @DeleteMapping("/delete/{id}")
