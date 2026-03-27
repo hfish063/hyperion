@@ -1,11 +1,11 @@
 package com.backend.demo.services;
 
-import com.backend.demo.entities.UserBook;
+import com.backend.demo.entities.Edition;
 import com.backend.demo.entities.UserList;
 import com.backend.demo.entities.UserListBook;
 import com.backend.demo.exceptions.ResourceAlreadyExistsException;
 import com.backend.demo.exceptions.ResourceNotFoundException;
-import com.backend.demo.repositories.UserBookRepository;
+import com.backend.demo.repositories.EditionRepository;
 import com.backend.demo.repositories.UserListBookRepository;
 import com.backend.demo.repositories.UserListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +18,15 @@ import java.util.Optional;
 public class UserListBookService {
     private final UserListBookRepository userListBookRepository;
     private final UserListRepository userListRepository;
-    private final UserBookRepository userBookRepository;
+    private final EditionRepository editionRepository;
 
     @Autowired
     public UserListBookService(UserListBookRepository userListBookRepository,
                                UserListRepository userListRepository,
-                               UserBookRepository userBookRepository) {
+                               EditionRepository editionRepository) {
         this.userListBookRepository = userListBookRepository;
         this.userListRepository = userListRepository;
-        this.userBookRepository = userBookRepository;
+        this.editionRepository = editionRepository;
     }
 
     public List<UserListBook> findAllByListId(Long listId) {
@@ -37,18 +37,18 @@ public class UserListBookService {
         return userListBookRepository.findAllByUserList(result.get());
     }
 
-    public List<UserListBook> findAllByUserBookId(Long userBookId) {
-        Optional<UserBook> result = userBookRepository.findById(userBookId);
+    public List<UserListBook> findAllByEditionId(Long editionId) {
+        Optional<Edition> result = editionRepository.findById(editionId);
         if (result.isEmpty()) {
-            throw new ResourceNotFoundException("Unable to find user book with id: " + userBookId);
+            throw new ResourceNotFoundException("Unable to find edition with id: " + editionId);
         }
-        return userListBookRepository.findAllByUserBook(result.get());
+        return userListBookRepository.findAllByEdition(result.get());
     }
 
     public UserListBook saveUserListBook(UserListBook newUserListBook) {
-        if (userListBookRepository.existsByUserListAndUserBook(
-                newUserListBook.getUserList(), newUserListBook.getUserBook())) {
-            throw new ResourceAlreadyExistsException("Book is already in this list.");
+        if (userListBookRepository.existsByUserListAndEdition(
+                newUserListBook.getUserList(), newUserListBook.getEdition())) {
+            throw new ResourceAlreadyExistsException("Edition is already in this list.");
         }
         return userListBookRepository.save(newUserListBook);
     }

@@ -16,8 +16,8 @@ public class UserListBook {
     private UserList userList;
 
     @ManyToOne
-    @JoinColumn(name = "user_book_id")
-    private UserBook userBook;
+    @JoinColumn(name = "edition_id")
+    private Edition edition;
 
     @Column(name = "ordinal")
     private Integer ordinal;
@@ -38,8 +38,8 @@ public class UserListBook {
         return userList;
     }
 
-    public UserBook getUserBook() {
-        return userBook;
+    public Edition getEdition() {
+        return edition;
     }
 
     public Integer getOrdinal() {

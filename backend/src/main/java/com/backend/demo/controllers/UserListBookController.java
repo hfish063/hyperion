@@ -23,9 +23,9 @@ public class UserListBookController {
         return userListBookService.findAllByListId(listId);
     }
 
-    @GetMapping("/book/{userBookId}")
-    public List<UserListBook> getAllByUserBookId(@PathVariable("userBookId") Long userBookId) {
-        return userListBookService.findAllByUserBookId(userBookId);
+    @GetMapping("/edition/{editionId}")
+    public List<UserListBook> getAllByEditionId(@PathVariable("editionId") Long editionId) {
+        return userListBookService.findAllByEditionId(editionId);
     }
 
     @PostMapping("/save")
