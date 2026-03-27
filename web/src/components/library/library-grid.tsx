@@ -16,7 +16,7 @@ export default function LibraryGrid({
         <div key={userBook.id} className="flex flex-col h-full">
           <Link
             href={`/explore/${userBook.edition.sourceId}`}
-            className="flex flex-col flex-1 items-center"
+            className="flex flex-col flex-1 items-center transition-transform duration-200 hover:-translate-y-1"
           >
             <LibraryGridItem userBook={userBook} setUserBooks={setUserBooks} />
           </Link>
