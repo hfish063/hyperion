@@ -55,6 +55,10 @@ public class UserList {
         return createdAt;
     }
 
+    public List<UserListBook> getUserListBooks() {
+        return userListBooks;
+    }
+
     public void setOrdered(boolean ordered) {
         isOrdered = ordered;
     }
