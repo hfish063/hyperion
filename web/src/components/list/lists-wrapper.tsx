@@ -41,7 +41,7 @@ export default function ListsWrapper() {
   return (
     <div className="flex flex-col space-y-4">
       <PageHeader text="Lists" />
-      <Link href={"/lists/create"}>
+      <Link className="w-min" href={"/lists/create"}>
         <Button>
           <PlusIcon /> New List
         </Button>
