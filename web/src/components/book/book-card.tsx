@@ -14,7 +14,7 @@ export default function BookCard({
   const coverImageHeight = 140;
 
   return (
-    <div className="flex flex-row space-x-4">
+    <div className="flex flex-row gap-4">
       <div className="flex-shrink-0">
         <CoverImage
           coverImageUrl={metadata.coverEditionImageUrl}
@@ -23,27 +23,27 @@ export default function BookCard({
           height={coverImageHeight}
         />
       </div>
-      <Card className="flex-1">
+      <Card className="group flex-1 transition-shadow hover:shadow-md">
         <CardContent>
-          <div className="flex flex-col space-y-4">
-            <div className="flex flex-row justify-between items-center">
-              <BookCardContent metadata={metadata} />
-
-              <div className="flex flex-col space-y-4 items-start justify-center w-[100]px]">
-                <AddBookToLibraryButton
-                  data={metadata}
-                  bookExistsInLibrary={bookExistsInLibrary}
-                />
-                <Link
-                  href={`/explore/${metadata.coverEditionId}`}
-                  className="w-full"
+          <div className="flex flex-row items-start justify-between gap-4">
+            <BookCardContent metadata={metadata} />
+            <div className="flex flex-col gap-2 items-start justify-center">
+              <AddBookToLibraryButton
+                data={metadata}
+                bookExistsInLibrary={bookExistsInLibrary}
+              />
+              <Link
+                href={`/explore/${metadata.coverEditionId}`}
+                className="w-full"
+              >
+                <Button
+                  variant="outline"
+                  className="w-full transition-colors group-hover:border-foreground/30"
                 >
-                  <Button variant="outline" className="w-full">
-                    <Info />
-                    Details
-                  </Button>
-                </Link>
-              </div>
+                  <Info />
+                  Details
+                </Button>
+              </Link>
             </div>
           </div>
         </CardContent>
@@ -59,7 +59,7 @@ type BookCardProps = {
 
 function BookCardContent({ metadata }: BookCardContentProps) {
   return (
-    <div className="flex flex-col space-y-2">
+    <div className="flex flex-col gap-2">
       <h3 className="text-xl font-medium line-clamp-3">{metadata.title}</h3>
     </div>
   );

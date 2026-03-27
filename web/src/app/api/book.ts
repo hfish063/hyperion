@@ -1,14 +1,5 @@
 import apiFetch, { getHardcoverHeaders } from "./api";
 
-export async function searchForBooks(title: string) {
-  const query = `/books/search/title/${title}`;
-
-  const results = await apiFetch(query, { headers: getHardcoverHeaders() });
-  const data = (await results.json()) as Book[];
-
-  return data;
-}
-
 export type Book = {
   id: number;
   sourceId: string;
@@ -17,3 +8,12 @@ export type Book = {
   coverEditionId: string;
   coverEditionImageUrl: string;
 };
+
+export async function searchForBooks(title: string) {
+  const query = `/books/search/title/${title}`;
+
+  const results = await apiFetch(query, { headers: getHardcoverHeaders() });
+  const data = (await results.json()) as Book[];
+
+  return data;
+}

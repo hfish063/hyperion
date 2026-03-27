@@ -1,6 +1,20 @@
 import apiFetch from "./api";
 import { Edition } from "./edition";
 
+export type UserBook = {
+  id: number;
+  edition: Edition;
+  readingStatus: ReadingStatus;
+  dateAdded: Date;
+};
+
+export enum ReadingStatus {
+  WANT_TO_READ = "WANT_TO_READ",
+  CURRENTLY_READING = "CURRENTLY_READING",
+  READ = "READ",
+  DROPPED = "DROPPED",
+}
+
 export async function findAllBooksForUser() {
   const query = `/books/all`;
 
@@ -114,18 +128,4 @@ export async function deleteAllUserBooksByIds(ids: number[]) {
 
   const result = await apiFetch(query, options);
   return result.ok;
-}
-
-export type UserBook = {
-  id: number;
-  edition: Edition;
-  readingStatus: ReadingStatus;
-  dateAdded: Date;
-};
-
-export enum ReadingStatus {
-  WANT_TO_READ = "WANT_TO_READ",
-  CURRENTLY_READING = "CURRENTLY_READING",
-  READ = "READ",
-  DROPPED = "DROPPED",
 }

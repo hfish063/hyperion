@@ -24,7 +24,7 @@ function QuickLinks() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
       <Link href="/library" className="w-full">
-        <Card className="w-full">
+        <Card className="w-full transition-shadow hover:shadow-md">
           <CardContent className="flex flex-col space-y-2">
             <BookOpen className="text-3xl" />
             <p>
@@ -37,7 +37,7 @@ function QuickLinks() {
       </Link>
 
       <Link href="/explore" className="w-full">
-        <Card className="w-full">
+        <Card className="w-full transition-shadow hover:shadow-md">
           <CardContent className="flex flex-col space-y-2">
             <Search className="text-3xl" />
             <p>

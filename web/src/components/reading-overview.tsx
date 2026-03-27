@@ -54,7 +54,7 @@ export default function ReadingOverview() {
   return (
     <Card className="w-full">
       <CardContent>
-        <div className="flex flex-col space-y-4">
+        <div className="flex flex-col gap-4">
           <ReadingStatusHeader
             label="Currently Reading"
             readingListLength={currentlyReading.length}
@@ -84,9 +84,9 @@ function ReadingStatusHeader({
   readingListLength,
 }: ReadingStatusHeaderProps) {
   return (
-    <div className="flex flex-row space-x-2 items-center">
-      <h3 className="text-xl">{label}</h3>
-      {readingListLength > 0 && <Badge>{readingListLength}</Badge>}
+    <div className="flex flex-row gap-2 items-center">
+      <h3 className="text-base font-semibold">{label}</h3>
+      {readingListLength > 0 && <Badge variant="secondary">{readingListLength}</Badge>}
     </div>
   );
 }
@@ -131,7 +131,7 @@ function ReadingStatusPreview({ readingList }: ReadingStatusPreviewProps) {
         );
       })}
       {previewList.length < readingList.length && (
-        <p className="text-sm text-center">
+        <p className="text-sm text-muted-foreground text-center">
           + {readingList.length - previewList.length} more
         </p>
       )}
@@ -145,12 +145,10 @@ type ReadingStatusPreviewProps = {
 
 function ReadingStatusPreviewSkeleton() {
   return (
-    <div className="flex flex-row space-x-4">
-      <Skeleton className="h-32 w-24" />
-      <div className="flex flex-col space-y-4">
-        <Skeleton className="h-4 w-24" />
-        <Skeleton className="h-4 w-24" />
-      </div>
+    <div className="flex flex-row gap-4">
+      <Skeleton className="h-[150px] w-[100px] rounded" />
+      <Skeleton className="h-[150px] w-[100px] rounded" />
+      <Skeleton className="h-[150px] w-[100px] rounded" />
     </div>
   );
 }
