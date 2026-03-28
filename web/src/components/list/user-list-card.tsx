@@ -13,15 +13,15 @@ import { Dispatch, SetStateAction } from "react";
 import ListManagementMenu from "./list-management-menu";
 import Link from "next/link";
 
-type UserListBookCardProps = {
+type UserListCardProps = {
   userList: UserList;
   setUserLists: Dispatch<SetStateAction<UserList[]>>;
 };
 
-export default function UserListBookCard({
+export default function UserListCard({
   userList,
   setUserLists,
-}: UserListBookCardProps) {
+}: UserListCardProps) {
   return (
     <Card className="group flex flex-col justify-between transition-shadow hover:shadow-md">
       <CardHeader>

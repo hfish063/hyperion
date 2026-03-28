@@ -2,7 +2,7 @@
 
 import findAllUserLists, { UserList } from "@/app/api/user-list";
 import ErrorAlert from "@/components/error-alert";
-import UserBookList from "@/components/list/user-book-list";
+import UserListGrid from "@/components/list/user-list-grid";
 import PageHeader from "@/components/page-header";
 import { Spinner } from "@/components/ui";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,7 @@ import { PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export default function ListsWrapper() {
+export default function UserListsWrapper() {
   const [userLists, setUserLists] = useState<UserList[]>([]);
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -52,7 +52,7 @@ export default function ListsWrapper() {
           <Spinner variant="circle" />
         </div>
       ) : (
-        <UserBookList userLists={userLists} />
+        <UserListGrid userLists={userLists} />
       )}
     </div>
   );
