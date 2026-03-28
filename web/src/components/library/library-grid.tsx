@@ -1,7 +1,7 @@
 import { UserBook } from "@/app/api/user-book";
 import Link from "next/link";
 import CoverImage from "../book/cover-image";
-import ManagementMenu from "./management-menu";
+import ManagementMenu from "./library-management-menu";
 import { EllipsisVertical } from "lucide-react";
 import { Button } from "../ui/button";
 import { Dispatch, SetStateAction } from "react";

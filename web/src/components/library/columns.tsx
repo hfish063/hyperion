@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { UserBook } from "@/app/api/user-book";
 import { Dispatch, SetStateAction } from "react";
-import ManagementMenu from "./management-menu";
+import ManagementMenu from "./library-management-menu";
 
 export const getLibraryColumns = (
   setUserBooks: Dispatch<SetStateAction<UserBook[]>>,
