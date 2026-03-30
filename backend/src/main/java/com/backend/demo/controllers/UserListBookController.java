@@ -1,6 +1,6 @@
 package com.backend.demo.controllers;
 
-import com.backend.demo.dtos.UserListBookDto;
+import com.backend.demo.entities.Edition;
 import com.backend.demo.entities.UserListBook;
 import com.backend.demo.services.UserListBookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +34,9 @@ public class UserListBookController {
         return userListBookService.saveUserListBook(newUserListBook);
     }
 
-    @PostMapping("/add")
-    public UserListBook addEditionToList(@RequestBody UserListBookDto dto) {
-        return userListBookService.addEditionToList(dto);
+    @PostMapping("/add/{listId}")
+    public UserListBook addEditionToList(@PathVariable("listId") Long listId, @RequestBody Edition edition) {
+        return userListBookService.addEditionToList(listId, edition);
     }
 
     @DeleteMapping("/delete/{id}")

@@ -44,10 +44,7 @@ export default function AddBooksToListDialog({
     try {
       for (const userBookId of selected) {
         const userBook = library.find((b) => b.id === userBookId)!;
-        const result = await addBookToList({
-          listId: listId,
-          edition: userBook.edition,
-        });
+        const result = await addBookToList(listId, userBook.edition);
 
         if (result) {
           toast.success("Book added successfully.");

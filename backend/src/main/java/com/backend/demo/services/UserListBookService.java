@@ -1,6 +1,5 @@
 package com.backend.demo.services;
 
-import com.backend.demo.dtos.UserListBookDto;
 import com.backend.demo.entities.Edition;
 import com.backend.demo.entities.UserList;
 import com.backend.demo.entities.UserListBook;
@@ -57,19 +56,13 @@ public class UserListBookService {
         return userListBookRepository.save(newUserListBook);
     }
 
-    /**
-     * Saves a new UserListBook to a UserList.  Uses a DTO containing the id of target list and edition to be added.
-     *
-     * @param dto DTO containing relevant data fields.  Used to create a UserListBook, and add it to a specific UserList.
-     * @return The UserListBook that has been saved.
-     */
-    public UserListBook addEditionToList(UserListBookDto dto) {
-        Optional<UserList> userList = userListRepository.findById(dto.getListId());
+    public UserListBook addEditionToList(Long listId, Edition edition) {
+        Optional<UserList> userList = userListRepository.findById(listId);
         if (userList.isEmpty()) {
-            throw new ResourceNotFoundException("Unable to find list with id: " + dto.getListId());
+            throw new ResourceNotFoundException("Unable to find list with id: " + listId);
         }
 
-        UserListBook toSave = buildUserListBook(userList.get(), dto.getEdition(), nextOrdinal(userList.get()));
+        UserListBook toSave = buildUserListBook(userList.get(), edition, nextOrdinal(userList.get()));
         return userListBookRepository.save(toSave);
     }
 

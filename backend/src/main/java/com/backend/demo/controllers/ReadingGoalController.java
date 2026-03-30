@@ -33,6 +33,11 @@ public class ReadingGoalController {
         return readingGoalService.saveReadingGoal(newReadingGoal);
     }
 
+    @PatchMapping("/update/progress/{id}")
+    public ReadingGoal updateReadingGoalProgress(@PathVariable("id") Long id, @RequestBody int progress) {
+        return readingGoalService.updateReadingGoalProgress(id, progress);
+    }
+
     @DeleteMapping("/delete/{id}")
     public void deleteReadingGoalById(@PathVariable("id") Long id) {
         readingGoalService.deleteReadingGoalById(id);

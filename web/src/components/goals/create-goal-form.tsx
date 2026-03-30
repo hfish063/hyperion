@@ -22,7 +22,7 @@ import { useRouter } from "next/navigation";
 
 export default function CreateGoalForm() {
   const [name, setName] = useState("");
-  const [progress, setProgress] = useState("");
+  const [progressGoal, setProgressGoal] = useState("");
   const [type, setType] = useState(ReadingGoalType.BOOKS);
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
@@ -43,6 +43,7 @@ export default function CreateGoalForm() {
     try {
       const toSave = {
         name: name,
+        progressGoal: Number(progressGoal),
         type: type,
         startDate: startDate,
         endDate: endDate,
@@ -87,10 +88,10 @@ export default function CreateGoalForm() {
             </FieldDescription>
             <div className="flex flex-row gap-4">
               <Input
-                value={progress}
+                value={progressGoal}
                 onChange={(e) => {
                   if (Number(e.target.value) > 0) {
-                    setProgress(e.target.value);
+                    setProgressGoal(e.target.value);
                   }
                 }}
                 type="number"

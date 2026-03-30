@@ -34,6 +34,12 @@ public class ReadingGoalService {
         return readingGoalRepository.save(newReadingGoal);
     }
 
+    public ReadingGoal updateReadingGoalProgress(Long id, int progress) {
+        ReadingGoal goal = findReadingGoalById(id);
+        goal.setProgress(progress);
+        return readingGoalRepository.save(goal);
+    }
+
     public void deleteReadingGoalById(Long id) {
         Optional<ReadingGoal> result = readingGoalRepository.findById(id);
         if (result.isEmpty()) {

@@ -3,11 +3,13 @@
 import { ReadingGoal } from "@/app/api/reading-goal";
 import ReadingGoalCard from "./reading-goal-card";
 import { useState } from "react";
+import { Button } from "../ui/button";
 
 export default function ReadingGoalList({
   goals: initialGoals,
 }: ReadingGoalListProps) {
   const [goals, setGoals] = useState(initialGoals);
+  const [isUpdated, setUpdated] = useState(false);
 
   function handleDelete(id: number) {
     setGoals((prev) => prev.filter((g) => g.id !== id));
@@ -15,6 +17,7 @@ export default function ReadingGoalList({
 
   return (
     <div className="flex flex-col gap-4">
+      {isUpdated && <Button variant={"outline"}>Save Changes</Button>}
       {goals.map((goal) => (
         <ReadingGoalCard key={goal.id} goal={goal} onDelete={handleDelete} />
       ))}
