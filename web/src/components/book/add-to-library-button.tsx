@@ -19,6 +19,11 @@ export default function AddBookToLibraryButton({
 
     try {
       const coverEdition = await searchForEditionById(data.coverEditionId);
+      if (!coverEdition) {
+        toast.error("Failed to add book.");
+        return;
+      }
+
       const result = await saveBookForUser({
         edition: coverEdition,
         readingStatus: ReadingStatus.WANT_TO_READ,

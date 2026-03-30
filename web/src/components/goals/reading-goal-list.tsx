@@ -4,7 +4,9 @@ import { ReadingGoal } from "@/app/api/reading-goal";
 import ReadingGoalCard from "./reading-goal-card";
 import { useState } from "react";
 
-export default function ReadingGoalList({ goals: initialGoals }: ReadingGoalListProps) {
+export default function ReadingGoalList({
+  goals: initialGoals,
+}: ReadingGoalListProps) {
   const [goals, setGoals] = useState(initialGoals);
 
   function handleDelete(id: number) {

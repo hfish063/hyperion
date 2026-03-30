@@ -18,6 +18,9 @@ export default async function findAllReadingGoals() {
     const query = `/goals/all`;
 
     const results = await apiFetch(query)
+
+    if (!results.ok) return undefined;
+
     const data = (await results.json()) as ReadingGoal[]
 
     return data
@@ -37,6 +40,9 @@ export async function saveReadingGoal(newReadingGoal: ReadingGoal) {
     };
 
     const results = await apiFetch(query, options)
+
+    if (!results.ok) return undefined;
+
     const data = (await results.json()) as ReadingGoal
 
     return data;

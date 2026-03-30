@@ -61,7 +61,11 @@ export default function LibraryWrapper() {
 
         const data = await findAllBooksForUser();
 
-        setLibrary(data);
+        if (!data) {
+          setError("Error fetching library.");
+        } else {
+          setLibrary(data);
+        }
       } catch (e) {
         if (e instanceof Error) {
           setError(e.message);

@@ -36,6 +36,9 @@ export async function searchForTitle(
   }
 
   const results = await apiFetch(query, { headers: getHardcoverHeaders() });
+
+  if (!results.ok) return undefined;
+
   const data = (await results.json()) as Edition[];
 
   return data;
@@ -45,6 +48,9 @@ export async function searchForEditionById(id: string) {
   const query = `/editions/search/id/${id}`;
 
   const results = await apiFetch(query, { headers: getHardcoverHeaders() });
+
+  if (!results.ok) return undefined;
+
   const data = (await results.json()) as Edition;
 
   return data;
@@ -54,6 +60,9 @@ export async function searchForEditionByIsbn(isbn: string) {
   const query = `/editions/search/isbn/${isbn}`;
 
   const results = await apiFetch(query, { headers: getHardcoverHeaders() });
+
+  if (!results.ok) return undefined;
+
   const data = (await results.json()) as Edition;
 
   return data;

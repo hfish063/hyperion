@@ -51,6 +51,8 @@ export default function AddBooksToListDialog({
 
         if (result) {
           toast.success("Book added successfully.");
+        } else {
+          toast.error("Failed to add book.");
         }
       }
     } catch (e: unknown) {

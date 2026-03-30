@@ -24,7 +24,11 @@ export default function BookDetailsWrapper({
       try {
         const details = await searchForEditionById(sourceId);
 
-        setBookDetails(details);
+        if (!details) {
+          setError("Error fetching book details.");
+        } else {
+          setBookDetails(details);
+        }
       } catch (e: unknown) {
         if (e instanceof Error) {
           setError(e.message);

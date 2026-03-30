@@ -28,8 +28,12 @@ export default function BookSearchWrapper({
         const books = await searchForBooks(initialQuery);
         const library = await findAllBooksForUser();
 
-        setBooks(books);
-        setLibrary(library);
+        if (!books || !library) {
+          setError("Error fetching results.");
+        } else {
+          setBooks(books);
+          setLibrary(library);
+        }
       } catch (e: unknown) {
         if (e instanceof Error) {
           setError(e.message);

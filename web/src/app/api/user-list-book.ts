@@ -19,6 +19,9 @@ export default async function findAllBooksByListId(listId: number) {
   const query = `/list-books/list/${listId}`;
 
   const results = await apiFetch(query);
+
+  if (!results.ok) return undefined;
+
   const data = (await results.json()) as UserListBook[];
 
   return data;
@@ -38,6 +41,9 @@ export async function saveBookToList(newUserListBook: UserListBook) {
   };
 
   const results = await apiFetch(query, options);
+
+  if (!results.ok) return undefined;
+
   const data = (await results.json()) as UserListBook;
 
   return data;
@@ -57,6 +63,9 @@ export async function addBookToList(userListBookDto: UserListBookDto) {
   };
 
   const results = await apiFetch(query, options);
+
+  if (!results.ok) return undefined;
+
   const data = (await results.json()) as UserListBook;
 
   return data;

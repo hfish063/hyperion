@@ -53,6 +53,8 @@ export default function CreateGoalForm() {
       if (result) {
         toast.success("Reading goal created successfully.");
         router.push("/goals");
+      } else {
+        toast.error("Error creating reading goal.");
       }
     } catch (e: unknown) {
       if (e instanceof Error) {

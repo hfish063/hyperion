@@ -40,8 +40,9 @@ export default function AddListWrapper() {
 
       if (result) {
         toast.success("List created successfully.");
-
         router.push("/lists");
+      } else {
+        toast.error("Error creating list.");
       }
     } catch (e: unknown) {
       if (e instanceof Error) {
