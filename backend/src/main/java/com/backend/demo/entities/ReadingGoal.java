@@ -15,6 +15,9 @@ public class ReadingGoal {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "progress")
+    private int progress;
+
     @Column(name = "type", nullable = false)
     private ReadingGoalType type;
 
@@ -30,6 +33,10 @@ public class ReadingGoal {
 
     public String getName() {
         return name;
+    }
+
+    public Integer getProgress() {
+        return progress;
     }
 
     public ReadingGoalType getType() {
