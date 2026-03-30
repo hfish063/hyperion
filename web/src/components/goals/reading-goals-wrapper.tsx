@@ -31,5 +31,5 @@ export default function ReadingGoalsWrapper({
 }
 
 type ReadingGoalsWrapperProps = {
-  goals: ReadingGoal[];
+  goals: ReadingGoal[] | undefined;
 };
