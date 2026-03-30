@@ -1,4 +1,22 @@
 # Hyperion
+## About
+### Introduction
+Hyperion is a lightweight self-hosted web application for managing a personal library.  The application is designed to be used both on and offline.  This means that all book data can be input manually, and fetching the details automatically by title or isbn relies on a third party service.  If you want to enable this functionality, it will be necessary to setup the API as directed below (See **Data Sources**).
+
+### Features
+- Save books to your library.
+- Track the reading status of your books (See what you're currently reading, would like to read, etc.).
+- Create reading lists to logically sort items in your library.
+- Set goals for yourself to keep track of your reading progress and gain extra motivation.
+
+### Technologies
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" />
+  <img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" />
+  <img src="https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white" />
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
+</p>
+
 ## Backend
 ### Details
 Hyperion is designed to be used both on and offline.  This means that all book data can be input manually, and fetching the details automatically by title or isbn relies on a third party service.  If you want to enable this functionality, it will be necessary to setup the API as directed below (See **Data Sources**).
