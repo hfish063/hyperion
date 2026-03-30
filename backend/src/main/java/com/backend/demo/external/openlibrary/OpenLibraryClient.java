@@ -6,6 +6,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+/**
+ * OpenLibrary support is planned for future release.
+ * This class holds the functionality for using the OpenLibraryAPI, and searching for books.
+ */
 @Component
 public class OpenLibraryClient {
     private static final String BASE_URL = "https://openlibrary.org";

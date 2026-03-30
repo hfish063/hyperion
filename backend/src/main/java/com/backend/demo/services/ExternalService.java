@@ -20,14 +20,12 @@ import java.util.List;
 @Service
 public class ExternalService {
     private final HardcoverClient hardcoverClient;
-    private final OpenLibraryClient openLibraryClient;
     private final BookMapper bookMapper;
     private final EditionMapper editionMapper;
 
     @Autowired
-    public ExternalService(HardcoverClient hardcoverClient, OpenLibraryClient openLibraryClient, BookMapper bookMapper, EditionMapper editionMapper) {
+    public ExternalService(HardcoverClient hardcoverClient, BookMapper bookMapper, EditionMapper editionMapper) {
         this.hardcoverClient = hardcoverClient;
-        this.openLibraryClient = openLibraryClient;
         this.bookMapper = bookMapper;
         this.editionMapper = editionMapper;
     }
@@ -35,13 +33,8 @@ public class ExternalService {
     public List<Book> doExternalBookSearch(String title, String apiToken) {
         HardcoverBooksResponse hardcoverResponse = hardcoverClient.getBooksByTitle(title, apiToken);
         List<BookDto> dtos = hardcoverResponse.getData().getBooks();
-        List<Book> apiBooks = bookMapper.mapToEntities(dtos);
 
-        if (apiBooks.isEmpty()) {
-            return searchFallbackSource(title);
-        }
-
-        return apiBooks;
+        return bookMapper.mapToEntities(dtos);
     }
 
     /**
@@ -70,54 +63,6 @@ public class ExternalService {
             }
         }
 
-        return null;
-    }
-
-    /**
-     * Pull data from OpenLibraryAPI if HardcoverAPI fails to find valid search results.
-     *
-     * @param title Query parameter for external API
-     * @return List of search results from secondary data source.
-     */
-    private List<Book> searchFallbackSource(String title) {
-        OpenLibraryResponse openLibraryResponse = openLibraryClient.searchWorksByTitle(title);
-
-        List<BookDto> convertedResponse = convertFallbackSourceResponse(openLibraryResponse);
-        return bookMapper.mapToEntities(convertedResponse);
-    }
-
-    private List<BookDto> convertFallbackSourceResponse(OpenLibraryResponse openLibraryResponse) {
-        List<BookDto> dtos = new ArrayList<>();
-
-        List<OpenLibraryDoc> docs = openLibraryResponse.getDocs();
-
-        if (docs == null || docs.isEmpty()) {
-            return dtos;
-        }
-
-        for (OpenLibraryDoc doc : docs) {
-            BookDto dto = new BookDto();
-            dto.setTitle(doc.getTitle());
-            dto.setReleaseYear(doc.getFirstPublishYear());
-
-            // create dto objects for storing cover edition data
-
-            dtos.add(dto);
-        }
-
-        return dtos;
-    }
-
-    private boolean needsEnrichment(Book book) {
-        return book.getCoverEditionImageUrl() == null;
-    }
-
-    /**
-     * Attempt to fill missing details for books using a secondary data source.
-     *
-     * @return List of books that are merged with any extra data found from external API.
-     */
-    private List<Book> enrichBooks() {
         return null;
     }
 }
