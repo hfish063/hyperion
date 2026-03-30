@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
 export const STORAGE_KEY_DATA_SOURCE = "hyperion_data_source";
 export const STORAGE_KEY_HARDCOVER_API_KEY = "hyperion_hardcover_api_key";
 
-export type DataSource = "OpenLibraryAPI" | "HardcoverAPI";
+export type DataSource = "HardcoverAPI";
 
 type DataSourcesDialogProps = {
   open: boolean;
@@ -31,7 +31,7 @@ export default function DataSourcesDialog({
   onOpenChange,
 }: DataSourcesDialogProps) {
   const [activeSource, setActiveSource] =
-    useState<DataSource>("OpenLibraryAPI");
+    useState<DataSource>("HardcoverAPI");
   const [apiKey, setApiKey] = useState("");
 
   useEffect(() => {
@@ -41,7 +41,6 @@ export default function DataSourcesDialog({
       STORAGE_KEY_DATA_SOURCE,
     ) as DataSource | null;
 
-    setActiveSource(saved ?? "OpenLibraryAPI");
     setApiKey(localStorage.getItem(STORAGE_KEY_HARDCOVER_API_KEY) ?? "");
   }, [open]);
 
@@ -62,26 +61,14 @@ export default function DataSourcesDialog({
         <DialogHeader>
           <DialogTitle>Data Sources</DialogTitle>
           <DialogDescription>
-            Enable a source to fetch book data from. Only one source can be
-            active at a time.
+            Enable a source to fetch book data from. Additional sources might be planned for future releases.
           </DialogDescription>
         </DialogHeader>
 
         <div className="flex flex-col gap-3">
           <DataSourceRow
-            label="Open Library"
-            description="Free, open book database with no API key required."
-            active={activeSource === "OpenLibraryAPI"}
-            disabled={activeSource === "HardcoverAPI"}
-            onActivate={() => setActiveSource("OpenLibraryAPI")}
-          />
-
-          <DataSourceRow
             label="Hardcover"
             description="Personalized reading tracker with rich metadata."
-            active={activeSource === "HardcoverAPI"}
-            disabled={activeSource === "OpenLibraryAPI"}
-            onActivate={() => setActiveSource("HardcoverAPI")}
           >
             {activeSource === "HardcoverAPI" && (
               <div className="flex flex-col gap-2 pt-2">
@@ -109,25 +96,18 @@ export default function DataSourcesDialog({
 type DataSourceRowProps = {
   label: string;
   description: string;
-  active: boolean;
-  disabled: boolean;
-  onActivate: () => void;
   children?: React.ReactNode;
 };
 
 function DataSourceRow({
   label,
   description,
-  active,
-  disabled,
-  onActivate,
   children,
 }: DataSourceRowProps) {
   return (
     <div
       className={cn(
         "rounded-lg border p-4 transition-opacity",
-        disabled && "opacity-50",
       )}
     >
       <div className="flex items-center justify-between">
@@ -135,7 +115,6 @@ function DataSourceRow({
           <span className="text-sm font-medium">{label}</span>
           <span className="text-muted-foreground text-xs">{description}</span>
         </div>
-        <Switch checked={active} onCheckedChange={() => onActivate()} />
       </div>
       {children}
     </div>
