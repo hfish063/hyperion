@@ -1,7 +1,9 @@
 # Hyperion
 ## Backend
 ### Details
-Book data is pulled from multiple third party services, namely the **Hardcover** and **OpenLibrary** APIs.  These data sources can be configured by the user from the web interface.
+Hyperion is designed to be used both on and offline.  This means that all book data can be input manually, and fetching the details automatically by title or isbn relies on a third party service.  If you want to enable this functionality, it will be necessary to setup the API as directed below (See **Data Sources**).
+
+Book data is pulled from a third party service, namely **HardcoverAPI**.  Additional sources (such as OpenLibraryAPI) might be planned for future releases.
 
 All data is cached in a Postgresql database, therefore, as searches are completed the cache will grow.  This method reduces queries to third party APIs and allows for faster retrieval times.  
 
@@ -10,7 +12,7 @@ All data is cached in a Postgresql database, therefore, as searches are complete
 Development is currently active and instructions will be updated as work progresses.
 
 ### Data Sources
-OpenLibrary is the default data source as it is free-to-use and doesn't require an API key.  However, it has some limitations compared to Hardcover API, which provides richer data.  In order to use Hardcover API you must have a valid Hardcover account, then follow these instructions to retrieve your API Key ([Guide](https://hardcover.app/account/api)).
+Some configuration is required in order to fetch book data from the internet.  In order to use Hardcover API you must have a valid Hardcover account, then follow these instructions to retrieve your API Key ([Guide](https://hardcover.app/account/api)).
 
 <img src="examples/data-source.png" width="800"/>
 
