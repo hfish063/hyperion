@@ -11,6 +11,9 @@ export default async function findAllUserLists() {
   const query = `/lists/all`;
 
   const results = await apiFetch(query);
+
+  if (!results.ok) return undefined;
+
   const data = (await results.json()) as UserList[];
 
   return data;
@@ -20,6 +23,9 @@ export async function findUserListById(id: number) {
   const query = `/lists/${id}`;
 
   const results = await apiFetch(query);
+
+  if (!results.ok) return undefined;
+
   const data = (await results.json()) as UserList;
 
   return data;
@@ -39,6 +45,9 @@ export async function saveUserList(newUserList: UserList) {
   };
 
   const results = await apiFetch(query, options);
+
+  if (!results.ok) return undefined;
+
   const data = (await results.json()) as UserList;
 
   return data;

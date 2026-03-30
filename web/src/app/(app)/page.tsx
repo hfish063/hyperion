@@ -2,7 +2,7 @@ import PageHeader from "@/components/page-header";
 import ReadingOverview from "@/components/reading-overview";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { BookOpen, Search } from "lucide-react";
+import { BookOpen, Target } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -23,8 +23,8 @@ export default function Home() {
 function QuickLinks() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-      <Link href="/library" className="w-full">
-        <Card className="w-full transition-shadow hover:shadow-md">
+      <Link href="/library" className="w-full h-full">
+        <Card className="w-full h-full transition-shadow hover:shadow-md">
           <CardContent className="flex flex-col space-y-2">
             <BookOpen className="text-3xl" />
             <p>
@@ -36,14 +36,14 @@ function QuickLinks() {
         </Card>
       </Link>
 
-      <Link href="/explore" className="w-full">
-        <Card className="w-full transition-shadow hover:shadow-md">
+      <Link href="/goals" className="w-full h-full">
+        <Card className="w-full h-full transition-shadow hover:shadow-md">
           <CardContent className="flex flex-col space-y-2">
-            <Search className="text-3xl" />
+            <Target className="text-3xl" />
             <p>
-              Explore new titles. Search the database for books to add to your
-              library, discover popular reads, and find your next favorite
-              story.
+              Set and track your reading goals. Challenge yourself with a target
+              number of books, follow your progress, and celebrate every
+              milestone along the way.
             </p>
           </CardContent>
         </Card>

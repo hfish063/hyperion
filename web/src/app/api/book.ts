@@ -13,6 +13,9 @@ export async function searchForBooks(title: string) {
   const query = `/books/search/title/${title}`;
 
   const results = await apiFetch(query, { headers: getHardcoverHeaders() });
+
+  if (!results.ok) return undefined;
+
   const data = (await results.json()) as Book[];
 
   return data;

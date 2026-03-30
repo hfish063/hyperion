@@ -35,22 +35,36 @@ export default function ManagementMenu({
   };
 
   const handleStatusChange = async (newStatus: ReadingStatus) => {
-    const updated = await updateUserBookReadingStatus(userBook.id, newStatus);
-    setUserBooks((prev) =>
-      prev.map((book) => (book.id === userBook.id ? updated : book)),
-    );
-    toast.success("Reading status updated.");
+    try {
+      const updated = await updateUserBookReadingStatus(userBook.id, newStatus);
+
+      if (!updated) {
+        toast.error("Failed to update reading status.");
+        return;
+      }
+
+      setUserBooks((prev) =>
+        prev.map((book) => (book.id === userBook.id ? updated : book)),
+      );
+      toast.success("Reading status updated.");
+    } catch {
+      toast.error("Failed to update reading status.");
+    }
   };
 
   const handleDelete = async (editionId: number) => {
-    const isSuccessful = await deleteAllUserBooksByIds([editionId]);
+    try {
+      const isSuccessful = await deleteAllUserBooksByIds([editionId]);
 
-    if (isSuccessful) {
-      setUserBooks((prev) =>
-        prev.filter((book) => book.edition.id !== editionId),
-      );
-      toast.success("Successfully deleted book.");
-    } else {
+      if (isSuccessful) {
+        setUserBooks((prev) =>
+          prev.filter((book) => book.edition.id !== editionId),
+        );
+        toast.success("Successfully deleted book.");
+      } else {
+        toast.error("Failed to delete book.");
+      }
+    } catch {
       toast.error("Failed to delete book.");
     }
   };

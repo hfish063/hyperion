@@ -29,11 +29,23 @@ export default function ReadingOverview() {
           await findAllBooksForUserByReadingStatus(
             ReadingStatus.CURRENTLY_READING,
           );
+
+        if (!currentlyReadingResults) {
+          setError("Error fetching reading overview.");
+          return;
+        }
+
         setCurrentlyReading(currentlyReadingResults);
 
         const planningToReadResults = await findAllBooksForUserByReadingStatus(
           ReadingStatus.WANT_TO_READ,
         );
+
+        if (!planningToReadResults) {
+          setError("Error fetching reading overview.");
+          return;
+        }
+
         setPlanningToRead(planningToReadResults);
       } catch (e: unknown) {
         if (e instanceof Error) {

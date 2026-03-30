@@ -19,6 +19,9 @@ export async function findAllBooksForUser() {
   const query = `/books/all`;
 
   const results = await apiFetch(query);
+
+  if (!results.ok) return undefined;
+
   const data = (await results.json()) as UserBook[];
 
   return data;
@@ -28,6 +31,9 @@ export async function findBookForUserById(id: number) {
   const query = `/books/search/${id}`;
 
   const result = await apiFetch(query);
+
+  if (!result.ok) return undefined;
+
   const data = (await result.json()) as UserBook;
 
   return data;
@@ -39,6 +45,9 @@ export async function findAllBooksForUserByReadingStatus(
   const query = `/books/all/status/${status}`;
 
   const results = await apiFetch(query);
+
+  if (!results.ok) return undefined;
+
   const data = (await results.json()) as UserBook[];
 
   return data;
@@ -85,6 +94,9 @@ export async function updateUserBookReadingStatus(
   };
 
   const result = await apiFetch(query, options);
+
+  if (!result.ok) return undefined;
+
   const data = (await result.json()) as UserBook;
 
   return data;

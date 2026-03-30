@@ -4,6 +4,7 @@ import ListBooksGrid from "./list-books-grid";
 import AddBooksToListDialog from "./add-books-to-list-dialog";
 import PageHeader from "../page-header";
 import BackButton from "../back-button";
+import ErrorAlert from "../error-alert";
 
 export default async function ListBooksWrapper({ id }: ListBooksWrapperProps) {
   const listId = Number(id);
@@ -12,6 +13,10 @@ export default async function ListBooksWrapper({ id }: ListBooksWrapperProps) {
     findAllBooksByListId(listId),
     findAllBooksForUser(),
   ]);
+
+  if (!listBooks || !library) {
+    return <ErrorAlert message="Error fetching list books." />;
+  }
 
   const listName = listBooks[0]?.userList.name ?? "List Books";
 

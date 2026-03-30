@@ -21,7 +21,12 @@ export default function UserListsWrapper() {
     const fetchUserLists = async () => {
       try {
         const results = await findAllUserLists();
-        setUserLists(results);
+
+        if (!results) {
+          setError("Error fetching lists.");
+        } else {
+          setUserLists(results);
+        }
       } catch (e: unknown) {
         if (e instanceof Error) {
           setError(e.message);

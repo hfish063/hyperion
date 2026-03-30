@@ -26,30 +26,30 @@ import { Textarea } from "../ui/textarea";
 
 export default function LibraryAddForm({ initialIsbn }: LibraryAddFormProps) {
   const [edition, setEdition] = useState<Edition | undefined>(undefined);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    if (initialIsbn) {
-      fetchEdition(initialIsbn);
-    }
-  }, [initialIsbn]);
-
-  const fetchEdition = async (isbnToFetch: string) => {
-    if (!isbnToFetch) {
+    if (!initialIsbn || (initialIsbn.length !== 10 && initialIsbn.length !== 13)) {
       return;
     }
 
-    if (isbnToFetch.length == 10 || isbnToFetch.length == 13) {
+    async function fetchEdition() {
       try {
-        const result = await searchForEditionByIsbn(isbnToFetch);
-        setEdition(result);
+        const result = await searchForEditionByIsbn(initialIsbn!);
+        if (!result) {
+          setError("Error fetching edition.");
+        } else {
+          setEdition(result);
+        }
       } catch (e: unknown) {
         if (e instanceof Error) {
           setError(e.message);
         }
       }
     }
-  };
+
+    fetchEdition();
+  }, [initialIsbn]);
 
   return (
     <div className="flex flex-col space-y-4">
