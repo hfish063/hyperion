@@ -1,27 +1,15 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import ThemeToggle from "./theme-toggle";
+import SettingsDropdown from "./settings/settings-dropdown";
 
 export default function AppHeader() {
   return (
-    <header className="flex flex-row space-x-4 items-center w-full justify-between">
-      <AppHeaderTitle />
-      <ThemeToggle />
+    <header className="flex flex-row space-x-4 items-center w-full justify-end">
+      <div className="flex flex-row items-center space-x-2">
+        <SettingsDropdown />
+        <ThemeToggle />
+      </div>
     </header>
   );
-}
-
-function AppHeaderTitle() {
-  const pathname = usePathname();
-
-  console.log(pathname);
-
-  if (pathname == "/") {
-    return <h1 className="text-2xl font-bold">Home</h1>;
-  } else if (pathname == "/explore") {
-    return <h1 className="text-2xl font-bold">Explore</h1>;
-  } else {
-    return <div />;
-  }
 }

@@ -8,23 +8,13 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-import {
-  Home,
-  Search,
-  BookOpen,
-  Clock,
-  Star,
-  Tag,
-  BookIcon,
-} from "lucide-react";
+import { Home, BookOpen, FlameIcon, List, Goal } from "lucide-react";
 
 const items = [
   { title: "Home", url: "/", icon: Home },
-  { title: "Library", url: "/", icon: BookOpen },
-  { title: "Progress", url: "/", icon: Clock },
-  { title: "Explore", url: "/explore", icon: Search },
-  { title: "Notes", url: "/", icon: Star },
-  { title: "Tags", url: "/", icon: Tag },
+  { title: "Library", url: "/library", icon: BookOpen },
+  { title: "Lists", url: "/lists", icon: List },
+  { title: "Goals", url: "/goals", icon: Goal }
 ];
 
 export function AppSidebar() {
@@ -32,7 +22,7 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarHeader>
         <div className="flex flex-row space-x-2 items-center">
-          <BookIcon />
+          <FlameIcon />
           <p className="text-2xl font-bold p-2">Hyperion</p>
         </div>
       </SidebarHeader>

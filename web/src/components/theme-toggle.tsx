@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { Switch } from "./ui/switch";
 import { MoonIcon, SunIcon } from "lucide-react";
+import { Button } from "./ui/button";
 
 export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
@@ -12,7 +13,7 @@ export default function ThemeToggle() {
   }, []);
 
   if (!mounted) {
-    return undefined;
+    return;
   }
 
   function toggleTheme() {
@@ -25,11 +26,9 @@ export default function ThemeToggle() {
 
   return (
     <div className="flex flex-row space-x-4 items-center">
-      {theme == "light" ? <MoonIcon /> : <SunIcon />}
-      <Switch
-        checked={theme == "dark" ? true : false}
-        onCheckedChange={toggleTheme}
-      />
+      <Button variant={"outline"} onClick={toggleTheme} size={"icon"}>
+        {theme == "light" ? <MoonIcon /> : <SunIcon />}
+      </Button>
     </div>
   );
 }
