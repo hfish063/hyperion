@@ -6,8 +6,8 @@ export type Edition = {
   title: string;
   description: string;
   editionFormat: string;
-  isbn10: number;
-  isbn13: number;
+  isbn10: string;
+  isbn13: string;
   pages: number;
   coverImageUrl: string;
   collaborators: Collaborator[];

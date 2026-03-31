@@ -18,12 +18,22 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Author, Collaborator, Edition, searchForEditionByIsbn } from "@/app/api/edition";
+import {
+  Author,
+  Collaborator,
+  Edition,
+  searchForEditionByIsbn,
+} from "@/app/api/edition";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import ErrorAlert from "../error-alert";
 import { useRouter } from "next/navigation";
 import { Textarea } from "../ui/textarea";
-import { ReadingStatus, saveBookForUser, saveBookForUserWithInput, LibraryBook } from "@/app/api/library-book";
+import {
+  ReadingStatus,
+  saveBookForUser,
+  saveBookForUserWithInput,
+  LibraryBook,
+} from "@/app/api/library-book";
 import { toast } from "sonner";
 
 export default function LibraryAddForm({ initialIsbn }: LibraryAddFormProps) {
@@ -31,7 +41,10 @@ export default function LibraryAddForm({ initialIsbn }: LibraryAddFormProps) {
   const [error, setError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    if (!initialIsbn || (initialIsbn.length !== 10 && initialIsbn.length !== 13)) {
+    if (
+      !initialIsbn ||
+      (initialIsbn.length !== 10 && initialIsbn.length !== 13)
+    ) {
       return;
     }
 
@@ -100,8 +113,8 @@ function EditionDetailsForm({ edition }: EditionDetailsFormProps) {
     setAuthors(authorNames.length ? authorNames : [""]);
 
     if (edition?.description) setDescription(edition.description);
-    if (edition?.isbn10) setIsbn10(String(edition.isbn10));
-    if (edition?.isbn13) setIsbn13(String(edition.isbn13));
+    if (edition?.isbn10) setIsbn10(edition.isbn10);
+    if (edition?.isbn13) setIsbn13(edition.isbn13);
     if (edition?.pages) setPages(String(edition.pages));
     if (edition?.coverImageUrl) setCoverImageUrl(edition.coverImageUrl);
   }, [edition]);
@@ -109,31 +122,36 @@ function EditionDetailsForm({ edition }: EditionDetailsFormProps) {
   async function handleSubmit(e: React.SubmitEvent) {
     e.preventDefault();
 
-    let newCollaborators: Collaborator[] = []
-    authors.forEach((author) => (newCollaborators.push({author: {name: author} as Author, contribution: "Author"} as Collaborator)))
+    let newCollaborators: Collaborator[] = [];
+    authors.forEach((author) =>
+      newCollaborators.push({
+        author: { name: author } as Author,
+        contribution: "Author",
+      } as Collaborator),
+    );
 
     const newEdition = {
-        title: title,
-        description: description,
-        isbn10: isbn10 || null,
-        isbn13: isbn13 || null,
-        pages: Number(pages) || null,
-        coverImageUrl: coverImageUrl,
-        collaborators: newCollaborators
-    } as unknown as Edition
+      title: title,
+      description: description,
+      isbn10: isbn10 || null,
+      isbn13: isbn13 || null,
+      pages: Number(pages) || null,
+      coverImageUrl: coverImageUrl,
+      collaborators: newCollaborators,
+    } as unknown as Edition;
 
     const toAdd = {
       edition: newEdition,
       readingStatus: ReadingStatus.CURRENTLY_READING,
-    } as LibraryBook
+    } as LibraryBook;
 
     try {
-      await saveBookForUserWithInput(toAdd as LibraryBook)
-      toast.success("Book added to library.")
-      router.push("/library")
+      await saveBookForUserWithInput(toAdd as LibraryBook);
+      toast.success("Book added to library.");
+      router.push("/library");
     } catch (e: unknown) {
       if (e instanceof Error) {
-        toast.error("Error saving edition.")
+        toast.error("Error saving edition.");
       }
     }
   }
@@ -142,7 +160,11 @@ function EditionDetailsForm({ edition }: EditionDetailsFormProps) {
     <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
       <Field>
         <FieldLabel>Title</FieldLabel>
-        <Input value={title} onChange={(e) => setTitle(e.target.value)} required />
+        <Input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
       </Field>
 
       <Card>
