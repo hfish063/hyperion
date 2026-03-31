@@ -58,7 +58,7 @@ export default function LibraryAddForm({ initialIsbn }: LibraryAddFormProps) {
         }
       } catch (e: unknown) {
         if (e instanceof Error) {
-          setError(e.message);
+          setError("Failed to retrieve edition details.");
         }
       }
     }
@@ -279,6 +279,10 @@ function IsbnSearchForm() {
     router.push(`/library/add/${encodeURIComponent(isbn)}`);
   }
 
+  function formatIsbn(isbn: string) {
+    return isbn.trim().replace("-", "");
+  }
+
   return (
     <form onSubmit={handleSearch}>
       <Field>
@@ -292,7 +296,7 @@ function IsbnSearchForm() {
           <Input
             placeholder="Enter ISBN 10 or ISBN 13"
             value={isbn}
-            onChange={(e) => setIsbn(e.target.value)}
+            onChange={(e) => setIsbn(formatIsbn(e.target.value))}
             required
           />
           <Button type="submit">
