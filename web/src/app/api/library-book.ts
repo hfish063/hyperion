@@ -1,7 +1,7 @@
 import apiFetch from "./api";
 import { Edition } from "./edition";
 
-export type UserBook = {
+export type LibraryBook = {
   id: number;
   edition: Edition;
   readingStatus: ReadingStatus;
@@ -22,7 +22,7 @@ export async function findAllBooksForUser() {
 
   if (!results.ok) return undefined;
 
-  const data = (await results.json()) as UserBook[];
+  const data = (await results.json()) as LibraryBook[];
 
   return data;
 }
@@ -34,7 +34,7 @@ export async function findBookForUserById(id: number) {
 
   if (!result.ok) return undefined;
 
-  const data = (await result.json()) as UserBook;
+  const data = (await result.json()) as LibraryBook;
 
   return data;
 }
@@ -48,12 +48,12 @@ export async function findAllBooksForUserByReadingStatus(
 
   if (!results.ok) return undefined;
 
-  const data = (await results.json()) as UserBook[];
+  const data = (await results.json()) as LibraryBook[];
 
   return data;
 }
 
-export async function saveBookForUser(newUserBook: UserBook) {
+export async function saveBookForUser(newLibraryBook: LibraryBook) {
   const query = `/books/save`;
 
   const headers: HeadersInit = {
@@ -63,7 +63,7 @@ export async function saveBookForUser(newUserBook: UserBook) {
   const options: RequestInit = {
     headers: headers,
     method: "POST",
-    body: JSON.stringify(newUserBook),
+    body: JSON.stringify(newLibraryBook),
   };
 
   const result = await apiFetch(query, options);
@@ -72,12 +72,36 @@ export async function saveBookForUser(newUserBook: UserBook) {
     throw new Error("Failed to save book.");
   }
 
-  const data = (await result.json()) as UserBook;
+  const data = (await result.json()) as LibraryBook;
 
   return data;
 }
 
-export async function updateUserBookReadingStatus(
+export async function saveBookForUserWithInput(newLibraryBook: LibraryBook) {
+  const query = `/books/save/input`;
+
+  const headers: HeadersInit = {
+    "Content-Type": "application/json",
+  };
+
+  const options: RequestInit = {
+    headers: headers,
+    method: "POST",
+    body: JSON.stringify(newLibraryBook),
+  };
+
+  const result = await apiFetch(query, options);
+
+  if (!result.ok) {
+    throw new Error("Failed to save book.");
+  }
+
+  const data = (await result.json()) as LibraryBook;
+
+  return data;
+}
+
+export async function updateLibraryBookReadingStatus(
   id: number,
   newStatus: ReadingStatus,
 ) {
@@ -97,7 +121,7 @@ export async function updateUserBookReadingStatus(
 
   if (!result.ok) return undefined;
 
-  const data = (await result.json()) as UserBook;
+  const data = (await result.json()) as LibraryBook;
 
   return data;
 }
@@ -105,7 +129,7 @@ export async function updateUserBookReadingStatus(
 /**
  * Deletes a book from user's library based off of the id field.
  *
- * @param id The id field of UserBook to delete from backend.
+ * @param id The id field of LibraryBook to delete from backend.
  * @returns True for valid request, false otherwise.  False assumes that the backend failed carry out
  * the delete operation.
  */
@@ -125,7 +149,7 @@ export async function deleteBookForUser(id: number) {
   return result.ok;
 }
 
-export async function deleteAllUserBooksByIds(ids: number[]) {
+export async function deleteAllLibraryBooksByIds(ids: number[]) {
   const query = `/books/delete/all/edition/ids`;
 
   const headers: HeadersInit = {

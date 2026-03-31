@@ -1,9 +1,9 @@
 import {
-  deleteAllUserBooksByIds,
+  deleteAllLibraryBooksByIds,
   ReadingStatus,
-  updateUserBookReadingStatus,
-  UserBook,
-} from "@/app/api/user-book";
+  updateLibraryBookReadingStatus,
+  LibraryBook,
+} from "@/app/api/library-book";
 import { Check, Trash } from "lucide-react";
 import {
   DropdownMenu,
@@ -16,14 +16,14 @@ import { toast } from "sonner";
 import { Dispatch, ReactNode, SetStateAction } from "react";
 
 type ManagementMenuProps = {
-  userBook: UserBook;
-  setUserBooks: Dispatch<SetStateAction<UserBook[]>>;
+  libraryBook: LibraryBook;
+  setLibraryBooks: Dispatch<SetStateAction<LibraryBook[]>>;
   children: ReactNode;
 };
 
 export default function ManagementMenu({
-  userBook,
-  setUserBooks,
+  libraryBook,
+  setLibraryBooks,
   children,
 }: ManagementMenuProps) {
   const statuses = Object.values(ReadingStatus);
@@ -36,15 +36,15 @@ export default function ManagementMenu({
 
   const handleStatusChange = async (newStatus: ReadingStatus) => {
     try {
-      const updated = await updateUserBookReadingStatus(userBook.id, newStatus);
+      const updated = await updateLibraryBookReadingStatus(libraryBook.id, newStatus);
 
       if (!updated) {
         toast.error("Failed to update reading status.");
         return;
       }
 
-      setUserBooks((prev) =>
-        prev.map((book) => (book.id === userBook.id ? updated : book)),
+      setLibraryBooks((prev) =>
+        prev.map((book) => (book.id === libraryBook.id ? updated : book)),
       );
       toast.success("Reading status updated.");
     } catch {
@@ -54,10 +54,10 @@ export default function ManagementMenu({
 
   const handleDelete = async (editionId: number) => {
     try {
-      const isSuccessful = await deleteAllUserBooksByIds([editionId]);
+      const isSuccessful = await deleteAllLibraryBooksByIds([editionId]);
 
       if (isSuccessful) {
-        setUserBooks((prev) =>
+        setLibraryBooks((prev) =>
           prev.filter((book) => book.edition.id !== editionId),
         );
         toast.success("Successfully deleted book.");
@@ -79,7 +79,7 @@ export default function ManagementMenu({
             onSelect={() => handleStatusChange(readingStatus)}
           >
             <Check
-              className={`mr-2 size-4 ${readingStatus === userBook.readingStatus ? "opacity-100" : "opacity-0"}`}
+              className={`mr-2 size-4 ${readingStatus === libraryBook.readingStatus ? "opacity-100" : "opacity-0"}`}
             />
             {statusLabels[readingStatus]}
           </DropdownMenuItem>
@@ -89,7 +89,7 @@ export default function ManagementMenu({
 
         <DropdownMenuItem
           variant="destructive"
-          onSelect={() => handleDelete(userBook.edition.id)}
+          onSelect={() => handleDelete(libraryBook.edition.id)}
         >
           <Trash className="mr-2 size-4" />
           Delete

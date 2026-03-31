@@ -2,13 +2,13 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ChevronsUpDown, Ellipsis } from "lucide-react";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
-import { UserBook } from "@/app/api/user-book";
+import { LibraryBook } from "@/app/api/library-book";
 import { Dispatch, SetStateAction } from "react";
 import ManagementMenu from "./library-management-menu";
 
 export const getLibraryColumns = (
-  setUserBooks: Dispatch<SetStateAction<UserBook[]>>,
-): ColumnDef<UserBook>[] => [
+  setLibraryBooks: Dispatch<SetStateAction<LibraryBook[]>>,
+): ColumnDef<LibraryBook>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -65,10 +65,10 @@ export const getLibraryColumns = (
   {
     id: "actions",
     cell: ({ row }) => {
-      const userBook = row.original;
+      const libraryBook = row.original;
 
       return (
-        <ManagementMenu userBook={userBook} setUserBooks={setUserBooks}>
+        <ManagementMenu libraryBook={libraryBook} setLibraryBooks={setLibraryBooks}>
           <Button variant={"ghost"} size={"icon"}>
             <Ellipsis />
           </Button>

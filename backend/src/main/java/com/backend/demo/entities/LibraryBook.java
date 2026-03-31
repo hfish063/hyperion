@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user_books")
-public class UserBook {
+@Table(name = "library_books")
+public class LibraryBook {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -20,9 +20,6 @@ public class UserBook {
     @Enumerated(EnumType.STRING)
     @Column(name = "reading_status")
     private ReadingStatus readingStatus; // WANT_TO_READ, CURRENTLY_READING, READ, DROPPED
-
-    @Column(name = "user_id")
-    private String userId;
 
     @Column(name = "date_added")
     private LocalDateTime dateAdded;
@@ -44,16 +41,16 @@ public class UserBook {
         return readingStatus;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
     public LocalDateTime getDateAdded() {
         return dateAdded;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setEdition(Edition edition) {
+        this.edition = edition;
     }
 
     public void setReadingStatus(ReadingStatus readingStatus) {

@@ -23,8 +23,8 @@ import {
 import {
   findAllBooksForUser,
   ReadingStatus,
-  UserBook,
-} from "@/app/api/user-book";
+  LibraryBook,
+} from "@/app/api/library-book";
 import Link from "next/link";
 import { Skeleton } from "../ui/skeleton";
 
@@ -45,7 +45,7 @@ const STATUS_TABS: {
 ];
 
 export default function LibraryWrapper() {
-  const [library, setLibrary] = useState<UserBook[]>([]);
+  const [library, setLibrary] = useState<LibraryBook[]>([]);
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState<string>();
   const [view, setView] = useState<ViewMode>("grid");
@@ -211,7 +211,7 @@ export default function LibraryWrapper() {
               {view === "grid" ? (
                 <LibraryGrid
                   library={filteredLibrary}
-                  setUserBooks={setLibrary}
+                  setLibraryBooks={setLibrary}
                 />
               ) : (
                 <LibraryList

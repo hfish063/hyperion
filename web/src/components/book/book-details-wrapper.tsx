@@ -1,88 +1,40 @@
-import { Edition, searchForEditionById } from "@/app/api/edition";
-import { useEffect, useState } from "react";
-import { Spinner } from "../ui";
-import MissingData from "../missing-data";
-import Image from "next/image";
-import { Card, CardContent } from "../ui/card";
-import BackButton from "../back-button";
+import { Edition } from "@/app/api/edition";
 import ErrorAlert from "../error-alert";
+import { Card, CardContent } from "../ui/card";
+import MissingData from "../missing-data";
 import ExpandableText from "../expandable-text";
+import Image from "next/image";
+import CoverImage from "./cover-image";
 
 export default function BookDetailsWrapper({
-  sourceId,
+  edition,
 }: BookDetailsWrapperProps) {
-  const [bookDetails, setBookDetails] = useState<Edition | undefined>(
-    undefined,
+  if (edition === undefined) {
+    return <ErrorAlert message="Failed to retrieve edition details." />;
+  }
+
+  return (
+    <div className="flex flex-col gap-4">
+      <BookDetailsHeader details={edition} />
+      <BookDetailsDescription description={edition.description} />
+      <BookDetailsList details={edition} />
+    </div>
   );
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | undefined>(undefined);
-
-  useEffect(() => {
-    async function fetchDetails() {
-      setLoading(true);
-
-      try {
-        const details = await searchForEditionById(sourceId);
-
-        if (!details) {
-          setError("Error fetching book details.");
-        } else {
-          setBookDetails(details);
-        }
-      } catch (e: unknown) {
-        if (e instanceof Error) {
-          setError(e.message);
-        }
-      }
-
-      setLoading(false);
-    }
-
-    fetchDetails();
-  }, [sourceId]);
-
-  if (loading) {
-    return (
-      <div className="flex flex-row gap-4 w-full h-full items-center justify-center">
-        <Spinner variant={"circle"} /> <p>Loading...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return <ErrorAlert message={error} />;
-  }
-
-  if (bookDetails != undefined) {
-    return (
-      <div className="flex flex-col gap-4">
-        <BackButton
-          href={`/explore/search/${bookDetails.title}`}
-          label="See Similar"
-        />
-        <BookDetailsHeader details={bookDetails} />
-        <hr />
-        <BookDetailsDescription description={bookDetails.description} />
-        <BookDetailsList details={bookDetails} />
-      </div>
-    );
-  }
 }
 
 type BookDetailsWrapperProps = {
-  sourceId: string;
+  edition: Edition | undefined;
 };
 
 function BookDetailsHeader({ details }: BookDetailsHeaderProps) {
   return (
     <div className="flex flex-row gap-4">
       {details.coverImageUrl && (
-        <Image
-          className="rounded"
-          src={details.coverImageUrl}
+        <CoverImage
+          coverImageUrl={details.coverImageUrl}
+          title={details.title}
           height={200}
           width={150}
-          alt={details.title}
         />
       )}
       <div className="flex flex-col gap-4 size-full justify-between">

@@ -3,8 +3,8 @@
 import {
   findAllBooksForUserByReadingStatus,
   ReadingStatus,
-  UserBook,
-} from "@/app/api/user-book";
+  LibraryBook,
+} from "@/app/api/library-book";
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "./ui/card";
 import ErrorAlert from "./error-alert";
@@ -15,8 +15,8 @@ import CoverImage from "./book/cover-image";
 import MissingData from "./missing-data";
 
 export default function ReadingOverview() {
-  const [currentlyReading, setCurrentlyReading] = useState<UserBook[]>([]);
-  const [planningToRead, setPlanningToRead] = useState<UserBook[]>([]);
+  const [currentlyReading, setCurrentlyReading] = useState<LibraryBook[]>([]);
+  const [planningToRead, setPlanningToRead] = useState<LibraryBook[]>([]);
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState<string | undefined>(undefined);
 
@@ -152,7 +152,7 @@ function ReadingStatusPreview({ readingList }: ReadingStatusPreviewProps) {
 }
 
 type ReadingStatusPreviewProps = {
-  readingList: UserBook[];
+  readingList: LibraryBook[];
 };
 
 function ReadingStatusPreviewSkeleton() {

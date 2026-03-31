@@ -6,8 +6,8 @@ export type Edition = {
   title: string;
   description: string;
   editionFormat: string;
-  isbn10: number;
-  isbn13: number;
+  isbn10: string;
+  isbn13: string;
   pages: number;
   coverImageUrl: string;
   collaborators: Collaborator[];
@@ -25,29 +25,10 @@ export type Author = {
   name: string;
 };
 
-export async function searchForTitle(
-  title: string,
-  limit: number | undefined = undefined,
-) {
-  let query = `/editions/search/title/${title}`;
-
-  if (limit) {
-    query += `?limit=${limit}`;
-  }
-
-  const results = await apiFetch(query, { headers: getHardcoverHeaders() });
-
-  if (!results.ok) return undefined;
-
-  const data = (await results.json()) as Edition[];
-
-  return data;
-}
-
-export async function searchForEditionById(id: string) {
+export async function searchForEditionById(id: number) {
   const query = `/editions/search/id/${id}`;
 
-  const results = await apiFetch(query, { headers: getHardcoverHeaders() });
+  const results = await apiFetch(query);
 
   if (!results.ok) return undefined;
 
