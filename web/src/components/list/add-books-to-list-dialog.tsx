@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { UserBook } from "@/app/api/user-book";
+import { LibraryBook } from "@/app/api/library-book";
 import { Plus } from "lucide-react";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
@@ -27,13 +27,13 @@ export default function AddBooksToListDialog({
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<Set<number>>(new Set());
 
-  function toggle(userBookId: number) {
+  function toggle(libraryBookId: number) {
     setSelected((prev) => {
       const next = new Set(prev);
-      if (next.has(userBookId)) {
-        next.delete(userBookId);
+      if (next.has(libraryBookId)) {
+        next.delete(libraryBookId);
       } else {
-        next.add(userBookId);
+        next.add(libraryBookId);
       }
 
       return next;
@@ -42,9 +42,9 @@ export default function AddBooksToListDialog({
 
   async function handleAdd() {
     try {
-      for (const userBookId of selected) {
-        const userBook = library.find((b) => b.id === userBookId)!;
-        const result = await addBookToList(listId, userBook.edition);
+      for (const libraryBookId of selected) {
+        const libraryBook = library.find((b) => b.id === libraryBookId)!;
+        const result = await addBookToList(listId, libraryBook.edition);
 
         if (result) {
           toast.success("Book added successfully.");
@@ -77,28 +77,28 @@ export default function AddBooksToListDialog({
         </DialogHeader>
         <ScrollArea className="h-96">
           <div className="flex flex-col gap-2 pr-4">
-            {library.map((userBook) => (
+            {library.map((libraryBook) => (
               <label
-                key={userBook.id}
+                key={libraryBook.id}
                 className="flex items-center gap-3 rounded-md p-2 cursor-pointer hover:bg-muted"
               >
                 <Checkbox
-                  checked={selected.has(userBook.id)}
-                  onCheckedChange={() => toggle(userBook.id)}
+                  checked={selected.has(libraryBook.id)}
+                  onCheckedChange={() => toggle(libraryBook.id)}
                 />
                 <CoverImage
                   width={40}
                   height={60}
-                  title={userBook.edition.title}
-                  coverImageUrl={userBook.edition.coverImageUrl}
+                  title={libraryBook.edition.title}
+                  coverImageUrl={libraryBook.edition.coverImageUrl}
                 />
                 <div className="flex flex-col min-w-0">
                   <span className="text-sm font-medium line-clamp-2">
-                    {userBook.edition.title}
+                    {libraryBook.edition.title}
                   </span>
-                  {userBook.edition.collaborators[0] && (
+                  {libraryBook.edition.collaborators[0] && (
                     <span className="text-xs text-muted-foreground">
-                      {userBook.edition.collaborators[0].author.name}
+                      {libraryBook.edition.collaborators[0].author.name}
                     </span>
                   )}
                 </div>
@@ -118,5 +118,5 @@ export default function AddBooksToListDialog({
 
 type AddBooksToListDialogProps = {
   listId: number;
-  library: UserBook[];
+  library: LibraryBook[];
 };

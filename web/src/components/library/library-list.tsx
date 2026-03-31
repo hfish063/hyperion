@@ -1,8 +1,8 @@
 import {
-  deleteAllUserBooksByIds,
+  deleteAllLibraryBooksByIds,
   ReadingStatus,
-  UserBook,
-} from "@/app/api/user-book";
+  LibraryBook,
+} from "@/app/api/library-book";
 import { Dispatch, SetStateAction } from "react";
 import DataTable from "./data-table";
 import { toast } from "sonner";
@@ -14,12 +14,12 @@ export default function LibraryList({
   setLibrary,
 }: LibraryListProps) {
   const handleDelete = async (ids: number[]) => {
-    const isSuccessful = await deleteAllUserBooksByIds(ids);
+    const isSuccessful = await deleteAllLibraryBooksByIds(ids);
 
     if (isSuccessful) {
       setLibrary(
-        library.filter((userBook) => {
-          return !ids.includes(userBook.edition.id);
+        library.filter((libraryBook) => {
+          return !ids.includes(libraryBook.edition.id);
         }),
       );
 
@@ -54,8 +54,8 @@ export default function LibraryList({
 
 type LibraryListProps = {
   status?: ReadingStatus;
-  library: UserBook[];
-  setLibrary: Dispatch<SetStateAction<UserBook[]>>;
+  library: LibraryBook[];
+  setLibrary: Dispatch<SetStateAction<LibraryBook[]>>;
 };
 
 function FilteredList({
@@ -80,8 +80,8 @@ function FilteredList({
 }
 
 type FilteredListProps = {
-  library: UserBook[];
+  library: LibraryBook[];
   status: ReadingStatus;
-  setLibrary: Dispatch<SetStateAction<UserBook[]>>;
+  setLibrary: Dispatch<SetStateAction<LibraryBook[]>>;
   handleDelete: (ids: number[]) => void;
 };

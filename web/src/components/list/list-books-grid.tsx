@@ -1,6 +1,6 @@
 import { UserListBook } from "@/app/api/user-list-book";
-import Link from "next/link";
 import CoverImage from "../book/cover-image";
+import Link from "next/link";
 
 export default function ListBooksGrid({ listBooks }: ListBooksGridProps) {
   const isOrdered = listBooks[0]?.userList.isOrdered ?? false;
@@ -8,11 +8,8 @@ export default function ListBooksGrid({ listBooks }: ListBooksGridProps) {
   return (
     <div className="grid gap-6 grid-cols-[repeat(auto-fill,minmax(120px,1fr))]">
       {listBooks.map((listBook) => (
-        <div key={listBook.id} className="flex flex-col h-full">
-          <Link
-            href={`/explore/${listBook.edition.sourceId}`}
-            className="flex flex-col flex-1 items-center transition-transform duration-200 hover:-translate-y-1"
-          >
+        <Link key={listBook.id} href={`/book/details/${listBook.edition.id}`}>
+          <div className="flex flex-col h-full items-center transition-transform duration-300 hover:-translate-y-1">
             <div className="flex flex-col items-center w-full">
               <div className="flex flex-col gap-1 w-[120px]">
                 <div className="relative">
@@ -28,13 +25,11 @@ export default function ListBooksGrid({ listBooks }: ListBooksGridProps) {
                     </span>
                   )}
                 </div>
-                <p className="text-sm line-clamp-2">
-                  {listBook.edition.title}
-                </p>
+                <p className="text-sm line-clamp-2">{listBook.edition.title}</p>
               </div>
             </div>
-          </Link>
-        </div>
+          </div>
+        </Link>
       ))}
     </div>
   );

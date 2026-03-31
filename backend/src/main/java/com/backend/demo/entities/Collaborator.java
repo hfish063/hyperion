@@ -13,7 +13,7 @@ public class Collaborator {
     @Column(name = "source_id")
     private int sourceId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "author_id")
     private Author author;
 

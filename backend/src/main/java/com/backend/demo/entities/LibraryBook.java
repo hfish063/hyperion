@@ -49,6 +49,10 @@ public class LibraryBook {
         this.id = id;
     }
 
+    public void setEdition(Edition edition) {
+        this.edition = edition;
+    }
+
     public void setReadingStatus(ReadingStatus readingStatus) {
         this.readingStatus = readingStatus;
     }

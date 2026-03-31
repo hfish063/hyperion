@@ -23,7 +23,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import ErrorAlert from "../error-alert";
 import { useRouter } from "next/navigation";
 import { Textarea } from "../ui/textarea";
-import { ReadingStatus, saveBookForUser, saveBookForUserWithInput, UserBook } from "@/app/api/user-book";
+import { ReadingStatus, saveBookForUser, saveBookForUserWithInput, LibraryBook } from "@/app/api/library-book";
 import { toast } from "sonner";
 
 export default function LibraryAddForm({ initialIsbn }: LibraryAddFormProps) {
@@ -81,6 +81,7 @@ export default function LibraryAddForm({ initialIsbn }: LibraryAddFormProps) {
 }
 
 function EditionDetailsForm({ edition }: EditionDetailsFormProps) {
+  const router = useRouter();
   const [title, setTitle] = useState("");
   const [authors, setAuthors] = useState([""]);
   const [description, setDescription] = useState("");
@@ -114,24 +115,22 @@ function EditionDetailsForm({ edition }: EditionDetailsFormProps) {
     const newEdition = {
         title: title,
         description: description,
-        isbn10: Number(isbn10),
-        isbn13: Number(isbn13),
-        pages: Number(pages),
+        isbn10: isbn10 || null,
+        isbn13: isbn13 || null,
+        pages: Number(pages) || null,
         coverImageUrl: coverImageUrl,
         collaborators: newCollaborators
-    } as Edition
+    } as unknown as Edition
 
     const toAdd = {
       edition: newEdition,
       readingStatus: ReadingStatus.CURRENTLY_READING,
-    } as UserBook
+    } as LibraryBook
 
     try {
-      const result = await saveBookForUserWithInput(toAdd as UserBook)
-
-      if (result) {
-        "Edition saved successfully."
-      }
+      await saveBookForUserWithInput(toAdd as LibraryBook)
+      toast.success("Book added to library.")
+      router.push("/library")
     } catch (e: unknown) {
       if (e instanceof Error) {
         toast.error("Error saving edition.")

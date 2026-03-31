@@ -1,12 +1,10 @@
 package com.backend.demo.external.hardcover;
 
-import com.backend.demo.external.hardcover.dtos.HardcoverBooksResponse;
 import com.backend.demo.external.hardcover.dtos.HardcoverEditionsResponse;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,73 +12,6 @@ import java.util.Map;
 public class HardcoverClient {
     private final RestTemplate restTemplate = new RestTemplate();
     private final String hardcoverUrl = "https://api.hardcover.app/v1/graphql";
-
-    public HardcoverBooksResponse getBooksByTitle(String title, String apiToken) {
-        String query = """
-                query BooksByUserCount {
-                    books(
-                          where: {
-                              title: {
-                                  _eq: "%s"
-                              }
-                          }
-                          order_by: {editions_count: desc}
-                    ) {
-                          id
-                          title
-                          description
-                          pages
-                          release_year
-                          default_cover_edition {
-                            id
-                            image {
-                                url
-                            }
-                          }
-                    }
-                }""".formatted(title);
-
-        return sendQuery(query, HardcoverBooksResponse.class, apiToken);
-    }
-
-    public HardcoverEditionsResponse getEditionsByTitle(String title, String apiToken) throws IOException {
-        String query = """
-                query GetEditionsFromTitle {
-                  editions(where: {title: {_eq: "%s"}}) {
-                      id
-                      title
-                      subtitle
-                      isbn_10
-                      isbn_13
-                      asin
-                      pages
-                      release_year
-                      edition_format
-                      image_id
-                      book {
-                          id
-                          description
-                      }
-                      publisher {
-                          id
-                          name
-                      }
-                      contributions {
-                        id
-                        author {
-                            id
-                            name
-                        }
-                        contribution
-                      }
-                      image {
-                        url
-                      }
-                  }
-                }""".formatted(title);
-
-        return sendQuery(query, HardcoverEditionsResponse.class, apiToken);
-    }
 
     public HardcoverEditionsResponse getEditionById(String id, String apiToken) {
         String query = """

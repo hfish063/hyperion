@@ -52,16 +52,15 @@ public class LibraryBookService {
     }
 
     /**
-     * Save a UserBook that has been obtained from manual form input (not fetched from third party API).
+     * Save a LibraryBook that has been obtained from manual form input (not fetched from third party API).
      * In this case, we should first save the given edition, so that it is cached in our database for future searches.
      *
-     * @param newLibraryBook The UserBook object containing manually inputted data.
+     * @param newLibraryBook The LibraryBook object containing manually inputted data.
      * @return Object that was saved to database if the transaction is successful.
      */
     public LibraryBook saveUserBookWithInput(LibraryBook newLibraryBook) {
-        // first save the edition
-        Edition editionSaveResult = editionRepository.save(newLibraryBook.getEdition());
-
+        Edition savedEdition = editionRepository.save(newLibraryBook.getEdition());
+        newLibraryBook.setEdition(savedEdition);
         return libraryBookRepository.save(newLibraryBook);
     }
 

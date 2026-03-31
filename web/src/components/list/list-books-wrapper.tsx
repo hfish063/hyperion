@@ -1,5 +1,5 @@
 import findAllBooksByListId from "@/app/api/user-list-book";
-import { findAllBooksForUser } from "@/app/api/user-book";
+import { findAllBooksForUser } from "@/app/api/library-book";
 import ListBooksGrid from "./list-books-grid";
 import AddBooksToListDialog from "./add-books-to-list-dialog";
 import PageHeader from "../page-header";

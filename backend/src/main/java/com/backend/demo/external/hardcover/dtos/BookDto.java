@@ -1,77 +1,16 @@
 package com.backend.demo.external.hardcover.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Nested DTO representing the parent book object within an EditionDto response.
+ * Used to extract description since description is stored on the book, not the edition.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BookDto {
-    private int id;
-    private String title;
     private String description;
-    private Integer pages;
-    @JsonProperty("release_year")
-    private Integer releaseYear;
-    @JsonProperty("default_cover_edition")
-    private CoverEditionDto defaultCoverEdition;
-
-    public static class CoverEditionDto {
-        private int id;
-        private CoverImageDto image;
-
-        public int getId() {
-            return id;
-        }
-
-        public CoverImageDto getImage() {
-            return image;
-        }
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
 
     public String getDescription() {
         return description;
-    }
-
-    public Integer getPages() {
-        return pages;
-    }
-
-    public Integer getReleaseYear() {
-        return releaseYear;
-    }
-
-    public CoverEditionDto getDefaultCoverEdition() {
-        return defaultCoverEdition;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setPages(Integer pages) {
-        this.pages = pages;
-    }
-
-    public void setReleaseYear(Integer releaseYear) {
-        this.releaseYear = releaseYear;
-    }
-
-    public void setDefaultCoverEdition(CoverEditionDto defaultCoverEdition) {
-        this.defaultCoverEdition = defaultCoverEdition;
     }
 }
