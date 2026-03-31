@@ -4,6 +4,7 @@ import { Card, CardContent } from "../ui/card";
 import MissingData from "../missing-data";
 import ExpandableText from "../expandable-text";
 import Image from "next/image";
+import CoverImage from "./cover-image";
 
 export default function BookDetailsWrapper({
   edition,
@@ -29,12 +30,11 @@ function BookDetailsHeader({ details }: BookDetailsHeaderProps) {
   return (
     <div className="flex flex-row gap-4">
       {details.coverImageUrl && (
-        <Image
-          className="rounded"
-          src={details.coverImageUrl}
+        <CoverImage
+          coverImageUrl={details.coverImageUrl}
+          title={details.title}
           height={200}
           width={150}
-          alt={details.title}
         />
       )}
       <div className="flex flex-col gap-4 size-full justify-between">

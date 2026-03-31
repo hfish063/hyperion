@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import { ImageOff } from "lucide-react";
+import { useState } from "react";
 
 export default function CoverImage({
   coverImageUrl,
@@ -7,7 +10,18 @@ export default function CoverImage({
   width,
   height,
 }: CoverImageProps) {
-  const hasValidSrc = coverImageUrl && coverImageUrl.trim() !== "";
+  const [error, setError] = useState(false);
+
+  const isValidUrl = (() => {
+    try {
+      new URL(coverImageUrl);
+      return true;
+    } catch {
+      return false;
+    }
+  })();
+
+  const hasValidSrc = !error && isValidUrl;
 
   return (
     <>
@@ -17,8 +31,9 @@ export default function CoverImage({
           alt={title}
           width={width}
           height={height}
-          className="object-cover rounded"
+          className="object-cover rounded-xl"
           style={{ width: `${width}px`, height: `${height}px` }}
+          onError={() => setError(true)}
         />
       ) : (
         <CoverImagePlaceholder width={width} height={height} />
@@ -43,7 +58,7 @@ function CoverImagePlaceholder({
 }) {
   return (
     <div
-      className="flex items-center justify-center border rounded bg-muted}"
+      className="flex items-center justify-center border rounded-xl bg-muted"
       style={{ width: `${width}px`, height: `${height}px` }}
     >
       <ImageOff />
