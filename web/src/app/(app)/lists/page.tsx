@@ -1,5 +1,5 @@
-import UserListsWrapper from "@/components/list/user-lists-wrapper";
+import ReadingListsWrapper from "@/components/list/reading-lists-wrapper";
 
 export default function ListsPage() {
-  return <UserListsWrapper />;
+  return <ReadingListsWrapper />;
 }

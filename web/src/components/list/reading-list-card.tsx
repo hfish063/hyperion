@@ -1,4 +1,4 @@
-import { UserList } from "@/app/api/user-list";
+import { ReadingList } from "@/app/api/reading-list";
 import {
   Card,
   CardDescription,
@@ -13,35 +13,35 @@ import { Dispatch, SetStateAction } from "react";
 import ListManagementMenu from "./list-management-menu";
 import Link from "next/link";
 
-type UserListCardProps = {
-  userList: UserList;
-  setUserLists: Dispatch<SetStateAction<UserList[]>>;
+type ReadingListCardProps = {
+  readingList: ReadingList;
+  setReadingLists: Dispatch<SetStateAction<ReadingList[]>>;
 };
 
-export default function UserListCard({
-  userList,
-  setUserLists,
-}: UserListCardProps) {
+export default function ReadingListCard({
+  readingList,
+  setReadingLists,
+}: ReadingListCardProps) {
   return (
     <Card className="group flex flex-col justify-between transition-shadow hover:shadow-md">
       <CardHeader>
         <div className="flex items-center justify-between gap-6">
           <div className="flex min-w-0 items-center gap-2">
-            {userList.isOrdered ? (
+            {readingList.isOrdered ? (
               <ListOrdered className="size-4 shrink-0 text-muted-foreground" />
             ) : (
               <List className="size-4 shrink-0 text-muted-foreground" />
             )}
             <CardTitle className="truncate text-base">
-              {userList.name}
+              {readingList.name}
             </CardTitle>
           </div>
           <div className="flex shrink-0 items-center gap-2">
-            {userList.isOrdered && <Badge variant="secondary">Ranked</Badge>}
+            {readingList.isOrdered && <Badge variant="secondary">Ranked</Badge>}
             <div onClick={(e) => e.stopPropagation()}>
               <ListManagementMenu
-                userList={userList}
-                setUserLists={setUserLists}
+                readingList={readingList}
+                setReadingLists={setReadingLists}
               >
                 <Button variant="ghost" size="icon" className="size-7">
                   <EllipsisVertical className="size-3.5" />
@@ -50,14 +50,14 @@ export default function UserListCard({
             </div>
           </div>
         </div>
-        {userList.description && (
+        {readingList.description && (
           <CardDescription className="mt-1 line-clamp-2">
-            {userList.description}
+            {readingList.description}
           </CardDescription>
         )}
       </CardHeader>
       <CardFooter className="border-t pt-4">
-        <Link href={`/lists/${userList.id}`} className="ml-auto">
+        <Link href={`/lists/${readingList.id}`} className="ml-auto">
           <Button
             variant="link"
             size="sm"

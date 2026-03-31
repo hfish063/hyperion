@@ -1,9 +1,9 @@
-import { UserListBook } from "@/app/api/user-list-book";
+import { ReadingListBook } from "@/app/api/reading-list-book";
 import CoverImage from "../book/cover-image";
 import Link from "next/link";
 
 export default function ListBooksGrid({ listBooks }: ListBooksGridProps) {
-  const isOrdered = listBooks[0]?.userList.isOrdered ?? false;
+  const isOrdered = listBooks[0]?.readingList.isOrdered ?? false;
 
   return (
     <div className="grid gap-6 grid-cols-[repeat(auto-fill,minmax(120px,1fr))]">
@@ -36,5 +36,5 @@ export default function ListBooksGrid({ listBooks }: ListBooksGridProps) {
 }
 
 type ListBooksGridProps = {
-  listBooks: UserListBook[];
+  listBooks: ReadingListBook[];
 };

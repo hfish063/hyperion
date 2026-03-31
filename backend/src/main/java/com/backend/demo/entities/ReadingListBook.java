@@ -5,15 +5,15 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user_list_books")
-public class UserListBook {
+@Table(name = "reading_list_books")
+public class ReadingListBook {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_list_id")
-    private UserList userList;
+    @JoinColumn(name = "reading_list_id")
+    private ReadingList readingList;
 
     @ManyToOne
     @JoinColumn(name = "edition_id")
@@ -25,11 +25,11 @@ public class UserListBook {
     @Column(name = "added_at")
     private LocalDateTime addedAt;
 
-    public UserListBook() {
+    public ReadingListBook() {
     }
 
-    public UserListBook(UserList userList, Edition edition, Integer ordinal) {
-        this.userList = userList;
+    public ReadingListBook(ReadingList readingList, Edition edition, Integer ordinal) {
+        this.readingList = readingList;
         this.edition = edition;
         this.ordinal = ordinal;
     }
@@ -43,8 +43,8 @@ public class UserListBook {
         return id;
     }
 
-    public UserList getUserList() {
-        return userList;
+    public ReadingList getReadingList() {
+        return readingList;
     }
 
     public Edition getEdition() {

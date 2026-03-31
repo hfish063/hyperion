@@ -1,8 +1,8 @@
 "use client";
 
-import findAllUserLists, { UserList } from "@/app/api/user-list";
+import findAllReadingLists, { ReadingList } from "@/app/api/reading-list";
 import ErrorAlert from "@/components/error-alert";
-import UserListGrid from "@/components/list/user-list-grid";
+import ReadingListGrid from "@/components/list/reading-list-grid";
 import PageHeader from "@/components/page-header";
 import { Spinner } from "@/components/ui";
 import { Button } from "@/components/ui/button";
@@ -10,22 +10,22 @@ import { PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export default function UserListsWrapper() {
-  const [userLists, setUserLists] = useState<UserList[]>([]);
+export default function ReadingListsWrapper() {
+  const [readingLists, setReadingLists] = useState<ReadingList[]>([]);
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     setLoading(true);
 
-    const fetchUserLists = async () => {
+    const fetchReadingLists = async () => {
       try {
-        const results = await findAllUserLists();
+        const results = await findAllReadingLists();
 
         if (!results) {
           setError("Error fetching lists.");
         } else {
-          setUserLists(results);
+          setReadingLists(results);
         }
       } catch (e: unknown) {
         if (e instanceof Error) {
@@ -36,7 +36,7 @@ export default function UserListsWrapper() {
       }
     };
 
-    fetchUserLists();
+    fetchReadingLists();
   }, []);
 
   if (error) {
@@ -57,7 +57,7 @@ export default function UserListsWrapper() {
           <Spinner variant="circle" />
         </div>
       ) : (
-        <UserListGrid userLists={userLists} />
+        <ReadingListGrid readingLists={readingLists} />
       )}
     </div>
   );

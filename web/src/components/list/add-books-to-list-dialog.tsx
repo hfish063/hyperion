@@ -16,7 +16,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { ScrollArea } from "../ui/scroll-area";
-import { addBookToList } from "@/app/api/user-list-book";
+import { addBookToList } from "@/app/api/reading-list-book";
 import { toast } from "sonner";
 
 export default function AddBooksToListDialog({

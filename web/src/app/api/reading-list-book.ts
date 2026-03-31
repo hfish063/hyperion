@@ -1,15 +1,14 @@
 import apiFetch from "./api";
 import { Edition } from "./edition";
-import { UserList } from "./user-list";
+import { ReadingList } from "./reading-list";
 
-export type UserListBook = {
+export type ReadingListBook = {
   id: number;
-  userList: UserList;
+  readingList: ReadingList;
   edition: Edition;
   ordinal: number;
   dateAdded: Date;
 };
-
 
 export default async function findAllBooksByListId(listId: number) {
   const query = `/list-books/list/${listId}`;
@@ -18,12 +17,12 @@ export default async function findAllBooksByListId(listId: number) {
 
   if (!results.ok) return undefined;
 
-  const data = (await results.json()) as UserListBook[];
+  const data = (await results.json()) as ReadingListBook[];
 
   return data;
 }
 
-export async function saveBookToList(newUserListBook: UserListBook) {
+export async function saveBookToList(newReadingListBook: ReadingListBook) {
   const query = `/list-books/save`;
 
   const headers: HeadersInit = {
@@ -33,14 +32,14 @@ export async function saveBookToList(newUserListBook: UserListBook) {
   const options: RequestInit = {
     headers: headers,
     method: "POST",
-    body: JSON.stringify(newUserListBook),
+    body: JSON.stringify(newReadingListBook),
   };
 
   const results = await apiFetch(query, options);
 
   if (!results.ok) return undefined;
 
-  const data = (await results.json()) as UserListBook;
+  const data = (await results.json()) as ReadingListBook;
 
   return data;
 }
@@ -62,7 +61,7 @@ export async function addBookToList(listId: number, edition: Edition) {
 
   if (!results.ok) return undefined;
 
-  const data = (await results.json()) as UserListBook;
+  const data = (await results.json()) as ReadingListBook;
 
   return data;
 }

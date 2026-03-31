@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "user_lists")
-public class UserList {
+@Table(name = "reading_lists")
+public class ReadingList {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -29,8 +29,8 @@ public class UserList {
     private LocalDateTime createdAt;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "userList", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserListBook> userListBooks;
+    @OneToMany(mappedBy = "readingList", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReadingListBook> readingListBooks;
 
     @PrePersist
     protected void onCreate() {
@@ -57,8 +57,8 @@ public class UserList {
         return createdAt;
     }
 
-    public List<UserListBook> getUserListBooks() {
-        return userListBooks;
+    public List<ReadingListBook> getReadingListBooks() {
+        return readingListBooks;
     }
 
     public void setOrdered(boolean ordered) {
