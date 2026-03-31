@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteUserListById, UserList } from "@/app/api/user-list";
+import { deleteReadingListById, ReadingList } from "@/app/api/reading-list";
 import { Trash } from "lucide-react";
 import {
   DropdownMenu,
@@ -12,21 +12,21 @@ import { toast } from "sonner";
 import { Dispatch, ReactNode, SetStateAction } from "react";
 
 type ListManagementMenuProps = {
-  userList: UserList;
-  setUserLists: Dispatch<SetStateAction<UserList[]>>;
+  readingList: ReadingList;
+  setReadingLists: Dispatch<SetStateAction<ReadingList[]>>;
   children: ReactNode;
 };
 
 export default function ListManagementMenu({
-  userList,
-  setUserLists,
+  readingList,
+  setReadingLists,
   children,
 }: ListManagementMenuProps) {
   const handleDelete = async () => {
-    const isSuccessful = await deleteUserListById(userList.id);
+    const isSuccessful = await deleteReadingListById(readingList.id);
 
     if (isSuccessful) {
-      setUserLists((prev) => prev.filter((list) => list.id !== userList.id));
+      setReadingLists((prev) => prev.filter((list) => list.id !== readingList.id));
       toast.success("List deleted.");
     } else {
       toast.error("Failed to delete list.");

@@ -1,6 +1,6 @@
 "use client";
 
-import { saveUserList, UserList } from "@/app/api/user-list";
+import { saveReadingList, ReadingList } from "@/app/api/reading-list";
 import PageHeader from "@/components/page-header";
 import { Spinner } from "@/components/ui";
 import { Button } from "@/components/ui/button";
@@ -32,11 +32,11 @@ export default function AddListWrapper() {
     setLoading(true);
 
     try {
-      const result = await saveUserList({
+      const result = await saveReadingList({
         name: name,
         description: description,
         isOrdered: isOrdered,
-      } as UserList);
+      } as ReadingList);
 
       if (result) {
         toast.success("List created successfully.");

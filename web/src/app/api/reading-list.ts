@@ -1,37 +1,37 @@
 import apiFetch from "./api";
 
-export type UserList = {
+export type ReadingList = {
   id: number;
   name: string;
   description: string | undefined;
   isOrdered: boolean;
 };
 
-export default async function findAllUserLists() {
+export default async function findAllReadingLists() {
   const query = `/lists/all`;
 
   const results = await apiFetch(query);
 
   if (!results.ok) return undefined;
 
-  const data = (await results.json()) as UserList[];
+  const data = (await results.json()) as ReadingList[];
 
   return data;
 }
 
-export async function findUserListById(id: number) {
+export async function findReadingListById(id: number) {
   const query = `/lists/${id}`;
 
   const results = await apiFetch(query);
 
   if (!results.ok) return undefined;
 
-  const data = (await results.json()) as UserList;
+  const data = (await results.json()) as ReadingList;
 
   return data;
 }
 
-export async function saveUserList(newUserList: UserList) {
+export async function saveReadingList(newReadingList: ReadingList) {
   const query = `/lists/save`;
 
   const headers: HeadersInit = {
@@ -41,19 +41,19 @@ export async function saveUserList(newUserList: UserList) {
   const options: RequestInit = {
     headers: headers,
     method: "POST",
-    body: JSON.stringify(newUserList),
+    body: JSON.stringify(newReadingList),
   };
 
   const results = await apiFetch(query, options);
 
   if (!results.ok) return undefined;
 
-  const data = (await results.json()) as UserList;
+  const data = (await results.json()) as ReadingList;
 
   return data;
 }
 
-export async function deleteUserListById(id: number) {
+export async function deleteReadingListById(id: number) {
   const query = `/lists/delete/${id}`;
 
   const options: RequestInit = {

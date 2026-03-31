@@ -1,4 +1,4 @@
-import findAllBooksByListId from "@/app/api/user-list-book";
+import findAllBooksByListId from "@/app/api/reading-list-book";
 import { findAllBooksForUser } from "@/app/api/library-book";
 import ListBooksGrid from "./list-books-grid";
 import AddBooksToListDialog from "./add-books-to-list-dialog";
@@ -18,7 +18,7 @@ export default async function ListBooksWrapper({ id }: ListBooksWrapperProps) {
     return <ErrorAlert message="Error fetching list books." />;
   }
 
-  const listName = listBooks[0]?.userList.name ?? "List Books";
+  const listName = listBooks[0]?.readingList.name ?? "List Books";
 
   return (
     <div className="flex flex-col gap-4">
