@@ -18,11 +18,13 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Edition, searchForEditionByIsbn } from "@/app/api/edition";
+import { Author, Collaborator, Edition, searchForEditionByIsbn } from "@/app/api/edition";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import ErrorAlert from "../error-alert";
 import { useRouter } from "next/navigation";
 import { Textarea } from "../ui/textarea";
+import { ReadingStatus, saveBookForUser, saveBookForUserWithInput, UserBook } from "@/app/api/user-book";
+import { toast } from "sonner";
 
 export default function LibraryAddForm({ initialIsbn }: LibraryAddFormProps) {
   const [edition, setEdition] = useState<Edition | undefined>(undefined);
@@ -103,11 +105,45 @@ function EditionDetailsForm({ edition }: EditionDetailsFormProps) {
     if (edition?.coverImageUrl) setCoverImageUrl(edition.coverImageUrl);
   }, [edition]);
 
+  async function handleSubmit(e: React.SubmitEvent) {
+    e.preventDefault();
+
+    let newCollaborators: Collaborator[] = []
+    authors.forEach((author) => (newCollaborators.push({author: {name: author} as Author, contribution: "Author"} as Collaborator)))
+
+    const newEdition = {
+        title: title,
+        description: description,
+        isbn10: Number(isbn10),
+        isbn13: Number(isbn13),
+        pages: Number(pages),
+        coverImageUrl: coverImageUrl,
+        collaborators: newCollaborators
+    } as Edition
+
+    const toAdd = {
+      edition: newEdition,
+      readingStatus: ReadingStatus.CURRENTLY_READING,
+    } as UserBook
+
+    try {
+      const result = await saveBookForUserWithInput(toAdd as UserBook)
+
+      if (result) {
+        "Edition saved successfully."
+      }
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        toast.error("Error saving edition.")
+      }
+    }
+  }
+
   return (
-    <form className="flex flex-col space-y-4">
+    <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
       <Field>
         <FieldLabel>Title</FieldLabel>
-        <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+        <Input value={title} onChange={(e) => setTitle(e.target.value)} required />
       </Field>
 
       <Card>

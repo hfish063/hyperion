@@ -77,6 +77,31 @@ export async function saveBookForUser(newUserBook: UserBook) {
   return data;
 }
 
+export async function saveBookForUserWithInput(newUserBook: UserBook) {
+  const query = `/books/save/input`;
+
+    const headers: HeadersInit = {
+    "Content-Type": "application/json",
+  };
+
+  const options: RequestInit = {
+    headers: headers,
+    method: "POST",
+    body: JSON.stringify(newUserBook),
+  };
+
+
+  const result = await apiFetch(query, options);
+
+  if (!result.ok) {
+    throw new Error("Failed to save book.");
+  }
+
+  const data = (await result.json()) as UserBook;
+
+  return data;
+}
+
 export async function updateUserBookReadingStatus(
   id: number,
   newStatus: ReadingStatus,
