@@ -44,6 +44,18 @@ export async function saveBookToList(newReadingListBook: ReadingListBook) {
   return data;
 }
 
+export async function deleteReadingListBookById(id: number) {
+  const query = `/list-books/delete/${id}`;
+
+  const options: RequestInit = {
+    method: "DELETE",
+  };
+
+  const results = await apiFetch(query, options);
+
+  return results.ok;
+}
+
 export async function addBookToList(listId: number, edition: Edition) {
   const query = `/list-books/add/${listId}`;
 
