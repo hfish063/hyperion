@@ -1,5 +1,5 @@
-import CreateGoalWrapper from "@/components/goals/create-goal-wrapper";
+import CreateGoalWrapper from "@/components/goal/create-goal-wrapper";
 
 export default function CreateReadingGoalPage() {
-    return <CreateGoalWrapper />;
+  return <CreateGoalWrapper />;
 }
