@@ -5,20 +5,22 @@ import AddBooksToListDialog from "./add-books-to-list-dialog";
 import PageHeader from "../page-header";
 import BackButton from "../back-button";
 import ErrorAlert from "../error-alert";
+import { findReadingListById } from "@/app/api/reading-list";
 
 export default async function ListBooksWrapper({ id }: ListBooksWrapperProps) {
   const listId = Number(id);
 
-  const [listBooks, library] = await Promise.all([
+  const [list, listBooks, library] = await Promise.all([
+    findReadingListById(listId),
     findAllBooksByListId(listId),
     findAllBooksForUser(),
   ]);
 
-  if (!listBooks || !library) {
-    return <ErrorAlert message="Error fetching list books." />;
+  if (!list || !listBooks || !library) {
+    return <ErrorAlert message="Error fetching this reading list." />;
   }
 
-  const listName = listBooks[0]?.readingList.name ?? "List Books";
+  const listName = list.name;
 
   return (
     <div className="flex flex-col gap-4">
