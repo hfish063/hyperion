@@ -12,7 +12,7 @@ export default function ListBookCard({
   listBook,
   setListBooks,
 }: ListBookCardProps) {
-  const isOrdered = listBook.ordinal !== undefined;
+  const isOrdered = listBook.readingList.isOrdered;
 
   return (
     <div className="group relative flex flex-col h-full items-center">
