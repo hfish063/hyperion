@@ -4,7 +4,7 @@ import LibraryAddForm from "@/components/library/library-add-book-wrapper";
 export default async function QuickAddToLibraryPage({
   params,
 }: {
-  params: { isbn: string };
+  params: Promise<{ isbn: string }>;
 }) {
   const pageParams = await params;
 
