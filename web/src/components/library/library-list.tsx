@@ -3,6 +3,7 @@ import {
   ReadingStatus,
   LibraryBook,
 } from "@/app/api/library-book";
+import { deleteAllEditionsByIds } from "@/app/api/edition";
 import { Dispatch, SetStateAction } from "react";
 import DataTable from "./data-table";
 import { toast } from "sonner";
@@ -14,19 +15,17 @@ export default function LibraryList({
   setLibrary,
 }: LibraryListProps) {
   const handleDelete = async (ids: number[]) => {
-    const isSuccessful = await deleteAllLibraryBooksByIds(ids);
+    const libraryDeleted = await deleteAllLibraryBooksByIds(ids);
 
-    if (isSuccessful) {
-      setLibrary(
-        library.filter((libraryBook) => {
-          return !ids.includes(libraryBook.edition.id);
-        }),
-      );
-
-      toast.success("Successfully deleted books.");
-    } else {
+    if (!libraryDeleted) {
       toast.error("Error deleting books.");
+      return;
     }
+
+    await deleteAllEditionsByIds(ids);
+
+    setLibrary(library.filter((libraryBook) => !ids.includes(libraryBook.edition.id)));
+    toast.success("Successfully deleted books.");
   };
   // filter the library items if status is specified
   if (status) {

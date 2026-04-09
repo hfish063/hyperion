@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/editions")
 @CrossOrigin(origins = "http://localhost:3000")
@@ -38,5 +40,10 @@ public class EditionController {
     @PostMapping("/save")
     public Edition saveEdition(@RequestBody Edition edition) {
         return editionService.saveEdition(edition);
+    }
+
+    @DeleteMapping("/delete/all/ids")
+    public void deleteAllEditionsByIds(@RequestBody List<Long> ids) {
+        editionService.deleteAllEditionsByIds(ids);
     }
 }

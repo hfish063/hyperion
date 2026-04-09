@@ -4,6 +4,7 @@ import {
   updateLibraryBookReadingStatus,
   LibraryBook,
 } from "@/app/api/library-book";
+import { deleteAllEditionsByIds } from "@/app/api/edition";
 import { Check, Trash } from "lucide-react";
 import {
   DropdownMenu,
@@ -34,9 +35,12 @@ export default function ManagementMenu({
     DROPPED: "Dropped",
   };
 
-  const handleStatusChange = async (newStatus: ReadingStatus) => {
+  async function handleStatusChange(newStatus: ReadingStatus) {
     try {
-      const updated = await updateLibraryBookReadingStatus(libraryBook.id, newStatus);
+      const updated = await updateLibraryBookReadingStatus(
+        libraryBook.id,
+        newStatus,
+      );
 
       if (!updated) {
         toast.error("Failed to update reading status.");
@@ -50,24 +54,27 @@ export default function ManagementMenu({
     } catch {
       toast.error("Failed to update reading status.");
     }
-  };
+  }
 
-  const handleDelete = async (editionId: number) => {
+  async function handleDelete(editionId: number) {
     try {
-      const isSuccessful = await deleteAllLibraryBooksByIds([editionId]);
+      const libraryDeleted = await deleteAllLibraryBooksByIds([editionId]);
 
-      if (isSuccessful) {
-        setLibraryBooks((prev) =>
-          prev.filter((book) => book.edition.id !== editionId),
-        );
-        toast.success("Successfully deleted book.");
-      } else {
+      if (!libraryDeleted) {
         toast.error("Failed to delete book.");
+        return;
       }
+
+      await deleteAllEditionsByIds([editionId]);
+
+      setLibraryBooks((prev) =>
+        prev.filter((book) => book.edition.id !== editionId),
+      );
+      toast.success("Successfully deleted book.");
     } catch {
       toast.error("Failed to delete book.");
     }
-  };
+  }
 
   return (
     <DropdownMenu>
