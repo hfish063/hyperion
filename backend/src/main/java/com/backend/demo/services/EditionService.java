@@ -5,9 +5,11 @@ import com.backend.demo.entities.Edition;
 import com.backend.demo.exceptions.ResourceNotFoundException;
 import com.backend.demo.repositories.AuthorRepository;
 import com.backend.demo.repositories.EditionRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,6 +43,11 @@ public class EditionService {
 
     public Edition saveEdition(Edition newEdition) {
         return editionRepository.save(newEdition);
+    }
+
+    @Transactional
+    public void deleteAllEditionsByIds(List<Long> ids) {
+        editionRepository.deleteAllByIdIn(ids);
     }
 
     /**
