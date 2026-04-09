@@ -27,7 +27,12 @@ All data is cached in a Postgresql database, therefore, as searches are complete
 
 ## Guide
 ### Running the Application
-Development is currently active and instructions will be updated as work progresses.
+Ensure that docker is installed on your machine.
+
+Navigate to the `hyperion` directory, and then run 
+```
+sudo docker compose up --build
+```
 
 ### Data Sources
 Some configuration is required in order to fetch book data from the internet.  In order to use Hardcover API you must have a valid Hardcover account, then follow these instructions to retrieve your API Key ([Guide](https://hardcover.app/account/api)).
