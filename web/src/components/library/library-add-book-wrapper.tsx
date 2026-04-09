@@ -2,6 +2,7 @@
 
 import {
   Book,
+  ChevronDown,
   CircleArrowRight,
   Plus,
   ScanBarcode,
@@ -11,6 +12,11 @@ import {
 import { Button } from "../ui/button";
 import { Field, FieldDescription, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "../ui/collapsible";
 import {
   Dispatch,
   SetStateAction,
@@ -30,7 +36,6 @@ import { useRouter } from "next/navigation";
 import { Textarea } from "../ui/textarea";
 import {
   ReadingStatus,
-  saveBookForUser,
   saveBookForUserWithInput,
   LibraryBook,
 } from "@/app/api/library-book";
@@ -69,26 +74,48 @@ export default function LibraryAddForm({ initialIsbn }: LibraryAddFormProps) {
   return (
     <div className="flex flex-col space-y-4">
       {error && <ErrorAlert message={error} />}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex flex-row space-x-2 items-center">
-            <Book /> <p>Details</p>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <EditionDetailsForm edition={edition} />
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex flex-row space-x-2 items-center">
-            <Zap /> <p>Quick Search</p>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <IsbnSearchForm />
-        </CardContent>
-      </Card>
+      <Collapsible defaultOpen>
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex flex-row items-center justify-between">
+              <div className="flex flex-row space-x-2 items-center">
+                <Book /> <p>Details</p>
+              </div>
+              <CollapsibleTrigger asChild>
+                <Button variant="ghost" size="icon" className="group/trigger">
+                  <ChevronDown className="size-4 transition-transform duration-200 group-data-[state=open]/trigger:rotate-180" />
+                </Button>
+              </CollapsibleTrigger>
+            </CardTitle>
+          </CardHeader>
+          <CollapsibleContent>
+            <CardContent>
+              <EditionDetailsForm edition={edition} />
+            </CardContent>
+          </CollapsibleContent>
+        </Card>
+      </Collapsible>
+      <Collapsible defaultOpen>
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex flex-row items-center justify-between">
+              <div className="flex flex-row space-x-2 items-center">
+                <Zap /> <p>Quick Search</p>
+              </div>
+              <CollapsibleTrigger asChild>
+                <Button variant="ghost" size="icon" className="group/trigger">
+                  <ChevronDown className="size-4 transition-transform duration-200 group-data-[state=open]/trigger:rotate-180" />
+                </Button>
+              </CollapsibleTrigger>
+            </CardTitle>
+          </CardHeader>
+          <CollapsibleContent>
+            <CardContent>
+              <IsbnSearchForm />
+            </CardContent>
+          </CollapsibleContent>
+        </Card>
+      </Collapsible>
     </div>
   );
 }
@@ -122,7 +149,7 @@ function EditionDetailsForm({ edition }: EditionDetailsFormProps) {
   async function handleSubmit(e: React.SubmitEvent) {
     e.preventDefault();
 
-    let newCollaborators: Collaborator[] = [];
+    const newCollaborators: Collaborator[] = [];
     authors.forEach((author) =>
       newCollaborators.push({
         author: { name: author } as Author,

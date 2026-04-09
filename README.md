@@ -32,7 +32,7 @@ Development is currently active and instructions will be updated as work progres
 ### Data Sources
 Some configuration is required in order to fetch book data from the internet.  In order to use Hardcover API you must have a valid Hardcover account, then follow these instructions to retrieve your API Key ([Guide](https://hardcover.app/account/api)).
 
-<img src="examples/data-source.png" width="800"/>
+<img src="examples/data-sources.png" width="800"/>
 
 Copy your API key, including the `Bearer` portion, and paste it into the Hardcover input on the data sources dialog.  Click save and you're good to go!
 
@@ -43,14 +43,10 @@ Copy your API key, including the `Bearer` portion, and paste it into the Hardcov
 ### Library
 <img src="examples/library.png" width="800"/>
 
-### Add Book
-<img src="examples/add.png" width="800"/>
-
-### Quick Add
-<img src="examples/quick-add.png" width="800"/>
-
 ### Lists
-<img src="examples/lists.png" width="800"/>
+<img src="examples/reading-lists.png" width="800"/>
 
-<img src="examples/list-books.png" width="800"/>
+### Goals
+<img src="examples/goals.png" width="800"/>
+
 

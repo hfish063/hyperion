@@ -48,3 +48,13 @@ export async function searchForEditionByIsbn(isbn: string) {
 
   return data;
 }
+
+export async function deleteAllEditionsByIds(ids: number[]) {
+  const result = await apiFetch("/editions/delete/all/ids", {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(ids),
+  });
+
+  return result.ok;
+}
