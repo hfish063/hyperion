@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { LibraryBook } from "@/app/api/library-book";
 import { Plus } from "lucide-react";
 import { Button } from "../ui/button";
@@ -16,14 +15,14 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { ScrollArea } from "../ui/scroll-area";
-import { addBookToList } from "@/app/api/reading-list-book";
+import { addBookToList, ReadingListBook } from "@/app/api/reading-list-book";
 import { toast } from "sonner";
 
 export default function AddBooksToListDialog({
   listId,
   library,
+  onBooksAdded,
 }: AddBooksToListDialogProps) {
-  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<Set<number>>(new Set());
 
@@ -41,25 +40,26 @@ export default function AddBooksToListDialog({
   }
 
   async function handleAdd() {
+    const added: ReadingListBook[] = [];
+
     try {
       for (const libraryBookId of selected) {
         const libraryBook = library.find((b) => b.id === libraryBookId)!;
         const result = await addBookToList(listId, libraryBook.edition);
 
         if (result) {
+          added.push(result);
           toast.success("Book added successfully.");
         } else {
           toast.error("Failed to add book.");
         }
       }
-    } catch (e: unknown) {
-      if (e instanceof Error) {
-        toast.error("Error saving book.");
-      }
+    } catch {
+      toast.error("Error saving book.");
     } finally {
+      if (added.length > 0) onBooksAdded(added);
       setOpen(false);
       setSelected(new Set());
-      router.refresh();
     }
   }
 
@@ -119,4 +119,5 @@ export default function AddBooksToListDialog({
 type AddBooksToListDialogProps = {
   listId: number;
   library: LibraryBook[];
+  onBooksAdded: (books: ReadingListBook[]) => void;
 };

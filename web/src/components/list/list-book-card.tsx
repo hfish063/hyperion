@@ -36,14 +36,16 @@ export default function ListBookCard({
               <p className="text-sm line-clamp-2 flex-1 min-w-0">
                 {listBook.edition.title}
               </p>
-              <ListBookManagementMenu
-                listBook={listBook}
-                setListBooks={setListBooks}
-              >
-                <Button variant="ghost" size="icon" className="size-6">
-                  <EllipsisVertical className="size-3.5" />
-                </Button>
-              </ListBookManagementMenu>
+              <div onClick={(e) => e.stopPropagation()}>
+                <ListBookManagementMenu
+                  listBook={listBook}
+                  setListBooks={setListBooks}
+                >
+                  <Button variant="ghost" size="icon" className="size-6">
+                    <EllipsisVertical className="size-3.5" />
+                  </Button>
+                </ListBookManagementMenu>
+              </div>
             </div>
           </div>
         </div>
