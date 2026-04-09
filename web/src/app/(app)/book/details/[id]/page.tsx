@@ -4,7 +4,7 @@ import BookDetailsWrapper from "@/components/book/book-details-wrapper";
 export default async function BookDetailsPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const {id} = await params;
 

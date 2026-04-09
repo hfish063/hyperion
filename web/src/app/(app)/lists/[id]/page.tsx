@@ -3,7 +3,7 @@ import ListBooksWrapper from "@/components/list/list-books-wrapper";
 export default async function ListDetailsPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
 
