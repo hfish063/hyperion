@@ -1,7 +1,7 @@
 # Hyperion
 ## About
 ### Introduction
-Hyperion is a lightweight self-hosted web application for managing a personal library.  The application is designed to be used both on and offline.  This means that all book data can be input manually, and fetching the details automatically by title or isbn relies on a third party service.  If you want to enable this functionality, it will be necessary to setup the API as directed below (See **Data Sources**).
+Hyperion is a lightweight self-hosted web application for managing a personal library.  The application is designed to be used both on and offline.  This means that all book data can be input manually, and fetching the details automatically by title or isbn relies on a third party service.  If you want to enable this functionality, it will be necessary to setup the API as directed below (See [Data Sources](#data-sources)).
 
 ### Features
 - Save books to your library.
