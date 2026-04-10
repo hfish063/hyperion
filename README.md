@@ -34,6 +34,8 @@ Navigate to the `hyperion` directory, and then run
 sudo docker compose up --build
 ```
 
+Once the application is running, you can access it at `localhost:3000`
+
 ### Data Sources
 Some configuration is required in order to fetch book data from the internet.  In order to use Hardcover API you must have a valid Hardcover account, then follow these instructions to retrieve your API Key ([Guide](https://hardcover.app/account/api)).
 
