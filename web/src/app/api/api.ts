@@ -1,4 +1,11 @@
-const API_BASE_URL = "http://localhost:8080/api";
+const apiBaseUrl =
+  typeof window === "undefined"
+    ? process.env.API_INTERNAL_URL
+    : process.env.NEXT_PUBLIC_API_URL;
+
+if (!apiBaseUrl) {
+  throw new Error("API base URL is not defined.");
+}
 
 export function getHardcoverHeaders(): HeadersInit {
   if (typeof window === "undefined") return {};
@@ -9,7 +16,7 @@ export function getHardcoverHeaders(): HeadersInit {
 }
 
 export default async function apiFetch(path: string, options?: RequestInit) {
-  return await fetch(`${API_BASE_URL}${path}`, {
+  return await fetch(`${apiBaseUrl}${path}`, {
     cache: "no-store",
     ...options,
   });
