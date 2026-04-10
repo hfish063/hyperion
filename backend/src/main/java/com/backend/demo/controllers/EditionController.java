@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/editions")
-@CrossOrigin(origins = "http://localhost:3000")
 public class EditionController {
     private final EditionService editionService;
 

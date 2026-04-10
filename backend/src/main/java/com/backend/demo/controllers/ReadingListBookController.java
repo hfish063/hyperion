@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/list-books")
-@CrossOrigin(origins = "http://localhost:3000")
 public class ReadingListBookController {
     private final ReadingListBookService readingListBookService;
 
